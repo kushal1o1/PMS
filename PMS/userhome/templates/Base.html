@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block tittle%}{%endblock%}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+<style>
+
+  .card{
+    background-color: black;
+    font-style: oblique;
+  }
+  
+  
+
+
+
+
+</style>
+
+
+</head>
+{%load static%}
+<body class=" " style="background-color: rgb(255, 255, 255); color:rgb(0, 0, 0);">
+
+
+  <!-- message -->
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show bg-dark text-light" role="alert">
+      <strong>Message:</strong> {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+  </div>
+  {% endfor %}
+
+
+ <script>
+ var y=document.getElementById('logmsg');
+ y.innerText = 'UserName and Password Not Matched';
+
+
+
+</script>
+
+
+  <nav class="navbar navbar-dark ">
+    <div class="container-fluid">
+      <div class="d-flex">
+        <div> <a class="navbar-brand" href="#">
+            <h2 class="d-inline-block me-5 text-dark" style="font-style: oblique;"> <span class="fs-1 fw-bolder ">P</span>MS<br></h2>
+
+
+          </a>
+          <span class="fs-4 fw-bold p-5 ms-5" style="font-style: oblique;"> "kushal1o1"</span>
+        </div>
+
+      </div>
+
+  </nav>
+  <hr class="text-dark">
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-lg    sticky-top " style="font-style: oblique; background-color: aliceblue;">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active  text-dark" aria-current="page" href=".">Home</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle  text-dark" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Upload</a>
+            <ul class="dropdown-menu" style="background-color:aliceblue;font-style: oblique;">
+
+
+              <p class="text-center" ><button class="btn btn-outline-dark rounded-pill  "  data-bs-toggle="modal" data-bs-target="#addarticle">Add Bill</button></p>
+              <hr class="dropdown-divider">
+              <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addquote">Add Vaccine</button></p>
+              <hr class="dropdown-divider">
+              <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addimg">Add images</button></p>
+
+              <hr class="dropdown-divider">
+            </ul>
+
+          <li class="nav-item">
+            <a class="nav-link  text-dark" href="aboutUs">Bills</a>
+            </li>
+
+          <li class="nav-item">
+            <a class="nav-link  text-dark" href="contactUs">Medicine</a>
+          </li>
+
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-dark rounded-pill " type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav  mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="/"  type="button" class=" btn btn-outline-dark  rounded-pill" >LogOut</a>
+          </li>
+          <li class="nav-item">
+            <a href="profile" type="button" class=" btn btn-outline-dark rounded-pill" >Profile</a>
+          </li>
+
+        </ul>
+        
+         
+      </div>
+    </div>
+  </nav>
+  <hr class="text-light">
+
+
+<div class="container ">
+  <!-- Modal -->
+
+<div class="modal fade text-dark" id="addimg" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Upload your QuotesImage</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      <form method="post" name="form" action="submit_bill/" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="d-flex justify-content-center">
+          <img  id="preview1" src='{%static "images/defaultquote.jpg"%}' class="bd-placeholder-img  bg-primary"
+          width="100%" height="400px" aria-label="Placeholder: 140x140"  preserveAspectRatio="xMidYMid slice"
+          focusable="false" _mstaria-label="310609" _mstHash="27" style="direction: ltr;" >
+        </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlimg" class="form-label">Image:</label>
+        <input type="file"  name="imageofquote" required accept="image/*"  onchange="previewImage(event)">
+      </div>
+      <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+        <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck1">Dhana</label>
+      
+        <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck2">Medicine</label>
+      
+        <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck3">Vaccine</label>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputtotal" class="form-label" autocomplete="off">Total</label>
+        <input type="number" class="form-control" id="exampleInputtotal" aria-describedby="Help" name="total" placeholder="RS." required>
+             </div>
+        
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
+        <button type="submit" class="btn btn-primary" name="imgform" >Upload</button>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+  {%block mainContent %}{%endblock%}
+</div>
+
+
+  <!-- footer -->
+
+  <footer class="bd-footer py-4 py-md-5 mt-5" style="background-color: aliceblue;">
+    <div class="container py-4 py-md-5 px-4 px-md-3">
+      <div class="row">
+        <div class="col-lg-3 mb-3">
+          
+                  <h2 class="d-inline-block me-5" style="font-style: oblique;"> <span class="fs-1 fw-bolder">Q</span>uotes<br></h2>
+                
+      
+          <ul class="list-unstyled small text-muted">
+            <li class="mb-2">Designed and built with all the love in the world by the <a href="#">Annonymous</a> with the
+              help of <a href="#">our contributors</a>.
+
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2 offset-lg-1 mb-3">
+          <h5>Links</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href=".">Home</a>
+            <li class="mb-2"><a href="#">Upload Videos</a>
+            <li class="mb-2"><a href="#">Upload Images</a>
+            <li class="mb-2"><a href="#">Upload Quotes</a>
+            <li class="mb-2"><a href="aboutUs">About Us</a>
+            <li class="mb-2"><a href="contactUs">Contact Us</a>
+          
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2 mb-3">
+          <h5>Guides</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#">Getting started</a>
+            <li class="mb-2"><a href="#"> template</a>
+            <li class="mb-2"><a href="#">lorem</a>
+            <li class="mb-2"><a href="#">lorem</a>
+            <li class="mb-2"><a href="#">lorem</a>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2 mb-3">
+          <h5>Created Using</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="">Bootstrap 5,Html</a>
+            <li class="mb-2"><a href="">Java Script</a>
+            <li class="mb-2"><a href="">Django</a>
+            <li class="mb-2"><a href="">SQlite</a>
+            <li class="mb-2"><a href=""></a>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2 mb-3">
+          <h5>Community</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="">Issues</a>
+            <li class="mb-2"><a href="">Discussions</a>
+            <li class="mb-2"><a href="">sponsors</a>
+            <li class="mb-2"><a href="">Collective</a>
+            <li class="mb-2"><a href="">lorem</a>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
