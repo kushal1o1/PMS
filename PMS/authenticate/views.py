@@ -12,7 +12,7 @@ def signin(request):
         #     username:username,
         #     password:pass1
         # }
-        return redirect('userhome:mainpage')
+        return redirect('userhome:landingPage')
 
     
     return render(request, "authenticate/index.html")
