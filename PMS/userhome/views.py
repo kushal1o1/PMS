@@ -1,31 +1,32 @@
 from django.shortcuts import render
-from . models import Poultry
-from django.contrib import messages
-from django.shortcuts import render,redirect
-# Create your views here.
-def mainpage(request):
-    print("i am here")
-    return render(request, 'mainpage.html')
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from .models import Poultry
+# # Create your views here.
+# @login_required
+# def userHome(request,user_id):
+#     user_info = get_object_or_404(UserInfo, user_id=user_id)
+#     # alluser_info=UserInfo.objects.all()
+#     # videos = Video.objects.all().order_by('-posted_date')
+#     # allquotes = Quote.objects.all().order_by('-posted_date')
+#     # allimg = ImagePost.objects.all().order_by('-posted_date')
 
-def landingPage(request):
-    print("hi")
-    return render(request,'landingpage.html')
 
-def addNewPoultry(request):
-     if request.method == "POST":
-        FarmName = request.POST['FarmName']
-        date = request.POST['date']
-        TotalChicken=request.POST['TotalChicken']
-       
-        if Poultry.objects.filter(poultryName=FarmName):
-            messages.error(request, "FarmName already exist! Please try some other username.")
-            return redirect('/userhome')
-        
     
-        
-        Pobj = Poultry.objects.create_user(FarmName, TotalChicken, date)
-        # myuser.is_active = False
-        Pobj.is_active = True
-        Pobj.save()
-        messages.success(request, "Your Poultry has been created succesfully!!")
-        return render(request,'mainpage.html')
+    
+#     return render(request, 'userhome/userhome.html',{'user_info': user_info ,'videos': videos ,'quotes':allquotes,'imgquote':allimg})
+
+@login_required
+def userHome(request,user_id):
+    print("here1")
+    user_info = get_object_or_404(Poultry, user_id=user_id)
+    print("ima here")
+    # videos = Video.objects.all().order_by('-posted_date')
+    # allquotes = Quote.objects.all().order_by('-posted_date')
+    # allimg = ImagePost.objects.all().order_by('-posted_date')
+    print(Poultry)
+
+    
+    
+    return render(request, 'mainhome.html')
+

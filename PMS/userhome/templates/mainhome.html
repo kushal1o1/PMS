@@ -1,0 +1,66 @@
+{% extends 'Base.html' %}
+{%block tittle%}PMS Home{%endblock%}
+{%block loginout%}LogOut{%endblock%}
+{% block mainContent%}
+{%load static%}
+
+
+    <hr class="text-dark">
+<h1 class="text-center fw-bold  text-dark" style="font-style: oblique;">Add Your Poultry</h1>
+<div class="container d-flex align-items-center justify-content-center">
+
+  <p class="text-center"><button class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#addPoultry">ADD</button></p>
+
+</div>
+
+
+
+
+
+
+
+  <hr class="text-dark">
+<h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Todays Global Quotes !!</h1>
+  <hr class="text-dark">
+  <script>
+
+   
+    function previewImage(event) {
+ 
+        const input = event.target;
+        const preview = document.getElementById(preview1);
+    
+        const file = input.files[0];
+    
+        if (file) {
+          
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+           reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+        }
+    }
+    </script>
+
+
+ 
+
+
+   
+  
+
+
+
+
+<div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more post <i
+  class="bi bi-arrow-down-circle ms-2 align-middle"></i></button></div>
+<!-- for new old post -->
+<nav class="blog-pagination d-flex justify-content-center  text-dark" aria-label="Pagination">
+  <a class="btn btn-outline-primary rounded-pill my-2" href="#">Older</a>
+  <a class="btn btn-outline-secondary rounded-pill disabled my-2">Newer</a>
+</nav>
+{%endblock%}

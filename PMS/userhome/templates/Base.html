@@ -173,6 +173,41 @@
 
 
 </div>
+
+<div class="modal fade text-dark" id="addPoultry" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Upload Poultry Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form method="post" name="form" action="submit_quote/">
+        {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Farm Name</label>
+        <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="8" name="farmname" autocomplete="off"></input>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea2" class="form-label">Total Chickens</label>
+        <input type="number" class="form-control" id="exampleFormControlTextarea2" rows="8" name="Total" autocomplete="off"></input>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea3" class="form-label">Date</label>
+        <input type="date" class="form-control" id="exampleFormControlTextarea3" rows="8" name="startdate" autocomplete="off"></input>
+      </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearForm()">Cancel</button>
+        <button type="submit" class="btn btn-primary" name="quotesform" onclick="clearForm()">Upload</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
   {%block mainContent %}{%endblock%}
 </div>
 
