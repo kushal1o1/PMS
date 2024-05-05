@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .import views
+from . import views
 
 app_name = 'userhome'
 urlpatterns = [
@@ -11,7 +11,7 @@ urlpatterns = [
    
     # path('mainpage/<int:user_id>/profile',views.profile,name='profile'),
     path('mainpage/<int:user_id>/', views.userHome, name='mainpage'),
-    # path('mainpage/<int:user_id>/submit_quote/', views.submit_quote, name='submit_quote'),
+    path('mainpage/<int:user_id>/submit_detail/', views.submit_detail, name='submit_detail'),
 
     
 ]

@@ -182,7 +182,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form method="post" name="form" action="submit_quote/">
+      <form method="post"  action="submit_detail/">
         {% csrf_token %}
 
       <div class="mb-3">
@@ -195,14 +195,14 @@
       </div>
       <div class="mb-3">
         <label for="exampleFormControlTextarea3" class="form-label">Date</label>
-        <input type="date" class="form-control" id="exampleFormControlTextarea3" rows="8" name="startdate" autocomplete="off"></input>
+        <input type="date" class="form-control" id="exampleFormControlTextarea3" rows="8" name="Startdate" autocomplete="off"></input>
       </div>
 
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearForm()">Cancel</button>
-        <button type="submit" class="btn btn-primary" name="quotesform" onclick="clearForm()">Upload</button>
+        <button type="submit" name="detailform" class="btn btn-primary" name="quotesform" onclick="clearForm()">Upload</button>
       </form>
       </div>
     </div>
