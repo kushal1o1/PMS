@@ -9,7 +9,7 @@
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
 <style>
-
+ 
   .card{
     background-color: black;
     font-style: oblique;
@@ -82,9 +82,9 @@
             <ul class="dropdown-menu" style="background-color:aliceblue;font-style: oblique;">
 
 
-              <p class="text-center" ><button class="btn btn-outline-dark rounded-pill  "  data-bs-toggle="modal" data-bs-target="#addarticle">Add Bill</button></p>
+              <p class="text-center" ><button class="btn btn-outline-dark rounded-pill  "  data-bs-toggle="modal" data-bs-target="#addimg">Add Bill</button></p>
               <hr class="dropdown-divider">
-              <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addquote">Add Vaccine</button></p>
+              <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addimg">Add Vaccine</button></p>
               <hr class="dropdown-divider">
               <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addimg">Add images</button></p>
 
@@ -128,17 +128,16 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Upload your QuotesImage</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Upload your Bill Image</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        
+        {% load static%}
       <form method="post" name="form" action="submit_bill/" enctype="multipart/form-data">
       {% csrf_token %}
         <div class="d-flex justify-content-center">
-          <img  id="preview1" src='{%static "images/defaultquote.jpg"%}' class="bd-placeholder-img  bg-primary"
-          width="100%" height="400px" aria-label="Placeholder: 140x140"  preserveAspectRatio="xMidYMid slice"
-          focusable="false" _mstaria-label="310609" _mstHash="27" style="direction: ltr;" >
+          <img  id="preview" src='' class="bd-placeholder-img  bg-primary"
+          width="100%" height="400px"  >
         </div>
 
       <div class="mb-3">
@@ -155,6 +154,15 @@
         <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
         <label class="btn btn-outline-primary" for="btncheck3">Vaccine</label>
       </div>
+
+      <div class="mb-3">
+        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">Total ChickenFeed</label>
+        <input type="number" class="form-control" id="exampleInputtotalChickenFeed" aria-describedby="Help" name="totalChickenFeed">
+             </div>
+             <div class="mb-3">
+              <label for="exampleInputtotalMedicine" class="form-label" autocomplete="off">Total Medicine</label>
+              <input type="number" class="form-control" id="exampleInputtotalMedicine" aria-describedby="Help" name="totalMedicine"  >
+                   </div>
       <div class="mb-3">
         <label for="exampleInputtotal" class="form-label" autocomplete="off">Total</label>
         <input type="number" class="form-control" id="exampleInputtotal" aria-describedby="Help" name="total" placeholder="RS." required>
@@ -169,6 +177,30 @@
       </div>
     </div>
   </div>
+  <script>
+
+   
+    function previewImage(event) {
+ 
+        const input = event.target;
+        const preview = document.getElementById('preview');
+    
+        const file = input.files[0];
+    
+        if (file) {
+          
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+           reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+        }
+    }
+    </script>
+
 
 
 
@@ -187,11 +219,11 @@
 
       <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Farm Name</label>
-        <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="8" name="farmname" autocomplete="off"></input>
+        <input type="text" pattern="[^\s]+" class="form-control" id="exampleFormControlTextarea1" rows="8" name="farmname" autocomplete="off" placeholder="No spaces" required></input>
       </div>
       <div class="mb-3">
         <label for="exampleFormControlTextarea2" class="form-label">Total Chickens</label>
-        <input type="number" class="form-control" id="exampleFormControlTextarea2" rows="8" name="Total" autocomplete="off"></input>
+        <input type="number" class="form-control" id="exampleFormControlTextarea2" rows="8" name="Total" autocomplete="off" required></input>
       </div>
       <div class="mb-3">
         <label for="exampleFormControlTextarea3" class="form-label">Date</label>
@@ -219,7 +251,7 @@
       <div class="row">
         <div class="col-lg-3 mb-3">
           
-                  <h2 class="d-inline-block me-5" style="font-style: oblique;"> <span class="fs-1 fw-bolder">Q</span>uotes<br></h2>
+                  <h2 class="d-inline-block me-5" style="font-style: oblique;"> <span class="fs-1 fw-bolder">P</span>MS<br></h2>
                 
       
           <ul class="list-unstyled small text-muted">
@@ -232,9 +264,9 @@
           <h5>Links</h5>
           <ul class="list-unstyled">
             <li class="mb-2"><a href=".">Home</a>
-            <li class="mb-2"><a href="#">Upload Videos</a>
-            <li class="mb-2"><a href="#">Upload Images</a>
-            <li class="mb-2"><a href="#">Upload Quotes</a>
+            <li class="mb-2"><a href="#">Upload Bills</a>
+            <li class="mb-2"><a href="#">Upload Bills</a>
+            <li class="mb-2"><a href="#">Upload Bills</a>
             <li class="mb-2"><a href="aboutUs">About Us</a>
             <li class="mb-2"><a href="contactUs">Contact Us</a>
           

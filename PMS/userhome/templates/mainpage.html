@@ -20,7 +20,7 @@
 
 
   <hr class="text-dark">
-<h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Todays Global Quotes !!</h1>
+<h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Your All Farms !!</h1>
 {% for parm in parms %}
 <h1>{{parm.user_id}}</h1>
 <h1>{{parm.user}}</h1>
@@ -28,8 +28,11 @@
 <h1>{{parm.poultryName}}</h1>
 <h1>{{parm.totalChicken}}</h1>
 <h1>{{parm.startDate}}</h1>
-{% endfor%}
+<p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-outline-dark rounded-pill text-center" >See Details</a></p>
+
 <hr class="text-dark">
+{% endfor%}
+
   <script>
 
    

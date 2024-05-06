@@ -1,0 +1,135 @@
+{% extends 'Base.html' %}
+{%block tittle%}PMS Home{%endblock%}
+{%block loginout%}LogOut{%endblock%}
+{% block mainContent%}
+{%load static%}
+<hr class="text-dark">
+<div class=" ">
+    <h1 class="">{{parm.poultryName}}</h1>
+
+
+    <h1 class="">Day-1</h1>
+    <h1 class="">Total Hens :{{parm.totalChicken}}</h1>
+    <h1 class="">Expenses:100000</h1>
+    <h1 class="">Date started farm:{{parm.startDate}}</h1>
+    <h1 class="">Today date :2030-03-03</h1>
+    <h1 class="">Total Vaccine Given:3</h1>
+    <h1 class="">Temperature Today:Sunny</h1>
+    <h1 class="">Rain Today:Yes(around 2 pm)</h1>
+    <h1 class="">Storm Today:yes(around 3 pm )</h1>
+</div>
+
+
+
+
+
+
+
+
+
+  <hr class="text-dark">
+<h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Your All sth !!</h1>
+{% for parm in parms %}
+<h1>{{parm.user_id}}</h1>
+<h1>{{parm.user}}</h1>
+
+<h1>{{parm.poultryName}}</h1>
+<h1>{{parm.totalChicken}}</h1>
+<h1>{{parm.startDate}}</h1>
+<p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-outline-dark rounded-pill text-center" >See Details</a></p>
+
+<hr class="text-dark">
+{% endfor%}
+
+  <script>
+
+   
+    function previewImage(event) {
+ 
+        const input = event.target;
+        const preview = document.getElementById(preview1);
+    
+        const file = input.files[0];
+    
+        if (file) {
+          
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+           reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+        }
+    }
+    </script>
+
+
+ 
+
+
+   
+
+
+      <section>
+
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-auto mb-5 mb-md-7">
+              <h1 class="fw-semi-bold text-primary">Tools <span class="text-1100">For You</span></h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+              <div class="px-0 px-lg-3">
+                <img class="img-fluid mb-4" src="assets/img/gallery/librarian.png" width="100" alt="...">
+                <h3 class="h5 mb-4 font-base">Bills</h3>
+                <p class="lh-lg">Register online Discover tools and manage alerts Learn about how to access</p>
+                <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-dark  text-center " >See Details</a></p>
+
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/librarian.png" width="100" alt="...">
+                <h3 class="h5 mb-4 font-base">Medicine</h3>
+                <p class="lh-lg">Manage your account View products and solutions Find resources and support</p>
+                 <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/societies.png" width="100" alt="...">
+                <h3 class="h5 mb-4 font-base">Bhus</h3>
+                <p class="lh-lg">Publish with Wiley Explore our resource library Learn about topics and trends</p>
+                 <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/authors.png" width="100" alt="...">
+                <h3 class="h5 mb-4 font-base">Vaccine</h3>
+                <p class="lh-lg">Submit a paper Track your article Learn about Open Access</p>
+                 <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end of .container-->
+
+      </section>
+
+      <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addimg">Add Bills</button></p>
+
+
+
+
+<div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more post <i
+  class="bi bi-arrow-down-circle ms-2 align-middle"></i></button></div>
+<!-- for new old post -->
+<nav class="blog-pagination d-flex justify-content-center  text-dark" aria-label="Pagination">
+  <a class="btn btn-outline-primary rounded-pill my-2" href="#">Older</a>
+  <a class="btn btn-outline-secondary rounded-pill disabled my-2">Newer</a>
+</nav>
+{%endblock%}

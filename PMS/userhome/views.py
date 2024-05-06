@@ -41,3 +41,7 @@ def submit_detail(request,user_id):
             )
 
     return redirect('userhome:mainpage', user_id=user_id)
+
+def profile(request,user_id,poultryName):
+    poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
+    return render(request, 'profile.html',{'parm':poultry_info[0]})
