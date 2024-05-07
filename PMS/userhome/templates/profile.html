@@ -4,7 +4,7 @@
 {% block mainContent%}
 {%load static%}
 <hr class="text-dark">
-<div class=" ">
+<div class="container ">
     <h1 class="">{{parm.poultryName}}</h1>
 
 
@@ -17,6 +17,17 @@
     <h1 class="">Temperature Today:Sunny</h1>
     <h1 class="">Rain Today:Yes(around 2 pm)</h1>
     <h1 class="">Storm Today:yes(around 3 pm )</h1>
+    <br><br>
+   <p>{{bill.user}}</p>
+   <p>{{bill.poultryName}}</p>
+   <p>{{bill.imgfile}}</p>
+   <p>{{bill.posted_date}}</p>
+   <p>{{bill.TotalChickenFeed}}</p>
+   <p>{{bill.totalMedicine}}</p>
+   <p>{{bill.totalBhus}}</p>
+   <p>{{bill.totalAmount}}</p>
+   <p>{{bill.totalVaccine}}</p>
+
 </div>
 
 
@@ -29,43 +40,19 @@
 
   <hr class="text-dark">
 <h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Your All sth !!</h1>
-{% for parm in parms %}
+{% comment %} {% for parm in parms %}
 <h1>{{parm.user_id}}</h1>
 <h1>{{parm.user}}</h1>
 
 <h1>{{parm.poultryName}}</h1>
 <h1>{{parm.totalChicken}}</h1>
 <h1>{{parm.startDate}}</h1>
-<p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-outline-dark rounded-pill text-center" >See Details</a></p>
-
+<p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-outline-dark rounded-pill text-center" >See Details</a></p> {% endcomment %}
+{% comment %} 
 <hr class="text-dark">
-{% endfor%}
+{% endfor%} {% endcomment %}
 
-  <script>
-
-   
-    function previewImage(event) {
  
-        const input = event.target;
-        const preview = document.getElementById(preview1);
-    
-        const file = input.files[0];
-    
-        if (file) {
-          
-            const reader = new FileReader();
-    
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-            };
-           reader.readAsDataURL(file);
-        } else {
-            preview.src = '';
-        }
-    }
-    </script>
-
-
  
 
 
@@ -123,6 +110,97 @@
       <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addimg">Add Bills</button></p>
 
 
+
+{% comment %} model {% endcomment %}
+
+<div class="container ">
+  <!-- Modal -->
+
+<div class="modal fade text-dark" id="addimg" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Upload your Bill Image</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% load static%}
+      <form method="post" name="form" action="submit_bill/{{parm.poultryName}}" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="d-flex justify-content-center">
+          <img  id="preview" src='' class="bd-placeholder-img  bg-primary"
+          width="100%" height="400px"  >
+        </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlimg" class="form-label">Image:</label>
+        <input type="file"  name="imageofbill" required accept="image/*"  onchange="previewImage(event)">
+      </div>
+      <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+        <input type="checkbox" class="btn-check" name="feed" id="btncheck1" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck1">Dhana</label>
+      
+        <input type="checkbox" class="btn-check" name="medicine" id="btncheck2" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck2">Medicine</label>
+      
+        <input type="checkbox" class="btn-check" name="vaccine" id="btncheck3" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck3">Vaccine</label>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">Total ChickenFeed</label>
+        <input type="number" name="TotalChickenFeed" class="form-control" id="exampleInputtotalChickenFeed" aria-describedby="Help" >
+             </div>
+             <div class="mb-3">
+              <label for="exampleInputtotalMedicine" class="form-label" autocomplete="off">Total Medicine</label>
+              <input type="number"  class="form-control" id="exampleInputtotalMedicine" aria-describedby="Help" name="totalMedicine"  >
+                   </div>
+                   <div class="mb-3">
+                    <label for="exampleInputtotalBhus" class="form-label" autocomplete="off">Total Bhus</label>
+                    <input type="number"  class="form-control" id="exampleInputtotalBhus" aria-describedby="Help" name="totalBhus"  >
+                         </div>
+      <div class="mb-3">
+        <label for="exampleInputtotal" class="form-label" autocomplete="off">Total Amount  </label>
+        <input type="number" class="form-control" id="exampleInputtotal" aria-describedby="Help" name="total" placeholder="RS." required>
+             </div>
+        
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
+        <button type="submit" class="btn btn-primary" name="billform" >Upload</button>
+      </form>
+      </div>
+    </div>
+  </div>
+  <script>
+
+   
+    function previewImage(event) {
+ 
+        const input = event.target;
+        const preview = document.getElementById('preview');
+    
+        const file = input.files[0];
+    
+        if (file) {
+          
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+           reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+        }
+    }
+    </script>
+
+
+
+
+</div>
 
 
 <div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more post <i
