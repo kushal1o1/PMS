@@ -1,0 +1,27 @@
+{% extends 'Base.html' %}
+{%block tittle%}PMS Bills{%endblock%}
+{%block loginout%}LogOut{%endblock%}
+{% block mainContent%}
+{%load static%}
+
+{% for bill in bills %}
+<section class="category section pt-3 pb-0">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-sm-12 col-md-6">
+				<div class="cat-item mb-4 mb-lg-0">
+					<img src="images/about/cat-1.jpg" alt="" class="img-fluid">
+					<div class="item-info">
+						<p class="mb-0">Vaccine:</p>
+						<h4 class="mb-4">Given date :<strong>{{bill.posted_date}}</strong></h4>
+
+						<a href="#" class="read-more">Days Vaccine Given:<strong>14 days</strong></a>
+					</div>
+				</div>
+			</div>
+
+        </div>
+	</div>
+</section>
+{% endfor%}
+{% endblock%}

@@ -1,0 +1,44 @@
+{% extends 'Base.html' %}
+{%block tittle%}PMS Bills{%endblock%}
+{%block loginout%}LogOut{%endblock%}
+{% block mainContent%}
+{%load static%}
+
+{% for bill in bills %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ bill.imgfile.url}}" alt="..."></div>
+            <div class="col-md-6">
+                <div class="small mb-1">{{bill.posted_date}}</div>
+                <h1 class="display-5 fw-bolder">Bill 1st </h1>
+                <div class="fs-5 mb-5">
+                   
+                    <span>RS:{{bill.totalAmount}}</span>
+                </div>
+                <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
+                <div class="d-flex gap-1">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem">
+                   
+                        <i class="bi-cart-fill me-1"></i>
+                        {% if bill.totalVaccine %}
+                        <button class="btn btn-dark flex-shrink-0" type="button"> Vaccine:{{bill.totalVaccine}}</button>
+                        {% endif %}
+                        {% if bill.totalBhus %}
+                        <button class="btn btn-dark flex-shrink-0" type="button"> Bhus:{{bill.totalBhus}}</button>
+                        {% endif %}
+                        {% if bill.TotalChickenFeed %}
+                        <button class="btn btn-dark flex-shrink-0" type="button"> TotalChickenFeed:{{bill.TotalChickenFeed}}</button>
+                        {% endif %}
+                        {% if bill.totalMedicine %}
+                        <button class="btn btn-dark flex-shrink-0" type="button"> totalMedicine:{{bill.totalMedicine}}</button>
+                        {% endif %}
+                        
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor%}
+{% endblock%}

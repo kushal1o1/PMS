@@ -17,16 +17,19 @@
     <h1 class="">Temperature Today:Sunny</h1>
     <h1 class="">Rain Today:Yes(around 2 pm)</h1>
     <h1 class="">Storm Today:yes(around 3 pm )</h1>
+    <h1>Total Dana:{{bill.TotalChickenFeed}}</h1>
+    <h1>Total Medicine :{{bill.totalMedicine}}</h1>
+    <h1>Total Bhus :{{bill.totalBhus}}</h1>
+   <h1>Total Expenses:{{bill.totalAmount}}</h1>
+   <h1>Total vaccine used:{{bill.totalVaccine}}</h1>
     <br><br>
-   <p>{{bill.user}}</p>
-   <p>{{bill.poultryName}}</p>
-   <p>{{bill.imgfile}}</p>
-   <p>{{bill.posted_date}}</p>
-   <p>{{bill.TotalChickenFeed}}</p>
-   <p>{{bill.totalMedicine}}</p>
-   <p>{{bill.totalBhus}}</p>
-   <p>{{bill.totalAmount}}</p>
-   <p>{{bill.totalVaccine}}</p>
+   {% comment %} <p>{{bill.user}}</p>
+   <p>{{bill.poultryName}}</p> {% endcomment %}
+   {% comment %} <p>{{bill.imgfile}}</p> {% endcomment %}
+   {% comment %} <p>{{bill.posted_date}}</p> {% endcomment %}
+   {% comment %} <p>{{bill.TotalChickenFeed}}</p> {% endcomment %}
+
+
 
 </div>
 
@@ -73,7 +76,7 @@
                 <img class="img-fluid mb-4" src="assets/img/gallery/librarian.png" width="100" alt="...">
                 <h3 class="h5 mb-4 font-base">Bills</h3>
                 <p class="lh-lg">Register online Discover tools and manage alerts Learn about how to access</p>
-                <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-dark  text-center " >See Details</a></p>
+                <p class="text-center"><a href="bills/{{parm.poultryName}}" type="button" class=" btn btn-dark  text-center " >See Details</a></p>
 
               </div>
             </div>
@@ -81,7 +84,7 @@
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/librarian.png" width="100" alt="...">
                 <h3 class="h5 mb-4 font-base">Medicine</h3>
                 <p class="lh-lg">Manage your account View products and solutions Find resources and support</p>
-                 <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+                 <p class="text-center"><a href="#" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
 
               </div>
             </div>
@@ -89,7 +92,7 @@
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/societies.png" width="100" alt="...">
                 <h3 class="h5 mb-4 font-base">Bhus</h3>
                 <p class="lh-lg">Publish with Wiley Explore our resource library Learn about topics and trends</p>
-                 <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+                 <p class="text-center"><a href="#" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
 
               </div>
             </div>
@@ -97,7 +100,7 @@
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/authors.png" width="100" alt="...">
                 <h3 class="h5 mb-4 font-base">Vaccine</h3>
                 <p class="lh-lg">Submit a paper Track your article Learn about Open Access</p>
-                 <p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+                 <p class="text-center"><a href="vaccine/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
 
               </div>
             </div>
