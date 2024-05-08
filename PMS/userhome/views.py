@@ -84,15 +84,21 @@ def submit_bill(request,user_id,poultryName):
             new_image_post.save()
 
     return redirect('userhome:profile', user_id=user_id,poultryName=poultryName)
+# @login_required
+# def showBills(request,user_id,poultryName):
+#      Bill_info = BillPost.objects.filter(user_id=user_id).filter(poultryName=poultryName).order_by('-posted_date')
+#      return render(request, 'showbills.html',{
+#     'bills':Bill_info})
+
 @login_required
-def showBills(request,user_id,poultryName):
-     Bill_info = BillPost.objects.filter(user_id=user_id).order_by('-posted_date')
-     return render(request, 'showbills.html',{
-    'bills':Bill_info})
-    
+def showBills(request, user_id, poultryName):
+    bills = BillPost.objects.filter(user_id=user_id, poultryName__poultryName=poultryName).order_by('-posted_date')
+    return render(request, 'showbills.html', {'bills': bills})
+
+
 
 @login_required
 def showVaccine(request,user_id,poultryName):
-     Bill_info = BillPost.objects.filter(user_id=user_id).order_by('-posted_date')
+     Bill_info = BillPost.objects.filter(user_id=user_id, poultryName__poultryName=poultryName).order_by('-posted_date')
      return render(request, 'showVaccine.html',{
     'bills':Bill_info})

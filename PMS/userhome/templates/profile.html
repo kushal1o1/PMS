@@ -1,6 +1,7 @@
 {% extends 'Base.html' %}
 {%block tittle%}PMS Home{%endblock%}
 {%block loginout%}LogOut{%endblock%}
+{% block Showbills%}bills/{{parm.poultryName}}{%endblock%}
 {% block mainContent%}
 {%load static%}
 <hr class="text-dark">
