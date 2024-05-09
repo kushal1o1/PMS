@@ -48,57 +48,52 @@ def submit_detail(request,user_id):
 
 def profile(request,user_id,poultryName):
     poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
-    Bill_info = BillPost.objects.filter(user_id=user_id).order_by('-posted_date')
-
+    Bill_info = BillPost.objects.filter(poultryName=poultryName).order_by('-posted_date')
+    print(Bill_info)
     return render(request, 'profile.html',{'parm':poultry_info[0],
-    'bill':Bill_info[0]})
+    'bill':Bill_info})
 
 
 @login_required
-def submit_bill(request,user_id,poultryName):
+def submit_bill(request, user_id, poultryName):
     poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
     if request.method == 'POST':
 
         if 'billform' in request.POST:
             image_file = request.FILES.get('imageofbill')
             feed = request.POST.get('feed')
-            medicine=request.POST.get('medicine')
-            vaccine=request.POST.get('vaccine')
-            TotalChickenFeed=request.POST.get('TotalChickenFeed')
-            totalMedicine=request.POST.get('totalMedicine')
-            total=request.POST.get('total')
-            totalBhus=request.POST.get('totalBhus')
+            medicine = request.POST.get('medicine')
+            vaccine = request.POST.get('vaccine')
+            TotalChickenFeed = request.POST.get('TotalChickenFeed')
+            totalMedicine = request.POST.get('totalMedicine')
+            total = request.POST.get('total')
+            totalBhus = request.POST.get('totalBhus')
             if vaccine:
-                totalvaccine=1
-\
+                totalvaccine = 1
+            else:
+                totalvaccine = 0
             new_image_post = BillPost(
-            user=get_object_or_404(User, id=user_id),
-            imgfile=image_file,
-            poultryName=poultry_info[0],
-            TotalChickenFeed=TotalChickenFeed,
-            totalMedicine=totalMedicine,
-            totalBhus=totalBhus,
-            totalAmount=total,
-            totalVaccine=totalvaccine
-             )
+                poultryName=poultry_info[0],  # Assign the poultry instance
+                imgfile=image_file,
+                totalChickenFeed=TotalChickenFeed,
+                totalMedicine=totalMedicine,
+                totalBhus=totalBhus,
+                totalAmount=total,
+                totalVaccine=totalvaccine
+            )
             new_image_post.save()
 
-    return redirect('userhome:profile', user_id=user_id,poultryName=poultryName)
-# @login_required
-# def showBills(request,user_id,poultryName):
-#      Bill_info = BillPost.objects.filter(user_id=user_id).filter(poultryName=poultryName).order_by('-posted_date')
-#      return render(request, 'showbills.html',{
-#     'bills':Bill_info})
+    return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
 
 @login_required
 def showBills(request, user_id, poultryName):
-    bills = BillPost.objects.filter(user_id=user_id, poultryName__poultryName=poultryName).order_by('-posted_date')
+    bills = BillPost.objects.filter(id=user_id, poultryName__poultryName=poultryName).order_by('-posted_date')
     return render(request, 'showbills.html', {'bills': bills})
 
 
 
 @login_required
 def showVaccine(request,user_id,poultryName):
-     Bill_info = BillPost.objects.filter(user_id=user_id, poultryName__poultryName=poultryName).order_by('-posted_date')
+     Bill_info = BillPost.objects.filter(id=user_id, poultryName__poultryName=poultryName).order_by('-posted_date')
      return render(request, 'showVaccine.html',{
     'bills':Bill_info})

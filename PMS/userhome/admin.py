@@ -4,3 +4,6 @@ from django.contrib import admin
 from . models import Poultry,BillPost
 admin.site.register(Poultry)
 admin.site.register(BillPost)
+
+
+
