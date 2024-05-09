@@ -18,11 +18,11 @@
     <h1 class="">Temperature Today:Sunny</h1>
     <h1 class="">Rain Today:Yes(around 2 pm)</h1>
     <h1 class="">Storm Today:yes(around 3 pm )</h1>
-    <h1>Total Dana:{{bill.TotalChickenFeed}}</h1>
-    <h1>Total Medicine :{{bill.totalMedicine}}</h1>
-    <h1>Total Bhus :{{bill.totalBhus}}</h1>
-   <h1>Total Expenses:{{bill.totalAmount}}</h1>
-   <h1>Total vaccine used:{{bill.totalVaccine}}</h1>
+    <h1>Total Dana:{{context.dana}}</h1>
+    <h1>Total Medicine :{{context.medicine}}</h1>
+    <h1>Total Bhus :{{context.total_bhus}}</h1>
+   <h1>Total Expenses:RS .{{context.total_amount}}</h1>
+   <h1>Total vaccine used:{{context.vaccine}}</h1>
     <br><br>
    {% comment %} <p>{{bill.user}}</p>
    <p>{{bill.poultryName}}</p> {% endcomment %}
