@@ -1,0 +1,32 @@
+{% extends 'Base.html' %}
+{%block tittle%}PMS Bills{%endblock%}
+{%block loginout%}LogOut{%endblock%}
+{% block mainContent%}
+{%load static%}
+{% for dead in deads %}
+<section class="category section pt-3 pb-0">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-sm-12 col-md-6">
+				<div class="cat-item mb-4 mb-lg-0">
+					<img src="images/about/cat-1.jpg" alt="" class="img-fluid">
+					<div class="item-info">
+						<p class="mb-0">User:{{dead.poultryName}}</p>
+						<h4 class="mb-4">Total Dead :<strong>{{dead.totalDead}}</strong></h4>
+						<h1>Death Days:{{dead.deadDate}}</h1>
+                        <h1>AT :{{dead.totalDays}} DAY</h1>
+                        
+						
+					</div>
+				</div>
+			</div>
+
+        </div>
+	</div>
+</section>
+
+<hr class="text-dark">
+{% endfor%}
+
+
+{% endblock%}

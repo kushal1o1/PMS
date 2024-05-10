@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-from .models import Poultry ,BillPost,Total
+from .models import Poultry ,BillPost,Total,DeadInfo
 from django.contrib.auth.models import User
 from datetime import datetime
 
@@ -109,6 +109,12 @@ def submit_bill(request, user_id, poultryName):
                     poultry_info = Poultry.objects.filter(user_id=user_id, poultryName=poultryName).first()  
                     poultry_info.totalDead += deadbirds 
                     poultry_info.save() 
+                    new_dead_hen_post = DeadInfo(
+                            poultryName=poultry_info, 
+                            totalDead=deadbirds
+                        )
+                    new_dead_hen_post.save()
+
                 
     return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
 
@@ -121,9 +127,21 @@ def showBills(request, user_id, poultryName):
 
 
 
+
 @login_required
 def showVaccine(request,user_id,poultryName):
      poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
      Bill_info = BillPost.objects.filter(poultryName=poultry_info[0], poultryName__poultryName=poultryName).order_by('-posted_date')
+     Dead_info = DeadInfo.objects.filter( poultryName__poultryName=poultryName).order_by('-deadDate')
+     print(Dead_info)
      return render(request, 'showVaccine.html',{
     'bills':Bill_info})
+
+    
+@login_required
+def showDeads(request,user_id,poultryName):
+     poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
+     Dead_info = DeadInfo.objects.filter( poultryName__poultryName=poultryName).order_by('-deadDate')
+     print(Dead_info)
+     return render(request, 'showdeads.html',{
+    'deads':Dead_info})

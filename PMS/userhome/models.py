@@ -64,3 +64,15 @@ class Total(models.Model):
 
     def __str__(self):
         return f"Totals for {self.poultryName}"
+
+class DeadInfo(models.Model):
+    poultryName = models.ForeignKey(Poultry, on_delete=models.CASCADE)
+    totalDead = models.IntegerField(default=0)
+    deadDate = models.DateField(auto_now_add=True)
+
+    @property
+    def totalDays(self):
+        return (self.deadDate - self.poultryName.startDate).days+1
+
+    def __str__(self):
+        return f"DEAD_INFO OF {self.poultryName}"
