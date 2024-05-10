@@ -10,7 +10,7 @@ class Poultry(models.Model):
 
     @property
     def totalDays(self):
-        return (date.today() - self.startDate).days
+        return ((date.today() - self.startDate)).days+1
 
 
     def __str__(self):
@@ -25,6 +25,10 @@ class BillPost(models.Model):
     totalBhus = models.IntegerField()
     totalAmount = models.IntegerField()
     totalVaccine = models.IntegerField()
+
+    @property
+    def totalDays(self):
+        return (self.posted_date.date() - self.poultryName.startDate).days+1
 
     def __str__(self):
         return f"{self.poultryName.poultryName} - {self.posted_date}"
