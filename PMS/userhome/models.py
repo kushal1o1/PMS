@@ -1,12 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
 class Poultry(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     poultryName = models.CharField(max_length=20, primary_key=True)
     totalChicken = models.IntegerField()
     startDate = models.DateField(auto_now_add=True)
- 
+
+    @property
+    def totalDays(self):
+        return (date.today() - self.startDate).days
+
+
     def __str__(self):
         return f"{self.poultryName} by {self.user}"
 

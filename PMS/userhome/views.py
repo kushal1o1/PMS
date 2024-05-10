@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from .models import Poultry ,BillPost,Total
 from django.contrib.auth.models import User
+from datetime import datetime
+
 # # Create your views here.
 # @login_required
 # def userHome(request,user_id):
@@ -18,8 +20,10 @@ app_name='userhome'
 #     return render(request, 'userhome/userhome.html',{'user_info': user_info ,'videos': videos ,'quotes':allquotes,'imgquote':allimg})
 print(Poultry)
 @login_required
-def userHome(request,user_id):     
+def userHome(request,user_id): 
     user_info = Poultry.objects.filter(user_id=user_id).order_by('startDate')
+    for poultry in user_info:
+     print(poultry.totalDays)
     return render(request, 'mainpage.html',{'parms':user_info})
 
 
