@@ -6,11 +6,16 @@ class Poultry(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     poultryName = models.CharField(max_length=20, primary_key=True)
     totalChicken = models.IntegerField()
+    totalDead = models.IntegerField(default=0)
     startDate = models.DateField(auto_now_add=True)
 
     @property
     def totalDays(self):
         return ((date.today() - self.startDate)).days+1
+
+    @property
+    def totalChickenNow(self):
+        return ((self.totalChicken-self.totalDead))
 
 
     def __str__(self):

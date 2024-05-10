@@ -22,8 +22,6 @@ print(Poultry)
 @login_required
 def userHome(request,user_id): 
     user_info = Poultry.objects.filter(user_id=user_id).order_by('startDate')
-    for poultry in user_info:
-     print(poultry.totalDays)
     return render(request, 'mainpage.html',{'parms':user_info})
 
 
@@ -43,6 +41,8 @@ def submit_detail(request,user_id):
             totalChicken=Total,
            
             )
+        
+
 
     return redirect('userhome:mainpage', user_id=user_id)
 
@@ -53,7 +53,6 @@ def submit_detail(request,user_id):
 def profile(request,user_id,poultryName):
     poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
     Bill_info = BillPost.objects.filter(poultryName=poultryName).order_by('-posted_date')
-    print(Bill_info)
     poultry = Poultry.objects.get(user_id=user_id, poultryName=poultryName)
 
     # Fetch or create the Total object for the specific poultry
@@ -68,11 +67,10 @@ def profile(request,user_id,poultryName):
     total_vaccine = total_obj.totalVaccine
     total_amount = total_obj.totalAmount
     total_Bhus = total_obj.totalBhus
-
+    todayDate=datetime.now()
     context={"poultry":poultry,"bills":Bill_info,'dana':total_dana,'medicine':total_medicine,'vaccine':total_vaccine,'total_amount':total_amount,
-    'total_bhus':total_Bhus
+    'total_bhus':total_Bhus,'todayDate':todayDate
     }
-    print(context)
     return render(request, 'profile.html',{'parm':poultry_info[0],
     'bill':Bill_info,'context':context})
 
@@ -106,6 +104,12 @@ def submit_bill(request, user_id, poultryName):
             )
             new_image_post.save()
 
+        if 'Deadform' in request.POST:
+                    deadbirds = int(request.POST.get("TotalChickenDead"))
+                    poultry_info = Poultry.objects.filter(user_id=user_id, poultryName=poultryName).first()  
+                    poultry_info.totalDead += deadbirds 
+                    poultry_info.save() 
+                
     return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
 
 @login_required

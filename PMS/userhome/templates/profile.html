@@ -6,14 +6,13 @@
 {%load static%}
 <hr class="text-dark">
 <div class="container ">
-    <h1 class="">{{parm.poultryName}}</h1>
+    <h1 class="">PoultryName:{{parm.poultryName}}</h1>
 
 
     <h1 class="">Day-{{parm.totalDays}}</h1>
     <h1 class="">Total Hens :{{parm.totalChicken}}</h1>
-    <h1 class="">Expenses:100000</h1>
     <h1 class="">Date started farm:{{parm.startDate}}</h1>
-    <h1 class="">Today date :2030-03-03</h1>
+    <h1 class="">Today date :{{context.todayDate}}</h1>
     <h1 class="">Total Vaccine Given:3</h1>
     <h1 class="">Temperature Today:Sunny</h1>
     <h1 class="">Rain Today:Yes(around 2 pm)</h1>
@@ -24,12 +23,6 @@
    <h1>Total Expenses:RS .{{context.total_amount}}</h1>
    <h1>Total vaccine used:{{context.vaccine}}</h1>
     <br><br>
-   {% comment %} <p>{{bill.user}}</p>
-   <p>{{bill.poultryName}}</p> {% endcomment %}
-   {% comment %} <p>{{bill.imgfile}}</p> {% endcomment %}
-   {% comment %} <p>{{bill.posted_date}}</p> {% endcomment %}
-   {% comment %} <p>{{bill.TotalChickenFeed}}</p> {% endcomment %}
-
 
 
 </div>
@@ -44,17 +37,7 @@
 
   <hr class="text-dark">
 <h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Your All sth !!</h1>
-{% comment %} {% for parm in parms %}
-<h1>{{parm.user_id}}</h1>
-<h1>{{parm.user}}</h1>
 
-<h1>{{parm.poultryName}}</h1>
-<h1>{{parm.totalChicken}}</h1>
-<h1>{{parm.startDate}}</h1>
-<p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-outline-dark rounded-pill text-center" >See Details</a></p> {% endcomment %}
-{% comment %} 
-<hr class="text-dark">
-{% endfor%} {% endcomment %}
 
  
  
@@ -112,6 +95,7 @@
       </section>
 
       <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addimg">Add Bills</button></p>
+      <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addDead">Add Dead Chicken</button></p>
 
 
 
@@ -203,6 +187,38 @@
 
 
 
+
+</div>
+
+<div class="modal fade text-dark" id="addDead" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Dead Chickens</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% load static%}
+      <form method="post" name="form" action="submit_bill/{{parm.poultryName}}" enctype="multipart/form-data">
+      {% csrf_token %}
+       
+
+     
+
+      <div class="mb-3">
+        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">Total Chicken Dead</label>
+        <input type="number" name="TotalChickenDead" class="form-control" id="exampleInputtotalChickenDead" aria-describedby="Help" >
+             </div>   
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
+        <button type="submit" class="btn btn-primary" name="Deadform" >Upload</button>
+      </form>
+      </div>
+    </div>
+  </div>
+ 
 
 </div>
 
