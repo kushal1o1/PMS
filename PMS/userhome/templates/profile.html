@@ -7,9 +7,9 @@
 
 <div class="container">
 <div class="d-flex align-items-end row">
-  <div class="col-sm-7">
+  <div class="col-sm-7 ">
     <div class="card-body">
-      <h5 class="card-title text-primary ">Hi,{{parm.user}}</h5>
+      <h5 class="card-title text-primary text-center fs-1 ">Hi,{{parm.user}}</h5>
     </div>
   </div>
 <div class=" d-flex flex-column align-items-center justify-content-center col-sm-5 text-center h5 mb-0 text-gray-800 text-sm-left">
@@ -19,27 +19,34 @@
 <div>Temperature: {{temp.temperature}} &deg;C,
     {% if temp.is_raining %}
     Raining
+    <i class="fa-solid fa-cloud-showers-heavy"></i>
   {% endif %}
   {% if temp.is_sunny %}
       Sunny
+      <i class="fa-regular fa-sun"></i>
+
   {% endif %}
   {% if temp.is_windy %}
       Windy
+      <i class="fa-solid fa-wind"></i>
   {% endif %}
   {% if temp.is_hot %}
       Hot
+      <i class="fa-solid fa-fire"></i>
   {% endif %}
   {% if temp.is_cold %}
       Cold
+      <i class="fa-solid fa-snowflake"></i>
   {% endif %}
   {% if temp.is_moderate %}
       Moderate
+      <i class="fa-solid fa-temperature-half"></i>
   {% endif %}
 </div>
 </div>
 </div>
 </div>
-
+<br>
 
 <div class="container d-sm-flex align-items-center justify-content-between mb-4">
   <h1 class="h3 mb-0 text-gray-800">Dashboard </h1>
@@ -53,13 +60,13 @@
 <div class="row">
   <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
       <div class="card bg-primary bg-gradient ">
-          <div class="card-body">
+          <div class="card-body d-flex flex-column gap-2">
               <h3 class="card-title text-white">Day</h3>
-              <div class="d-inline-block ">
-                  <h1 class="text-white">{{parm.totalDays}}</h1>
-                
+              <div class="d-flex  ">
+                  <h1 class="text-white fs-1  fw-bolder px-5 "><strong>{{parm.totalDays}}</strong></h1>
+                  <span class="float-right display-6 opacity-5 "><i class="fa fa-calendar"></i></span>
               </div>
-              <span class="float-right display-6 opacity-5 "><i class="fa fa-calendar"></i></span>
+
           </div>
       </div>
   </div>
@@ -71,7 +78,7 @@
                   <h2 class="text-white">RS. {{context.total_amount}}</h2>
                  
               </div>
-              <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+              <span class="float-right display-5 opacity-5"><i class="fa-solid fa-hand-holding-dollar"></i></span>
           </div>
       </div>
   </div>
@@ -83,18 +90,23 @@
                   <h2 class="text-white">{{parm.totalChickenNow}}</h2>
                 
               </div>
-              <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+              <span class="float-right display-5 opacity-5">                     <i class="fa-solid fa-dove"></i>
+              </span>
           </div>
       </div>
   </div>
   <div class="col-lg-3 col-sm-6 py-2">
       <div class="card bg-danger bg-gradient">
-          <div class="card-body">
-              <h3 class="card-title text-white"> Dead</h3>
-              <div class="d-inline-block">
-                  <h2 class="text-white">{{parm.totalDead}}</h2>
+          <div class="card-body d-flex gap-4 ">
+              <div>
+                <h2 class="card-title text-white"> Dead</h2>
+                <h2 class="text-white">{{parm.totalDead}}</h2>
               </div>
-              <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+              <div>
+                <span class="float-left display-5 opacity-5 px-1"><i class="fa-solid fa-skull "></i></span>
+                  
+              </div>
+             
           </div>
       </div>
   </div>
@@ -114,7 +126,7 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.totalChicken}}</div>
                   </div>
                   <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <i class="fa-solid fa-dove fa-2x "></i>
                   </div>
               </div>
           </div>
@@ -132,14 +144,14 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.startDate}}</div>
                   </div>
                   <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+
+                      <i class="fa-solid fa-hourglass-start fa-2x"></i>
                   </div>
               </div>
           </div>
       </div>
   </div>
 
-  <!-- Earnings (Monthly) Card Example -->
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-info shadow h-100 py-2">
           <div class="card-body bg-light">
@@ -159,14 +171,14 @@
                       </div>
                   </div>
                   <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+
+                      <i class="fas fa-file-invoice-dollar fa-2x"></i>
                   </div>
               </div>
           </div>
       </div>
   </div>
 
-  <!-- Pending Requests Card Example -->
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-warning shadow h-100 py-2">
           <div class="card-body bg-light">
@@ -187,7 +199,6 @@
 </div>
 <div class="container">
   <div class="row">
-    <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4 ">
         <div class="card border-left-red shadow h-100 py-2">
             <div class="card-body bg-light">
@@ -198,14 +209,13 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.vaccine}}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <i class="fa-solid fa-vial-circle-check fa-2x"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
   
-    <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body bg-light">
@@ -216,14 +226,13 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.dana}}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      <i class="fa-solid fa-bowl-food fa-2x"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
   
-    <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body bg-light">
@@ -243,14 +252,13 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <i class="fa-solid fa-pills fa-2x"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
   
-    <!-- Pending Requests Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-2">
             <div class="card-body bg-light">
@@ -261,7 +269,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.total_bhus}}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                      <i class="fa-solid fa-wheat-awn fa-2x"></i>
                     </div>
                 </div>
             </div>
@@ -271,7 +279,7 @@
   </div>
 
 
-<div class="container ">
+{% comment %} <div class="container ">
     <h1 class="">PoultryName:{{parm.poultryName}}</h1>
 
 
@@ -305,7 +313,7 @@
         Cold
     {% endif %}
 </h1>
-</div>
+</div> {% endcomment %}
 
 
 
@@ -326,7 +334,7 @@
 
 
       <section>
-
+{% load static %}
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-auto mb-5 mb-md-7">
@@ -336,33 +344,33 @@
           <div class="row">
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
               <div class="px-0 px-lg-3">
-                <img class="img-fluid mb-4" src="assets/img/gallery/librarian.png" width="100" alt="...">
+                <img class="img-fluid mb-4" src='{%static "images/bill.png"%}' width="100" alt="...">
                 <h3 class="h5 mb-4 font-base">Bills</h3>
-                <p class="lh-lg">Register online Discover tools and manage alerts Learn about how to access</p>
-                <p class="text-center"><a href="bills/{{parm.poultryName}}" type="button" class=" btn btn-dark  text-center " >See Details</a></p>
+                
+                <p class="text-center"><a href="bills/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center " >See Details</a></p>
 
               </div>
             </div>
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
-              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/librarian.png" width="100" alt="...">
+              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/medicine.png"%}'  alt="...">
                 <h3 class="h5 mb-4 font-base">Medicine</h3>
-                <p class="lh-lg">Manage your account View products and solutions Find resources and support</p>
+               
                  <p class="text-center"><a href="#" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
 
               </div>
             </div>
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
-              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/societies.png" width="100" alt="...">
+              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/chicken.png"%}' width="200" alt="...">
                 <h3 class="h5 mb-4 font-base">Dead Chickens INfo</h3>
-                <p class="lh-lg">Publish with Wiley Explore our resource library Learn about topics and trends</p>
+               
                  <p class="text-center"><a href="deads/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
 
               </div>
             </div>
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
-              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src="assets/img/gallery/authors.png" width="100" alt="...">
+              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/vaccine.png"%}' width="200" alt="...">
                 <h3 class="h5 mb-4 font-base">Vaccine</h3>
-                <p class="lh-lg">Submit a paper Track your article Learn about Open Access</p>
+                
                  <p class="text-center"><a href="vaccine/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
 
               </div>
@@ -504,9 +512,5 @@
 
 <div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more post <i
   class="bi bi-arrow-down-circle ms-2 align-middle"></i></button></div>
-<!-- for new old post -->
-<nav class="blog-pagination d-flex justify-content-center  text-dark" aria-label="Pagination">
-  <a class="btn btn-outline-primary rounded-pill my-2" href="#">Older</a>
-  <a class="btn btn-outline-secondary rounded-pill disabled my-2">Newer</a>
-</nav>
+
 {%endblock%}
