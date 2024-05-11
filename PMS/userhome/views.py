@@ -44,6 +44,7 @@ def submit_detail(request,user_id):
 def profile(request,user_id,poultryName):
     poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
     Bill_info = BillPost.objects.filter(poultryName=poultryName).order_by('-posted_date')
+    total_bills=BillPost.objects.count()
     poultry = Poultry.objects.get(user_id=user_id, poultryName=poultryName)
 
     # Fetch or create the Total object for the specific poultry
@@ -60,7 +61,8 @@ def profile(request,user_id,poultryName):
     total_Bhus = total_obj.totalBhus
     todayDate=datetime.now()
     context={"poultry":poultry,"bills":Bill_info,'dana':total_dana,'medicine':total_medicine,'vaccine':total_vaccine,'total_amount':total_amount,
-    'total_bhus':total_Bhus,'todayDate':todayDate
+    'total_bhus':total_Bhus,'todayDate':todayDate,
+    'total_bills':total_bills
     }
 
     url = f'http://api.openweathermap.org/data/2.5/weather?q=pokhara&appid={api_key}&units=metric'
@@ -77,7 +79,7 @@ def profile(request,user_id,poultryName):
     is_windy = wind_speed > 5
     is_hot = temperature > 30
     is_cold = temperature < 10
-
+    is_moderate=not is_raining and not is_sunny and not is_windy and not is_hot and not is_cold
     temp_data = {
         'temperature': temperature,
         'rain': rain,
@@ -87,8 +89,9 @@ def profile(request,user_id,poultryName):
         'is_windy': is_windy,
         'is_hot': is_hot,
         'is_cold': is_cold,
+        'is_moderate':is_moderate
     }
-
+    print(is_moderate)
     return render(request, 'profile.html',{'parm':poultry_info[0],
     'bill':Bill_info,'context':context,
     'temp':temp_data})

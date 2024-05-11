@@ -4,43 +4,306 @@
 {% block Showbills%}bills/{{parm.poultryName}}{%endblock%}
 {% block mainContent%}
 {%load static%}
+
+<div class="container">
+<div class="d-flex align-items-end row">
+  <div class="col-sm-7">
+    <div class="card-body">
+      <h5 class="card-title text-primary ">Hi,{{parm.user}}</h5>
+    </div>
+  </div>
+<div class=" d-flex flex-column align-items-center justify-content-center col-sm-5 text-center h5 mb-0 text-gray-800 text-sm-left">
+ 
+  
+  <div> {{context.todayDate}}</div>
+<div>Temperature: {{temp.temperature}} &deg;C,
+    {% if temp.is_raining %}
+    Raining
+  {% endif %}
+  {% if temp.is_sunny %}
+      Sunny
+  {% endif %}
+  {% if temp.is_windy %}
+      Windy
+  {% endif %}
+  {% if temp.is_hot %}
+      Hot
+  {% endif %}
+  {% if temp.is_cold %}
+      Cold
+  {% endif %}
+  {% if temp.is_moderate %}
+      Moderate
+  {% endif %}
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="container d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Dashboard </h1>
+
+</div>
+
+
+
+
+<div class="container">
+<div class="row">
+  <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
+      <div class="card bg-primary bg-gradient ">
+          <div class="card-body">
+              <h3 class="card-title text-white">Day</h3>
+              <div class="d-inline-block ">
+                  <h1 class="text-white">{{parm.totalDays}}</h1>
+                
+              </div>
+              <span class="float-right display-6 opacity-5 "><i class="fa fa-calendar"></i></span>
+          </div>
+      </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
+      <div class="card bg-danger bg-gradient">
+          <div class="card-body">
+              <h3 class="card-title text-white">Net Expenses</h3>
+              <div class="d-inline-block">
+                  <h2 class="text-white">RS. {{context.total_amount}}</h2>
+                 
+              </div>
+              <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+          </div>
+      </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 py-2">
+      <div class="card bg-info bg-gradient">
+          <div class="card-body">
+              <h3 class="card-title text-white">Chickens</h3>
+              <div class="d-inline-block">
+                  <h2 class="text-white">{{parm.totalChickenNow}}</h2>
+                
+              </div>
+              <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+          </div>
+      </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 py-2">
+      <div class="card bg-danger bg-gradient">
+          <div class="card-body">
+              <h3 class="card-title text-white"> Dead</h3>
+              <div class="d-inline-block">
+                  <h2 class="text-white">{{parm.totalDead}}</h2>
+              </div>
+              <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
 <hr class="text-dark">
+<div class="container">
+<div class="row">
+  <div class="col-xl-3 col-md-6 mb-4 ">
+      <div class="card border-left-red shadow h-100 py-2">
+          <div class="card-body bg-light">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Total Chicken</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.totalChicken}}</div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+ 
+  <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body bg-light">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Date started farm</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.startDate}}</div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body bg-light">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Bills
+                      </div>
+                      <div class="row no-gutters align-items-center">
+                          <div class="col-auto">
+                              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{context.total_bills}}</div>
+                          </div>
+                          <div class="col">
+                              <div class="progress progress-sm mr-2">
+                                  <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Pending Requests Card Example -->
+  <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body bg-light">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                          Pending Requests</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+<div class="container">
+  <div class="row">
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4 ">
+        <div class="card border-left-red shadow h-100 py-2">
+            <div class="card-body bg-light">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                          Total vaccine</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.vaccine}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body bg-light">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                          Total Dana </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.dana}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body bg-light">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Total Medicine
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{context.medicine}}</div>
+                            </div>
+                            <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body bg-light">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                            Total Bhus</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.total_bhus}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+
+
 <div class="container ">
     <h1 class="">PoultryName:{{parm.poultryName}}</h1>
 
 
-    <h1 class="">Day-{{parm.totalDays}}</h1>
+    <h1 class="">Day-{{parm.totalDays}}/</h1>
     <h1>Total Chicken:{{parm.totalChicken}}</h1>
-    <h1>Total Chicken Now:{{parm.totalChickenNow}}</h1>
+    <h1>Total Chicken Now:{{parm.totalChickenNow}}\</h1>
     <h1>Total Dead Chicken:{{parm.totalDead}}</h1>
     <h1 class="">Date started farm:{{parm.startDate}}</h1>
     <h1 class="">Today date :{{context.todayDate}}</h1>
-    {% comment %} <h1 class="">Temperature Today:Sunny</h1>
-    <h1 class="">Rain Today:Yes(around 2 pm)</h1>
-    <h1 class="">Storm Today:yes(around 3 pm )</h1> {% endcomment %}
     <h1>Total Dana:{{context.dana}}</h1>
     <h1>Total Medicine :{{context.medicine}}</h1>
     <h1>Total Bhus :{{context.total_bhus}}</h1>
-   <h1>Total Expenses:RS .{{context.total_amount}}</h1>
+   <h1>Total Expenses:RS .{{context.total_amount}}/</h1>
    <h1>Total vaccine used:{{context.vaccine}}</h1>
     <br><br>
 <h1>Temperature: {{temp.temperature}} &deg;C</h1>
 <h1>Weather Condition :
     {% if temp.is_raining %}
     Raining
-{% endif %}
-{% if temp.is_sunny %}
-    Sunny
-{% endif %}
-{% if temp.is_windy %}
-    Windy
-{% endif %}
-{% if temp.is_hot %}
-    Hot
-{% endif %}
-{% if temp.is_cold %}
-    Cold
-{% endif %}
+    {% endif %}
+    {% if temp.is_sunny %}
+        Sunny
+    {% endif %}
+    {% if temp.is_windy %}
+        Windy
+    {% endif %}
+    {% if temp.is_hot %}
+        Hot
+    {% endif %}
+    {% if temp.is_cold %}
+        Cold
+    {% endif %}
 </h1>
 </div>
 
@@ -53,7 +316,6 @@
 
 
   <hr class="text-dark">
-<h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Your All sth !!</h1>
 
 
  
