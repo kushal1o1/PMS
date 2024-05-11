@@ -15,18 +15,33 @@
     <h1>Total Dead Chicken:{{parm.totalDead}}</h1>
     <h1 class="">Date started farm:{{parm.startDate}}</h1>
     <h1 class="">Today date :{{context.todayDate}}</h1>
-    <h1 class="">Total Vaccine Given:3</h1>
-    <h1 class="">Temperature Today:Sunny</h1>
+    {% comment %} <h1 class="">Temperature Today:Sunny</h1>
     <h1 class="">Rain Today:Yes(around 2 pm)</h1>
-    <h1 class="">Storm Today:yes(around 3 pm )</h1>
+    <h1 class="">Storm Today:yes(around 3 pm )</h1> {% endcomment %}
     <h1>Total Dana:{{context.dana}}</h1>
     <h1>Total Medicine :{{context.medicine}}</h1>
     <h1>Total Bhus :{{context.total_bhus}}</h1>
    <h1>Total Expenses:RS .{{context.total_amount}}</h1>
    <h1>Total vaccine used:{{context.vaccine}}</h1>
     <br><br>
-
-
+<h1>Temperature: {{temp.temperature}} &deg;C</h1>
+<h1>Weather Condition :
+    {% if temp.is_raining %}
+    Raining
+{% endif %}
+{% if temp.is_sunny %}
+    Sunny
+{% endif %}
+{% if temp.is_windy %}
+    Windy
+{% endif %}
+{% if temp.is_hot %}
+    Hot
+{% endif %}
+{% if temp.is_cold %}
+    Cold
+{% endif %}
+</h1>
 </div>
 
 

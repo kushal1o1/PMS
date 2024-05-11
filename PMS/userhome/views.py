@@ -4,21 +4,12 @@ from django.shortcuts import get_object_or_404
 from .models import Poultry ,BillPost,Total,DeadInfo
 from django.contrib.auth.models import User
 from datetime import datetime
-
-# # Create your views here.
-# @login_required
-# def userHome(request,user_id):
-#     user_info = get_object_or_404(UserInfo, user_id=user_id)
-#     # alluser_info=UserInfo.objects.all()
-#     # videos = Video.objects.all().order_by('-posted_date')
-#     # allquotes = Quote.objects.all().order_by('-posted_date')
-#     # allimg = ImagePost.objects.all().order_by('-posted_date')
-
-
+import requests
+from info import api_key
     
 app_name='userhome' 
-#     return render(request, 'userhome/userhome.html',{'user_info': user_info ,'videos': videos ,'quotes':allquotes,'imgquote':allimg})
-print(Poultry)
+
+
 @login_required
 def userHome(request,user_id): 
     user_info = Poultry.objects.filter(user_id=user_id).order_by('startDate')
@@ -71,8 +62,36 @@ def profile(request,user_id,poultryName):
     context={"poultry":poultry,"bills":Bill_info,'dana':total_dana,'medicine':total_medicine,'vaccine':total_vaccine,'total_amount':total_amount,
     'total_bhus':total_Bhus,'todayDate':todayDate
     }
+
+    url = f'http://api.openweathermap.org/data/2.5/weather?q=pokhara&appid={api_key}&units=metric'
+    response = requests.get(url)
+    data = response.json()
+    print(data)
+    
+    temperature = data['main']['temp']
+    rain = data.get('rain', {}).get('1h', 0)  # Assuming rain volume in the last hour
+    wind_speed = data['wind']['speed']
+        
+    is_raining = rain > 0
+    is_sunny = not is_raining and temperature > 25
+    is_windy = wind_speed > 5
+    is_hot = temperature > 30
+    is_cold = temperature < 10
+
+    temp_data = {
+        'temperature': temperature,
+        'rain': rain,
+        'wind_speed': wind_speed,
+        'is_raining': is_raining,
+        'is_sunny': is_sunny,
+        'is_windy': is_windy,
+        'is_hot': is_hot,
+        'is_cold': is_cold,
+    }
+
     return render(request, 'profile.html',{'parm':poultry_info[0],
-    'bill':Bill_info,'context':context})
+    'bill':Bill_info,'context':context,
+    'temp':temp_data})
 
 
 @login_required
