@@ -23,11 +23,11 @@
 
 
 </style>
-
+{% comment %} background-color: rgb(255, 255, 255); color:rgb(0, 0, 0); {% endcomment %}
 
 </head>
 {%load static%}
-<body class=" " style="background-color: rgb(255, 255, 255); color:rgb(0, 0, 0);">
+<body class=" ">
 
 
   <!-- message -->
@@ -54,11 +54,10 @@
     <div class="container-fluid">
       <div class="d-flex">
         <div> <a class="navbar-brand" href="#">
-            <h2 class="d-inline-block me-5 text-dark" style="font-style: oblique;"> <span class="fs-1 fw-bolder ">P</span>MS<br></h2>
+            <h2 class="d-inline-block me-5 text-dark" style="font-style: oblique;"> <span class="fs-1 fw-bolder"><strong>P</strong></span>MS<br></h2>
 
 
           </a>
-          <span class="fs-4 fw-bold p-5 ms-5" style="font-style: oblique;"> "kushal1o1"</span>
         </div>
 
       </div>
@@ -79,19 +78,17 @@
           </li>
 
 
-          <li class="nav-item">
-            <a class="nav-link  text-dark" href="{% block Showbills%}{%endblock%}">Show Bills</a>
+
+            <li class="nav-item">
+              <a class="nav-link  text-dark" href="{% block Showbills%}{%endblock%}">Bills</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link  text-dark" href="contactUs">Bills</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link  text-dark" href="contactUs">Vaccine</a>
+              <a class="nav-link  text-dark" href="{% block Showvaccine%}{%endblock%}">Vaccine</a>
             </li>
 
 
           <li class="nav-item">
-            <a class="nav-link  text-dark" href="contactUs">Medicine</a>
+            <a class="nav-link  text-dark" href="{% block Showdead%}{%endblock%}">DeadChicken</a>
           </li>
 
         </ul>

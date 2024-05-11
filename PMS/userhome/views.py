@@ -143,8 +143,8 @@ def submit_bill(request, user_id, poultryName):
 @login_required
 def showBills(request, user_id, poultryName):
     poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
-    bills = BillPost.objects.filter(poultryName=poultry_info[0], poultryName__poultryName=poultryName).order_by('-posted_date')
-    print(bills)
+    bills = BillPost.objects.filter(poultryName=poultry_info[0], poultryName__poultryName=poultryName).order_by('posted_date')
+  
     return render(request, 'showbills.html', {'bills': bills})
 
 
@@ -153,9 +153,7 @@ def showBills(request, user_id, poultryName):
 @login_required
 def showVaccine(request,user_id,poultryName):
      poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
-     Bill_info = BillPost.objects.filter(poultryName=poultry_info[0], poultryName__poultryName=poultryName).order_by('-posted_date')
-     Dead_info = DeadInfo.objects.filter( poultryName__poultryName=poultryName).order_by('-deadDate')
-     print(Dead_info)
+     Bill_info = BillPost.objects.filter(poultryName=poultry_info[0], poultryName__poultryName=poultryName).order_by('posted_date')
      return render(request, 'showVaccine.html',{
     'bills':Bill_info})
 
@@ -164,6 +162,5 @@ def showVaccine(request,user_id,poultryName):
 def showDeads(request,user_id,poultryName):
      poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
      Dead_info = DeadInfo.objects.filter( poultryName__poultryName=poultryName).order_by('-deadDate')
-     print(Dead_info)
      return render(request, 'showdeads.html',{
     'deads':Dead_info})

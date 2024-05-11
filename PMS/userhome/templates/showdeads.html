@@ -3,18 +3,22 @@
 {%block loginout%}LogOut{%endblock%}
 {% block mainContent%}
 {%load static%}
+
+{% load static%}
+<div class="container-fluid">
 {% for dead in deads %}
-<section class="category section pt-3 pb-0">
+<section class="category section  pt-3 pb-0">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-4 col-sm-12 col-md-6">
+			<div >
 				<div class="cat-item mb-4 mb-lg-0">
-					<img src="images/about/cat-1.jpg" alt="" class="img-fluid">
-					<div class="item-info">
-						<p class="mb-0">User:{{dead.poultryName}}</p>
-						<h4 class="mb-4">Total Dead :<strong>{{dead.totalDead}}</strong></h4>
-						<h1>Death Days:{{dead.deadDate}}</h1>
-                        <h1>AT :{{dead.totalDays}} DAY</h1>
+					<div class="item-info d-flex   justify-content-between">
+						<div>
+						<p class="mb-0"><i class="fa-solid fa-user fa-2x"></i>{{dead.poultryName}}</p>
+						<h4 class="mb-4 d-inline-block">Total Dead :</h4><strong class="h2 fw-bolder fs-1 text-danger">{{dead.totalDead}}</strong>
+						<h1>On <strong class=" fw-bolder fs-3 text-dark ">{{dead.deadDate}}</strong></h1>
+						</div>
+                        <h1 >AT :<strong class="fw-bolder  text-primary" style="font-size:10vh">{{dead.totalDays}}</strong> DAY</h1>
                         
 						
 					</div>
@@ -27,6 +31,6 @@
 
 <hr class="text-dark">
 {% endfor%}
-
+</div>
 
 {% endblock%}

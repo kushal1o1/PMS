@@ -182,15 +182,10 @@
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-warning shadow h-100 py-2">
           <div class="card-body bg-light">
-              <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                          Pending Requests</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                  </div>
-                  <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                  </div>
+            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addimg"><i class="fa-solid fa-circle-plus"></i> Bills</button>
+            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addDead"><i class="fa-solid fa-circle-plus"></i> Dead Chicken</button>
+      
+              
               </div>
           </div>
       </div>
@@ -380,11 +375,9 @@
         <!-- end of .container-->
 
       </section>
+      <hr>
 
-      <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addimg">Add Bills</button></p>
-      <p class="text-center"><button class="btn btn-outline-dark rounded-pill " data-bs-toggle="modal" data-bs-target="#addDead">Add Dead Chicken</button></p>
-
-
+    
 
 {% comment %} model {% endcomment %}
 
@@ -510,7 +503,5 @@
 </div>
 
 
-<div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more post <i
-  class="bi bi-arrow-down-circle ms-2 align-middle"></i></button></div>
 
 {%endblock%}

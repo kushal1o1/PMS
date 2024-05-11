@@ -7,24 +7,27 @@
 
 {% for bill in bills %}
 {% if bill.totalVaccine == 1 %}
-<section class="category section pt-3 pb-0">
+<section class="container category section  pt-3 pb-0">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-4 col-sm-12 col-md-6">
+			<div >
 				<div class="cat-item mb-4 mb-lg-0">
-					<img src="images/about/cat-1.jpg" alt="" class="img-fluid">
-					<div class="item-info">
-						<p class="mb-0">Vaccine:</p>
-						<h4 class="mb-4">Given date :<strong>{{bill.posted_date}}</strong></h4>
-						<h1>Given Days:{{bill.totalDays}}</h1>
-
-						<a href="#" class="read-more">Days Vaccine Given:<strong>14 days</strong></a>
+					<div class="item-info d-flex   justify-content-between">
+						<div>
+						<p class="mb-0"><i class="fa-solid fa-vial-circle-check fa-2x"></i>{{dead.poultryName}}</p>
+						<h4 class="mb-4 d-inline-block">Vaccine Came in  :</h4><strong class="h2 fw-bolder fs-1 text-dark">{{ forloop.counter}} Bill</strong>
+						<h1>Given date : <strong class=" fw-bolder fs-3 text-dark ">{{bill.posted_date}}</strong></h1>
+						</div>
+                        <h1 >AT :<strong class="fw-bolder  text-primary" style="font-size:10vh">{{bill.totalDays}}</strong> DAY</h1>
+                        
+						
 					</div>
 				</div>
 			</div>
 
         </div>
 	</div>
+	<hr>
 </section>
 {%endif%}
 {% endfor%}
