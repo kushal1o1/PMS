@@ -1,7 +1,13 @@
 {% extends 'Base.html' %}
 {%block tittle%}PMS Home{%endblock%}
 {%block loginout%}LogOut{%endblock%}
-{% block Showbills%}bills/{{parm.poultryName}}{%endblock%}
+{% block Showbills%}../bills/{{parm.poultryName}}{%endblock%}
+{% block Showdead%}./deads/{{parm.poultryName}}{%endblock%}
+{% block Showvaccine%}./vaccine/{{parm.poultryName}}{%endblock%}
+
+
+
+
 {% block mainContent%}
 {%load static%}
 

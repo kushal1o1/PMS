@@ -1,6 +1,9 @@
 {% extends 'Base.html' %}
-{%block tittle%}PMS Bills{%endblock%}
+{%block tittle%}PMS Vaccine Info{%endblock%}
 {%block loginout%}LogOut{%endblock%}
+{% block Showbills%}bills/{{parm.poultryName}}{%endblock%}
+{% block Showdead%}deads/{{parm.poultryName}}{%endblock%}
+{% block Showvaccine%}vaccine/{{parm.poultryName}}{%endblock%}
 {% block mainContent%}
 {%load static%}
 

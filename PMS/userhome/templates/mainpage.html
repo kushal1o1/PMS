@@ -9,10 +9,12 @@
 
 
     <hr class="text-dark">
-<h1 class="text-center fw-bold  text-dark" style="font-style: oblique;">Add Your Poultry</h1>
+<h1 class="text-center fw-bold  text-dark" style="font-style: oblique;">Add Your Poultry 
+  <i class="fa-solid fa-dove  "></i>
+</h1>
 <div class="container d-flex align-items-center justify-content-center">
 
-  <p class="text-center"><button class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#addPoultry">ADD</button></p>
+  <p class="text-center"><button class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#addPoultry">ADD <i class="fa-solid fa-circle-plus"></i></button></p>
 
 </div>
 
@@ -26,21 +28,26 @@
 <h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Your All Farms !!</h1>
 <div class="container">
 {% for parm in parms %}
-<h1>{{parm.user_id}}</h1>
-<h1>{{parm.user}}</h1>
 
-<h1>{{parm.poultryName}}</h1>
-<h1>Total Chicken:{{parm.totalChicken}}</h1>
-<h1>Total Chicken Now:{{parm.totalChickenNow}}</h1>
-<h1>Total Dead Chicken:{{parm.totalDead}}</h1>
+<div class="container">
+  <div class="card mb-4 box-shadow  bg-light text-center">
+    <div class="card-header">
+      <h5>{{parm.user}} {{parm.user_id}}</h5>
+      <h4 class="my-0 font-weight-normal">{{parm.poultryName}}</h4>
+    </div>
+    <div class="card-body">
+      <h1 class="card-title fw-bolder pricing-card-title"><strong style="font-size:10vw">{{parm.totalDays}}</strong> <small class="text-muted">Days</small></h1>
+      <ul class="list-unstyled mt-3 mb-4 fw-bold fs-3">
+        <li>{{parm.startDate}}</li>
+        <li>Total Chicken: {{parm.totalChicken}}</li>
+        <li>Total Chicken Now:   <i class="fa-solid fa-dove  "></i> {{parm.totalChickenNow}}</li>
+        <li>Total Dead Chicken: <i class="fa-solid fa-skull "></i> <span class="text-danger">{{parm.totalDead}}<span></li>
+      </ul>
+      <a href="profile/{{parm.poultryName}}" type="button"  ><button type="button" class="btn btn-lg btn-block btn-primary">See Details</button></a>
+    </div>
+  </div>
+</div>
 
-<h1>{{parm.startDate}}</h1>
-<h1>Total days:{{parm.totalDays}}</h1>
-
-
-<p class="text-center"><a href="profile/{{parm.poultryName}}" type="button" class=" btn btn-outline-dark rounded-pill text-center" >See Details</a></p>
-
-<hr class="text-dark">
 {% endfor%}
 </div>
   <script>
@@ -77,7 +84,7 @@
 
 
 
-<div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more post <i
+<div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more Poultry <i
   class="bi bi-arrow-down-circle ms-2 align-middle"></i></button></div>
 <!-- for new old post -->
 <nav class="blog-pagination d-flex justify-content-center  text-dark" aria-label="Pagination">

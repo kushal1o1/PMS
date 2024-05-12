@@ -21,7 +21,6 @@ def userHome(request,user_id):
 def submit_detail(request,user_id):
    
     if request.method == 'POST':
-        print(1.2)
         if 'detailform' in request.POST:
             farmname = request.POST.get('farmname')
             Total=request.POST.get('Total')
@@ -68,7 +67,6 @@ def profile(request,user_id,poultryName):
     url = f'http://api.openweathermap.org/data/2.5/weather?q=pokhara&appid={api_key}&units=metric'
     response = requests.get(url)
     data = response.json()
-    print(data)
     
     temperature = data['main']['temp']
     rain = data.get('rain', {}).get('1h', 0)  # Assuming rain volume in the last hour
