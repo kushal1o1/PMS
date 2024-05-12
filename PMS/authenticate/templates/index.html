@@ -101,24 +101,31 @@ font-weight: 900;
 
  
 }
+
 }
 </style>
-<body >
+<body style="height:100vh" >
+{% load static %}
+ <section class="d-flex flex-column align-items-center justify-content-center "  style="
 
- <section class="d-flex flex-column align-items-center justify-content-center ">
+ height: 100vh;
+ background:url({% static "images/chicken.jpg"%});
+ background-size:cover;
+ 
+">
   {% for message in messages %}
   <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
       <strong>Message:</strong> {{ message }}
   </div>
   {% endfor %}
-
-  <div class="container ">
-    <div >
-      <div class="d-flex align-items-center justify-content-center"> 
-         <div class="div1 text-center d-flex align-items-center"><h2 class="d-block  "  style="font-style: oblique;"> <span  id="q" class=" fw-bolder">P</span></h2></div>
-         <div class="d-flex flex-column ">
-          <div class="div2  text-center d-flex align-items-end" ><h2 class="d-block" id="heading" style="font-style: oblique;"> MS</h2></div>
-          <div class="div3"><pre id="slogan" class="text-center fw-bold" style="font-style: oblique;"><span class="quotmark">"</span>Unleashing the Power of tech <span class="quotmark">"</span></pre>
+{% load static%}
+  <div class="container  my-5  text-center bg-transparent">
+    <div class="bg-transparent">
+      <div class="d-flex align-items-center  bg-transparent justify-content-center"> 
+         <div class="div1 bg-transparent text-center d-flex align-items-center"><h2 class="d-block bg-transparent  "  style="font-style: oblique;"> <span  id="q" class=" fw-bolder text-light bg-transparent">P</span></h2></div>
+         <div class="d-flex flex-column  bg-transparent">
+          <div class="div2  text-center d-flex align-items-end bg-transparent" ><h2 class="d-block bg-transparent text-light" id="heading" style="font-style: oblique;"> MS</h2></div>
+          <div class="div3 bg-transparent"><pre id="slogan" class="text-center fw-bold bg-transparent" style="font-style: oblique;"><span class="quotmark bg-transparent  ">"</span>Unleashing the Power of tech <span class="quotmark bg-transparent">"</span></pre>
           </div>
          </div>
         
@@ -128,10 +135,10 @@ font-weight: 900;
 
 
 
-  <div class="container d-flex align-items-center justify-content-center my-5 ">
-    <button id="btn" type="button" class="btn btn-outline-dark  me-md-2" data-bs-toggle="modal"
+  <div class="container d-flex align-items-center justify-content-center my-5  bg-transparent">
+    <button id="btn" type="button" class="btn btn-lg btn-block btn-primary" data-bs-toggle="modal"
     data-bs-target="#loginModal">Login</button>
-  <button id="btn" type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#signup">Signup</button>
+  <button id="btn" type="button" class="btn btn-lg btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#signup">Signup</button>
 
 </div>
   </div>
@@ -139,6 +146,8 @@ font-weight: 900;
 
  </section>
    
+
+ 
 
 
    
@@ -152,8 +161,13 @@ font-weight: 900;
     
   <!-- signup -->
   {%load static%}
-  <div class="container ">
-    <div class="modal fade " id="signup" tabindex="-1" aria-hidden="true">
+  <div class="container " >
+    <div class="modal fade " style="
+
+    height: 100vh;
+    background:url({% static "images/chicken.jpg"%});
+    background-size:cover;
+   " id="signup" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog ">
         <div class="modal-content">
           <div class="modal-header">
@@ -182,7 +196,7 @@ font-weight: 900;
               </div>
               <div class="d-flex justify-content-center">
                 <input class="btn btn-dark mx-2" type="reset" value="Reset">
-                <button type="submit" class="btn btn-dark">Signup</button>
+                <button type="submit" class="btn btn-primary">Signup</button>
               </div>
             </form>
 
@@ -201,7 +215,11 @@ font-weight: 900;
     </div>
   </div>
   <div class="container">
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" style="
+
+    background:url({% static "images/chicken.jpg"%});
+    background-size:cover;
+   " id="loginModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -225,7 +243,7 @@ font-weight: 900;
               </div>
               
 
-              <div class="d-flex justify-content-center"><button type="submit" class="btn btn-dark" id="liveAlertBtn" >Login</button>
+              <div class="d-flex justify-content-center"><button type="submit" class="btn btn-primary" id="liveAlertBtn" >Login</button>
               </div>
             </form>
 

@@ -280,41 +280,6 @@
   </div>
 
 
-{% comment %} <div class="container ">
-    <h1 class="">PoultryName:{{parm.poultryName}}</h1>
-
-
-    <h1 class="">Day-{{parm.totalDays}}/</h1>
-    <h1>Total Chicken:{{parm.totalChicken}}</h1>
-    <h1>Total Chicken Now:{{parm.totalChickenNow}}\</h1>
-    <h1>Total Dead Chicken:{{parm.totalDead}}</h1>
-    <h1 class="">Date started farm:{{parm.startDate}}</h1>
-    <h1 class="">Today date :{{context.todayDate}}</h1>
-    <h1>Total Dana:{{context.dana}}</h1>
-    <h1>Total Medicine :{{context.medicine}}</h1>
-    <h1>Total Bhus :{{context.total_bhus}}</h1>
-   <h1>Total Expenses:RS .{{context.total_amount}}/</h1>
-   <h1>Total vaccine used:{{context.vaccine}}</h1>
-    <br><br>
-<h1>Temperature: {{temp.temperature}} &deg;C</h1>
-<h1>Weather Condition :
-    {% if temp.is_raining %}
-    Raining
-    {% endif %}
-    {% if temp.is_sunny %}
-        Sunny
-    {% endif %}
-    {% if temp.is_windy %}
-        Windy
-    {% endif %}
-    {% if temp.is_hot %}
-        Hot
-    {% endif %}
-    {% if temp.is_cold %}
-        Cold
-    {% endif %}
-</h1>
-</div> {% endcomment %}
 
 
 
@@ -402,7 +367,7 @@
       <form method="post" name="form" action="submit_bill/{{parm.poultryName}}" enctype="multipart/form-data">
       {% csrf_token %}
         <div class="d-flex justify-content-center">
-          <img  id="preview" src='' class="bd-placeholder-img  bg-primary"
+          <img  id="preview" src='{% static "images/bill.png"%}' class="bd-placeholder-img "
           width="100%" height="400px"  >
         </div>
 
@@ -411,12 +376,7 @@
         <input type="file"  name="imageofbill" required accept="image/*"  onchange="previewImage(event)">
       </div>
       <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-        <input type="checkbox" class="btn-check" name="feed" id="btncheck1" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btncheck1">Dhana</label>
-      
-        <input type="checkbox" class="btn-check" name="medicine" id="btncheck2" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btncheck2">Medicine</label>
-      
+        
         <input type="checkbox" class="btn-check" name="vaccine" id="btncheck3" autocomplete="off">
         <label class="btn btn-outline-primary" for="btncheck3">Vaccine</label>
       </div>

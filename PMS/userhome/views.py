@@ -5,6 +5,8 @@ from .models import Poultry ,BillPost,Total,DeadInfo
 from django.contrib.auth.models import User
 from datetime import datetime
 import requests
+from django.contrib import messages
+
 from info import api_key
     
 app_name='userhome' 
@@ -31,7 +33,8 @@ def submit_detail(request,user_id):
             totalChicken=Total,
            
             )
-        
+            messages.success(request, "Poultry Register SucessFully")
+    
 
 
     return redirect('userhome:mainpage', user_id=user_id)
@@ -43,7 +46,7 @@ def submit_detail(request,user_id):
 def profile(request,user_id,poultryName):
     poultry_info = Poultry.objects.filter(user_id=user_id).filter(poultryName=poultryName)
     Bill_info = BillPost.objects.filter(poultryName=poultryName).order_by('-posted_date')
-    total_bills=BillPost.objects.count()
+    total_bills=BillPost.objects.filter(poultryName=poultryName).count()
     poultry = Poultry.objects.get(user_id=user_id, poultryName=poultryName)
 
     # Fetch or create the Total object for the specific poultry
@@ -102,8 +105,6 @@ def submit_bill(request, user_id, poultryName):
 
         if 'billform' in request.POST:
             image_file = request.FILES.get('imageofbill')
-            feed = request.POST.get('feed')
-            medicine = request.POST.get('medicine')
             vaccine = request.POST.get('vaccine')
             TotalChickenFeed = request.POST.get('TotalChickenFeed')
             totalMedicine = request.POST.get('totalMedicine')
@@ -113,6 +114,13 @@ def submit_bill(request, user_id, poultryName):
                 totalvaccine = 1
             else:
                 totalvaccine = 0
+            if totalBhus=="":
+                totalBhus = 0
+            if totalMedicine=="":
+                totalMedicine = 0
+            if TotalChickenFeed=="":
+                TotalChickenFeed = 0
+
             new_image_post = BillPost(
                 poultryName=poultry_info[0],  # Assign the poultry instance
                 imgfile=image_file,
@@ -123,6 +131,7 @@ def submit_bill(request, user_id, poultryName):
                 totalVaccine=totalvaccine
             )
             new_image_post.save()
+            messages.success(request, "Bill Submitted  SucessFully")
 
         if 'Deadform' in request.POST:
                     deadbirds = int(request.POST.get("TotalChickenDead"))
@@ -134,6 +143,7 @@ def submit_bill(request, user_id, poultryName):
                             totalDead=deadbirds
                         )
                     new_dead_hen_post.save()
+                    messages.success(request, "Dead info of Chicken submitted sucessfully")
 
                 
     return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
