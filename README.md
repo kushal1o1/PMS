@@ -24,7 +24,7 @@ A comprehensive web application designed to manage poultry records, including tr
    ```bash
    git clone https://github.com/yourusername/poultry-management.git
    cd poultry-management 
-```
+   ```
 2. **Create and Activate a Virtual Environment**: 
 ```bash
    python -m venv venv source venv/bin/activate # On Windows: venv\Scripts\activate
