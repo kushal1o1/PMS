@@ -22,7 +22,7 @@ A comprehensive web application designed to manage poultry records, including tr
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/poultry-management.git
+   git clone https://github.com/kushal1o1/PMS.git
    cd poultry-management 
    ```
 2. **Create and Activate a Virtual Environment**: 
