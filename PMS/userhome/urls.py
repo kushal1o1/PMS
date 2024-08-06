@@ -1,13 +1,13 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'userhome'
 urlpatterns = [
    
 
-    # path('mainpage/<int:user_id>/contactUs',views.contactUs,name='contactus'),
-    # path('mainpage/<int:user_id>/aboutUs',views.aboutUs,name='aboutus'),
 
     path('mainpage/<int:user_id>/profile/<str:poultryName>',views.profile,name='profile'),
     path('mainpage/<int:user_id>/', views.userHome, name='mainpage'),
@@ -17,4 +17,8 @@ urlpatterns = [
     path('mainpage/<int:user_id>/profile/vaccine/<str:poultryName>',views.showVaccine, name='showVaccine'),
     path('mainpage/<int:user_id>/profile/deads/<str:poultryName>',views.showDeads, name='showDeads'),
     
+]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    re_path(r'^.*$',views.notFound,name='notFound')
 ]

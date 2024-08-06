@@ -134,3 +134,6 @@ def signout(request):
     logout(request)
     messages.success(request, "Logged Out Successfully!!")
     return redirect('/')
+
+def notFound(request):
+    return render(request,'pageNotFound.html')

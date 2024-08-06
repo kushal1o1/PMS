@@ -19,8 +19,8 @@
     </div>
   </div>
 <div class=" d-flex flex-column align-items-center justify-content-center col-sm-5 text-center h5 mb-0 text-gray-800 text-sm-left">
- 
-  
+
+
   <div> {{context.todayDate}}</div>
 <div>Temperature: {{temp.temperature}} &deg;C,
     {% if temp.is_raining %}
@@ -67,7 +67,7 @@
   <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
       <div class="card bg-primary bg-gradient ">
           <div class="card-body d-flex flex-column gap-2">
-              <h3 class="card-title text-white">Day</h3>
+              <h3 class="card-title text-white">दिन   (Day)</h3>
               <div class="d-flex  ">
                   <h1 class="text-white fs-1  fw-bolder px-5 "><strong>{{parm.totalDays}}</strong></h1>
                   <span class="float-right display-6 opacity-5 "><i class="fa fa-calendar"></i></span>
@@ -79,10 +79,10 @@
   <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
       <div class="card bg-danger bg-gradient">
           <div class="card-body">
-              <h3 class="card-title text-white">Net Expenses</h3>
+              <h3 class="card-title text-white">खर्च रकम  ( Net Expenses)</h3>
               <div class="d-inline-block">
                   <h2 class="text-white">RS. {{context.total_amount}}</h2>
-                 
+
               </div>
               <span class="float-right display-5 opacity-5"><i class="fa-solid fa-hand-holding-dollar"></i></span>
           </div>
@@ -91,10 +91,10 @@
   <div class="col-lg-3 col-sm-6 py-2">
       <div class="card bg-info bg-gradient">
           <div class="card-body">
-              <h3 class="card-title text-white">Chickens</h3>
+              <h3 class="card-title text-white">हाल कुखुरा  ( Chickens)</h3>
               <div class="d-inline-block">
                   <h2 class="text-white">{{parm.totalChickenNow}}</h2>
-                
+
               </div>
               <span class="float-right display-5 opacity-5">                     <i class="fa-solid fa-dove"></i>
               </span>
@@ -105,14 +105,14 @@
       <div class="card bg-danger bg-gradient">
           <div class="card-body d-flex gap-4 ">
               <div>
-                <h2 class="card-title text-white"> Dead</h2>
+                <h2 class="card-title text-white"> मरेका कुखुरा   (Dead)</h2>
                 <h2 class="text-white">{{parm.totalDead}}</h2>
               </div>
               <div>
                 <span class="float-left display-5 opacity-5 px-1"><i class="fa-solid fa-skull "></i></span>
-                  
+
               </div>
-             
+
           </div>
       </div>
   </div>
@@ -128,7 +128,7 @@
               <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Total Chicken</div>
+                        हालेको कुखुरा   (Total Chicken)</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.totalChicken}}</div>
                   </div>
                   <div class="col-auto">
@@ -139,14 +139,14 @@
       </div>
   </div>
 
- 
+
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-success shadow h-100 py-2">
           <div class="card-body bg-light">
               <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                        Date started farm</div>
+                        कुखुरा हालेको  दिन (   Date started farm)</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.startDate}}</div>
                   </div>
                   <div class="col-auto">
@@ -163,7 +163,7 @@
           <div class="card-body bg-light">
               <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Bills
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">कुल बिलहरू  (Total Bills)
                       </div>
                       <div class="row no-gutters align-items-center">
                           <div class="col-auto">
@@ -188,10 +188,10 @@
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-warning shadow h-100 py-2">
           <div class="card-body bg-light">
-            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addimg"><i class="fa-solid fa-circle-plus"></i> Bills</button>
-            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addDead"><i class="fa-solid fa-circle-plus"></i> Dead Chicken</button>
-      
-              
+            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addimg"><i class="fa-solid fa-circle-plus"></i>बिलहरू थप्नुहोस्  ( Bills)</button>
+            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addDead"><i class="fa-solid fa-circle-plus"></i> मरेका कुखुराहरू थप्नुहोस्  (Dead Chicken)</button>
+
+
               </div>
           </div>
       </div>
@@ -206,7 +206,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                          Total vaccine</div>
+                          कुल खोपहरू(Total vaccine)</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.vaccine}}</div>
                     </div>
                     <div class="col-auto">
@@ -216,14 +216,14 @@
             </div>
         </div>
     </div>
-  
+
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body bg-light">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                          Total Dana </div>
+                          कुल  दाना(Total Dana) </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.dana}}</div>
                     </div>
                     <div class="col-auto">
@@ -233,13 +233,13 @@
             </div>
         </div>
     </div>
-  
+
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body bg-light">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Total Medicine
+                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">कुल औषधिहरू(Total Medicine)
                         </div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
@@ -259,14 +259,14 @@
             </div>
         </div>
     </div>
-  
+
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-2">
             <div class="card-body bg-light">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                            Total Bhus</div>
+                            कुल भुस (Total Bhus)</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.total_bhus}}</div>
                     </div>
                     <div class="col-auto">
@@ -292,11 +292,11 @@
   <hr class="text-dark">
 
 
- 
- 
 
 
-   
+
+
+
 
 
       <section>
@@ -311,33 +311,33 @@
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
               <div class="px-0 px-lg-3">
                 <img class="img-fluid mb-4" src='{%static "images/bill.png"%}' width="100" alt="...">
-                <h3 class="h5 mb-4 font-base">Bills</h3>
-                
-                <p class="text-center"><a href="bills/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center " >See Details</a></p>
+                <h3 class="h5 mb-4 font-base">बिलहरू(Bills)</h3>
+
+                <p class="text-center"><a href="bills/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center " >विवरण हेर्नुहोस्</a></p>
 
               </div>
             </div>
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/medicine.png"%}'  alt="...">
-                <h3 class="h5 mb-4 font-base">Medicine</h3>
-               
-                 <p class="text-center"><a href="#" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+                <h3 class="h5 mb-4 font-base">औषधिहरू(Medicine)</h3>
+
+                 <p class="text-center"><a href="#" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
 
               </div>
             </div>
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/chicken.png"%}' width="200" alt="...">
-                <h3 class="h5 mb-4 font-base">Dead Chickens INfo</h3>
-               
-                 <p class="text-center"><a href="deads/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+                <h3 class="h5 mb-4 font-base"> मरेका कुखुराह(Dead Chickens) </h3>
+
+                 <p class="text-center"><a href="deads/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
 
               </div>
             </div>
             <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/vaccine.png"%}' width="200" alt="...">
-                <h3 class="h5 mb-4 font-base">Vaccine</h3>
-                
-                 <p class="text-center"><a href="vaccine/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >See Details</a></p>
+                <h3 class="h5 mb-4 font-base">खोपहरू(Vaccine)</h3>
+
+                 <p class="text-center"><a href="vaccine/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
 
               </div>
             </div>
@@ -348,7 +348,7 @@
       </section>
       <hr>
 
-    
+
 
 {% comment %} model {% endcomment %}
 
@@ -359,7 +359,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Upload your Bill Image</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">आफ्नो बिल अपलोड गर्नुहोस्</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -376,51 +376,51 @@
         <input type="file"  name="imageofbill" required accept="image/*"  onchange="previewImage(event)">
       </div>
       <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-        
+
         <input type="checkbox" class="btn-check" name="vaccine" id="btncheck3" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btncheck3">Vaccine</label>
+        <label class="btn btn-outline-primary" for="btncheck3">खोप</label>
       </div>
 
       <div class="mb-3">
-        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">Total ChickenFeed</label>
+        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">कुल कुखुराको दाना</label>
         <input type="number" name="TotalChickenFeed" class="form-control" id="exampleInputtotalChickenFeed" aria-describedby="Help" >
              </div>
              <div class="mb-3">
-              <label for="exampleInputtotalMedicine" class="form-label" autocomplete="off">Total Medicine</label>
+              <label for="exampleInputtotalMedicine" class="form-label" autocomplete="off">कुल औषधि</label>
               <input type="number"  class="form-control" id="exampleInputtotalMedicine" aria-describedby="Help" name="totalMedicine"  >
                    </div>
                    <div class="mb-3">
-                    <label for="exampleInputtotalBhus" class="form-label" autocomplete="off">Total Bhus</label>
+                    <label for="exampleInputtotalBhus" class="form-label" autocomplete="off">कुल भुस </label>
                     <input type="number"  class="form-control" id="exampleInputtotalBhus" aria-describedby="Help" name="totalBhus"  >
                          </div>
       <div class="mb-3">
-        <label for="exampleInputtotal" class="form-label" autocomplete="off">Total Amount  </label>
+        <label for="exampleInputtotal" class="form-label" autocomplete="off">कुल रकम </label>
         <input type="number" class="form-control" id="exampleInputtotal" aria-describedby="Help" name="total" placeholder="RS." required>
              </div>
-        
+
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
-        <button type="submit" class="btn btn-primary" name="billform" >Upload</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >रद्द गर्नुहोस्</button>
+        <button type="submit" class="btn btn-primary" name="billform" >अपलोड गर्नुहोस्</button>
       </form>
       </div>
     </div>
   </div>
   <script>
 
-   
+
     function previewImage(event) {
- 
+
         const input = event.target;
         const preview = document.getElementById('preview');
-    
+
         const file = input.files[0];
-    
+
         if (file) {
-          
+
             const reader = new FileReader();
-    
+
             reader.onload = function (e) {
                 preview.src = e.target.result;
             };
@@ -440,31 +440,31 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Dead Chickens</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">मरेको कुखुरा जानकारी</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         {% load static%}
       <form method="post" name="form" action="submit_bill/{{parm.poultryName}}" enctype="multipart/form-data">
       {% csrf_token %}
-       
 
-     
+
+
 
       <div class="mb-3">
-        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">Total Chicken Dead</label>
+        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">मरेको कुखुरहरु </label>
         <input type="number" name="TotalChickenDead" class="form-control" id="exampleInputtotalChickenDead" aria-describedby="Help" >
-             </div>   
+             </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
-        <button type="submit" class="btn btn-primary" name="Deadform" >Upload</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >रद्द गर्नुहोस्</button>
+        <button type="submit" class="btn btn-primary" name="Deadform" >अपलोड गर्नुहोस्</button>
       </form>
       </div>
     </div>
   </div>
- 
+
 
 </div>
 

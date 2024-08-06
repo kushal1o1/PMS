@@ -9,7 +9,7 @@
 
 
     <hr class="text-dark">
-<h1 class="text-center fw-bold  text-dark" style="font-style: oblique;">Add Your Poultry 
+<h1 class="text-center fw-bold  text-dark" style="font-style: oblique;">Add Your Poultry
   <i class="fa-solid fa-dove  "></i>
 </h1>
 <div class="container d-flex align-items-center justify-content-center">
@@ -25,7 +25,7 @@
 
 
   <hr class="text-dark">
-<h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">Your All Farms !!</h1>
+<h1 class="text-center fw-bold    text-dark" style="font-style:oblique;">तपाईंको सबै फार्महरू !!</h1>
 <div class="container">
 {% for parm in parms %}
 
@@ -36,12 +36,12 @@
       <h4 class="my-0 font-weight-normal">{{parm.poultryName}}</h4>
     </div>
     <div class="card-body">
-      <h1 class="card-title fw-bolder pricing-card-title"><strong style="font-size:10vw">{{parm.totalDays}}</strong> <small class="text-muted">Days</small></h1>
+      <h1 class="card-title fw-bolder pricing-card-title"><strong style="font-size:10vw">{{parm.totalDays}}</strong> <small class="text-muted">दिन </small></h1>
       <ul class="list-unstyled mt-3 mb-4 fw-bold fs-3">
         <li>{{parm.startDate}}</li>
-        <li>Total Chicken: {{parm.totalChicken}}</li>
-        <li>Total Chicken Now:   <i class="fa-solid fa-dove  "></i> {{parm.totalChickenNow}}</li>
-        <li>Total Dead Chicken: <i class="fa-solid fa-skull "></i> <span class="text-danger">{{parm.totalDead}}<span></li>
+        <li>हालेको   कुखुरहरु: {{parm.totalChicken}}</li>
+        <li>हाल कुखुरहरु :    <i class="fa-solid fa-dove  "></i> {{parm.totalChickenNow}}</li>
+        <li>मरेको कुखुरहरु :  <i class="fa-solid fa-skull "></i> <span class="text-danger">{{parm.totalDead}}<span></li>
       </ul>
       <a href="profile/{{parm.poultryName}}" type="button"  ><button type="button" class="btn btn-lg btn-block btn-primary">See Details</button></a>
     </div>
@@ -52,18 +52,18 @@
 </div>
   <script>
 
-   
+
     function previewImage(event) {
- 
+
         const input = event.target;
         const preview = document.getElementById(preview1);
-    
+
         const file = input.files[0];
-    
+
         if (file) {
-          
+
             const reader = new FileReader();
-    
+
             reader.onload = function (e) {
                 preview.src = e.target.result;
             };
@@ -74,21 +74,5 @@
     }
     </script>
 
-
- 
-
-
-   
-  
-
-
-
-
-<div class="d-flex align-items-center justify-content-around  text-dark"> <button type="button" class="btn btn-primary">Load more Poultry <i
-  class="bi bi-arrow-down-circle ms-2 align-middle"></i></button></div>
-<!-- for new old post -->
-<nav class="blog-pagination d-flex justify-content-center  text-dark" aria-label="Pagination">
-  <a class="btn btn-outline-primary rounded-pill my-2" href="#">Older</a>
-  <a class="btn btn-outline-secondary rounded-pill disabled my-2">Newer</a>
 </nav>
 {%endblock%}
