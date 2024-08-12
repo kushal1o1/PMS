@@ -156,9 +156,18 @@ def submit_bill(request, user_id, poultryName):
                     totalBhus = request.POST.get('totalBhus', 0)
 
                     # Validate non-negative values
-                    if (float(TotalChickenFeed) < 0 or float(totalMedicine) < 0 or
-                        float(total) < 0 or float(totalBhus) < 0):
-                        messages.error(request, "Values cannot be negative.")
+                    try:
+                        TotalChickenFeed = int(TotalChickenFeed) if TotalChickenFeed else 0
+                        totalMedicine = int(totalMedicine) if totalMedicine else 0
+                        total = int(total) if total else 0
+                        totalBhus = int(totalBhus) if totalBhus else 0
+
+                        if TotalChickenFeed < 0 or totalMedicine < 0 or total < 0 or totalBhus < 0:
+                            messages.error(request, "Values cannot be negative.")
+                            return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
+
+                    except ValueError:
+                        messages.error(request, "Please enter valid integer values.")
                         return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
 
                     totalvaccine = 1 if vaccine else 0
