@@ -154,6 +154,7 @@ def submit_bill(request, user_id, poultryName):
                     totalMedicine = request.POST.get('totalMedicine', 0)
                     total = request.POST.get('total', 0)
                     totalBhus = request.POST.get('totalBhus', 0)
+                    desc =request.POST.get('desc')
 
                     # Validate non-negative values
                     try:
@@ -179,13 +180,15 @@ def submit_bill(request, user_id, poultryName):
                         totalMedicine=totalMedicine,
                         totalBhus=totalBhus,
                         totalAmount=total,
-                        totalVaccine=totalvaccine
+                        totalVaccine=totalvaccine,
+                        description=desc
                     )
                     new_bill.save()
                     messages.success(request, "Bill Submitted Successfully")
 
                 if 'Deadform' in request.POST:
                     deadbirds = int(request.POST.get("TotalChickenDead", 0))
+                    deaddesc = request.POST.get('deaddesc')
 
                     # Validate non-negative values
                     if deadbirds < 0:
@@ -197,7 +200,8 @@ def submit_bill(request, user_id, poultryName):
 
                     new_dead_hen_post = DeadInfo(
                         poultryName=poultry,
-                        totalDead=deadbirds
+                        totalDead=deadbirds,
+                        description=deaddesc
                     )
                     new_dead_hen_post.save()
                     messages.success(request, "Dead info of Chicken submitted successfully")

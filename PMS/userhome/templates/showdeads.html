@@ -17,11 +17,14 @@
 				<div class="cat-item mb-4 mb-lg-0">
 					<div class="item-info d-flex   justify-content-between">
 						<div>
-						<p class="mb-0"><i class="fa-solid fa-user fa-2x"></i>{{dead.poultryName}}</p>
+						<p class="mb-0"><i class="fa-solid fa-user fa-2x"></i>      <strong class='text-primary'>{{dead.poultryName}} </strong></p>
 						<h4 class="mb-4 d-inline-block">मरेको कुखुरहरु :</h4><strong class="h2 fw-bolder fs-1 text-danger">{{dead.totalDead}}</strong>
+						{% if dead.description %}
+						<h4 class='card-description text-primary'>{{dead.description}}</h4>
+						{% endif %}
 						<h1>On <strong class=" fw-bolder fs-3 text-dark ">{{dead.deadDate}}</strong></h1>
 						</div>
-                        <h1 >AT :<strong class="fw-bolder  text-primary" style="font-size:10vh">{{dead.totalDays}}</strong> दिन </h1>
+      					<h1 >AT :<strong class="fw-bolder  text-primary" style="font-size:10vh">{{dead.totalDays}}</strong> दिन </h1>
 
 
 					</div>

@@ -41,9 +41,15 @@
                         {% if bill.totalMedicine %}
                         <button class="btn btn-dark flex-shrink-0" type="button"> औषधी : <span class="h4">{{bill.totalMedicine}}</span></button>
                         {% endif %}
-
-                    </button>
+                       
+                   
                 </div>
+                <br>
+                {% if bill.description %}
+                        
+                <button class="btn btn-dark flex-shrink-0" type="button"> विवरण : <span class="h4">{{bill.description}}</span></button>
+              
+                {% endif %}
             </div>
         </div>
     </div>

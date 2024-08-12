@@ -30,6 +30,8 @@ class BillPost(models.Model):
     totalBhus = models.IntegerField()
     totalAmount = models.IntegerField()
     totalVaccine = models.IntegerField()
+    description = models.TextField(blank=True, null=True)
+
 
     @property
     def totalDays(self):
@@ -69,7 +71,7 @@ class DeadInfo(models.Model):
     poultryName = models.ForeignKey(Poultry, on_delete=models.CASCADE)
     totalDead = models.IntegerField(default=0)
     deadDate = models.DateField(auto_now_add=True)
-
+    description = models.TextField(blank=True, null=True)
     @property
     def totalDays(self):
         return (self.deadDate - self.poultryName.startDate).days+1
