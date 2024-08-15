@@ -3,6 +3,7 @@ from django.urls import path, re_path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import handler404
 
 app_name = 'userhome'
 urlpatterns = [
@@ -19,6 +20,5 @@ urlpatterns = [
     
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += [
-    re_path(r'^.*$',views.notFound,name='notFound')
-]
+
+handler404 = 'userhome.views.notFound'

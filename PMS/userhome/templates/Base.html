@@ -29,24 +29,27 @@
 
 </head>
 {%load static%}
-<body class=" ">
+<body>
 
 
-  <!-- message -->
   {% for message in messages %}
-  <div class="alert alert-{{ message.tags }} alert-dismissible fade show bg-dark text-light" role="alert">
-      <strong>Message:</strong> {{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  <span aria-hidden="true">&times;</span>
-</button>
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show bg-dark text-light text-center fs-5" role="alert" id="alert-{{ forloop.counter }}">
+      <strong>{{ message.tags|title }}:</strong> {{ message }}
   </div>
   {% endfor %}
-
-
- <script>
- var y=document.getElementById('logmsg');
- y.innerText = 'UserName and Password Not Matched';
-
+  
+  <script>
+      
+      document.querySelectorAll('.alert-dismissible').forEach(function(alert) {
+          setTimeout(function() {
+              alert.classList.remove('show');
+              alert.classList.add('fade');
+              setTimeout(function() {
+                  alert.remove();
+              }, 500); 
+          }, 5000); 
+      });
+ 
 
 
 </script>

@@ -17,6 +17,9 @@ app_name='userhome'
 
 @login_required
 def userHome(request,user_id): 
+    if request.user.id != user_id:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('/')
     user_info = Poultry.objects.filter(user_id=user_id).order_by('startDate')
     return render(request, 'mainpage.html',{'parms':user_info})
 
@@ -24,7 +27,9 @@ def userHome(request,user_id):
 
 @login_required
 def submit_detail(request,user_id):
-   
+    if request.user.id != user_id:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('/')
     if request.method == 'POST':
         if 'detailform' in request.POST:
             farmname = request.POST.get('farmname')
@@ -46,8 +51,11 @@ def submit_detail(request,user_id):
 
 
 
-
+@login_required
 def profile(request, user_id, poultryName):
+    if request.user.id != user_id:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('/')
     try:
    
         poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
@@ -66,6 +74,7 @@ def profile(request, user_id, poultryName):
 
  
         adjusted_time = now() + timedelta(hours=6, minutes=15)
+
 
 
    
@@ -142,6 +151,9 @@ def profile(request, user_id, poultryName):
 
 @login_required
 def submit_bill(request, user_id, poultryName):
+    if request.user.id != user_id:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
 
     if request.method == 'POST':
@@ -216,6 +228,9 @@ def submit_bill(request, user_id, poultryName):
 
 @login_required
 def showBills(request, user_id, poultryName):
+    if request.user.id != user_id:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     bills = BillPost.objects.filter(poultryName=poultry).order_by('posted_date')
 
@@ -227,15 +242,21 @@ def showBills(request, user_id, poultryName):
 
 @login_required
 def showVaccine(request, user_id, poultryName):
+    if request.user.id != user_id:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     bills = BillPost.objects.filter(poultryName=poultry).order_by('posted_date')
     return render(request, 'showVaccine.html', {'bills': bills})
 
 @login_required
 def showDeads(request, user_id, poultryName):
+    if request.user.id != user_id:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     deads = DeadInfo.objects.filter(poultryName=poultry).order_by('-deadDate')
     return render(request, 'showdeads.html', {'deads': deads})
 
-def notFound(request):
-    return render(request,'pageNotFound.html')
+def notFound(request,exception):
+    return render(request,'pageNotFound.html',status=404)
