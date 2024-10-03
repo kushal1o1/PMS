@@ -1,9 +1,12 @@
 {% extends 'Base.html' %}
 {%block tittle%}PMS Home{%endblock%}
 {%block loginout%}LogOut{%endblock%}
-{% block Showbills%}../bills/{{parm.poultryName}}{%endblock%}
-{% block Showdead%}./deads/{{parm.poultryName}}{%endblock%}
-{% block Showvaccine%}./vaccine/{{parm.poultryName}}{%endblock%}
+{%block shownavlink%}{% endblock%}
+{% block homelink %}/userhome/mainpage/{{parm.user_id}}/profile/{{parm.poultryName}}{% endblock %}
+{% block ShowPoultrieslink %}/userhome/mainpage/{{parm.user_id}}/{% endblock %}
+{% block Showbillslink %}bills/{{parm.poultryName}}{% endblock %}
+{% block Showvaccineslink %}vaccine/{{parm.poultryName}}{% endblock %}
+{% block Showdeadlink %}deads/{{parm.poultryName}}{% endblock %}
 
 
 

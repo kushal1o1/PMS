@@ -234,7 +234,9 @@ def showBills(request, user_id, poultryName):
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     bills = BillPost.objects.filter(poultryName=poultry).order_by('posted_date')
 
-    return render(request, 'showbills.html', {'bills': bills})
+    return render(request, 'showbills.html', {'bills': bills,
+                                              'poultryName': poultryName,
+                                              'user_id': user_id})
 
 
 
@@ -247,7 +249,9 @@ def showVaccine(request, user_id, poultryName):
         return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     bills = BillPost.objects.filter(poultryName=poultry).order_by('posted_date')
-    return render(request, 'showVaccine.html', {'bills': bills})
+    return render(request, 'showVaccine.html', {'bills': bills,
+                                                'poultryName': poultryName,
+                                              'user_id': user_id})
 
 @login_required
 def showDeads(request, user_id, poultryName):
@@ -256,7 +260,9 @@ def showDeads(request, user_id, poultryName):
         return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     deads = DeadInfo.objects.filter(poultryName=poultry).order_by('-deadDate')
-    return render(request, 'showdeads.html', {'deads': deads})
+    return render(request, 'showdeads.html', {'deads': deads,
+                                              'poultryName': poultryName,
+                                              'user_id': user_id})
 
 def notFound(request,exception):
     return render(request,'pageNotFound.html',status=404)

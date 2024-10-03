@@ -1,8 +1,10 @@
 {% extends 'Base.html' %}
 {%block tittle%}PMS Home{%endblock%}
-
-
-
+{%block shownavlink%}d-none{% endblock%}
+{% block ShowPoultrieslink %}{% endblock %}
+{% block Showbillslink %}{% endblock %}
+{% block Showvaccineslink %}{% endblock %}
+{% block Showdeadlink %}{% endblock %}
 {%block loginout%}LogOut{%endblock%}
 {% block mainContent%}
 {%load static%}
@@ -17,6 +19,8 @@
   <p class="text-center"><button class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#addPoultry">ADD <i class="fa-solid fa-circle-plus"></i></button></p>
 
 </div>
+
+
 
 
 
