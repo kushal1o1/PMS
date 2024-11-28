@@ -73,7 +73,7 @@ def profile(request, user_id, poultryName):
         total_bhus = total_obj.totalBhus
 
  
-        adjusted_time = now() + timedelta(hours=6, minutes=15)
+        adjusted_time = now() + timedelta(hours=5, minutes=45)
 
 
 

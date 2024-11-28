@@ -1,9 +1,17 @@
 {% autoescape off %}
-hiiiiii
- Welcome to  PMS
- Hello {{ name }}!!
- Please confirm your email by clicking on the following link.
+Hi {{ name }},
 
- Confirmation Link: http://{{ domain }}{% url 'activate' uidb64=uid token=token %} 
+Welcome to PMS! We're thrilled to have you with us.
 
- {% endautoescape %}
+To complete your registration, please confirm your email address by clicking the link below:
+
+Confirmation Link:
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+If the link above does not work, please copy and paste it into your browser.
+
+Thank you for joining PMS. If you have any questions or need assistance, feel free to contact our support team at support@pms.com.
+
+Best regards,
+The PMS Team
+{% endautoescape %}

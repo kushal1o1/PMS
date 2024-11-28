@@ -86,6 +86,9 @@
   <nav class="navbar navbar-expand-lg sticky-top" style="background-color: aliceblue; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
     <div class="container-fluid ">
       <a class="navbar-brand text-dark fw-bold" href="#"><strong class="h3 ">P</strong><small>MS</small></a>
+        <a class="btn btn-outline-dark rounded-pill px-4" href="{% block ShowPoultrieslink %}{% endblock %}" >Poultries</a>
+
+            
       
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -94,9 +97,7 @@
       </button>
       <div class="collapse navbar-collapse " id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 {%block shownavlink%}{% endblock%}">
-          <li class="nav-item">
-            <a class="nav-link  custom-link text-dark" href="{% block ShowPoultrieslink %}{% endblock %}" >Poultries</a>
-          </li>
+
           <li class="nav-item">
             <a class="nav-link active custom-link" href="{% block homelink %}{% endblock %}" >Home</a>
           </li>
@@ -111,7 +112,9 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+
+          
+          <li >
             <a href="/" class="btn btn-outline-dark rounded-pill px-4 " style="transition: all 0.3s ease-in-out;">LogOut</a>
           </li>
         </ul>
