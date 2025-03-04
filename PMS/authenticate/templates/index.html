@@ -133,6 +133,131 @@
     </style>
 </head>
 <body>
+    <script>
+        // Function to show floating notifications
+function showNotification(msg, tag) {
+    // Create notification container if it doesn't exist
+    if (!document.getElementById('notification-container')) {
+        const container = document.createElement('div');
+        container.id = 'notification-container';
+        container.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            max-width: 350px;
+            width: 100%;
+        `;
+        document.body.appendChild(container);
+    }
+
+    // Create notification element
+    const notification = document.createElement('div');
+    
+    // Define styles and colors for different message tags
+    const tagStyles = {
+        'success': {
+            background: 'linear-gradient(135deg, #6ae3a5, #2ecc71)',
+            icon: '✅',
+            color: '#ffffff'
+        },
+        'error': {
+            background: 'linear-gradient(135deg, #ff6b6b, #ee5253)',
+            icon: '❌',
+            color: '#ffffff'
+        },
+        'warning': {
+            background: 'linear-gradient(135deg, #feca57, #ff9f43)',
+            icon: '⚠️',
+            color: '#ffffff'
+        },
+        'info': {
+            background: 'linear-gradient(135deg, #54a0ff, #5f27cd)',
+            icon: 'ℹ️',
+            color: '#ffffff'
+        },
+        'default': {
+            background: 'linear-gradient(135deg, #a4b0be, #747d8c)',
+            icon: '📝',
+            color: '#ffffff'
+        }
+    };
+
+    // Get style based on tag, fallback to default
+    const style = tagStyles[tag.toLowerCase()] || tagStyles['default'];
+
+    // Set notification styles
+    notification.style.cssText = `
+        background: ${style.background};
+        color: ${style.color};
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.5s ease;
+        position: relative;
+        overflow: hidden;
+    `;
+
+    // Add icon and message
+    notification.innerHTML = `
+        <span style="font-size: 1.2em;">${style.icon}</span>
+        <div style="flex-grow: 1;">
+            <strong style="display: block; margin-bottom: 5px; text-transform: capitalize;">${tag}</strong>
+            ${msg}
+        </div>
+        <button style="
+            background: none; 
+            border: none; 
+            color: ${style.color}; 
+            font-size: 1.2em; 
+            cursor: pointer; 
+            opacity: 0.7;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        " onclick="this.parentElement.remove()">×</button>
+    `;
+
+    // Add to container
+    const container = document.getElementById('notification-container');
+    container.appendChild(notification);
+
+    // Trigger reflow to enable transition
+    notification.offsetHeight;
+
+    // Show notification
+    notification.style.opacity = '1';
+    notification.style.transform = 'translateX(0)';
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        
+        // Remove from DOM after transition
+        setTimeout(() => {
+            notification.remove();
+        }, 500);
+    }, 5000);
+}
+         </script>
+         {% if messages %}
+         <script>
+             document.addEventListener('DOMContentLoaded', function() {
+                 {% for message in messages %}
+                     showNotification("{{ message }}", "{{ message.tags }}");
+                 {% endfor %}
+             });
+         </script>
+     {% endif %}
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
