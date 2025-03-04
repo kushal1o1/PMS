@@ -7,9 +7,9 @@ from datetime import datetime
 import requests
 from django.contrib import messages
 from django.utils.timezone import now, timedelta
-from info import api_key
 from django.http import JsonResponse
 from django.db import transaction
+from decouple import config
 
     
 app_name='userhome' 
@@ -78,7 +78,7 @@ def profile(request, user_id, poultryName):
 
 
    
-        url = f'http://api.openweathermap.org/data/2.5/weather?q=pokhara&appid={api_key}&units=metric'
+        url = f'http://api.openweathermap.org/data/2.5/weather?q=pokhara&appid={config("OPENWEATHER_API_KEY")}&units=metric'
         try:
             response = requests.get(url)
             response.raise_for_status()  # Raise an HTTPError for bad responses

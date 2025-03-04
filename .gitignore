@@ -1,2 +1,9 @@
 myenv/
 PMS/info.py
+PMS/.env
+.env
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
