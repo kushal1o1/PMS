@@ -1,12 +1,11 @@
 from django.contrib.auth.models import User
 from django.contrib import messages
 import os
-from django.core.mail import EmailMessage, send_mail,EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from PMS import settings
 from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.utils.encoding import force_bytes ,force_str
+from django.utils.http import  urlsafe_base64_encode
+from django.utils.encoding import force_bytes 
 from . tokens import generate_token
 
 
@@ -28,6 +27,8 @@ def ValidateSignUpForm(request,username,email,pass1):
             messages.error(request, "Username must be Alpha-Numeric!!")
             return False   
         return True
+    
+    
 def createUserObject(request,username,email,pass1):
         myuser = User.objects.create_user(username, email, pass1)
         # myuser.is_active = False
