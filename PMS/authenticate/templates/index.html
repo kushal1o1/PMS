@@ -4,158 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static%}
-    <link rel="shortcut icon" type="image" href='{%static "images/chickenlogo.jpg"%}'>
-    <title>Poultry</title>
+    
+    {% load static %}
+    
+    <link rel="shortcut icon" type="image" href="{% static 'images/chickenlogo.jpg' %}">
+    <title>PMS - Poultry Management System</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-
-
-</head>
-
-<body >
-{% load static %}
- <section style="margin-top: 20%;z-index:10000;" class=" d-flex flex-column align-items-center justify-content-center " >
-    HIIII
-<!-- {% for message in messages %} -->
- HIIIIi
-<div style="z-index: 999;" class="alert alert-{{ message.tags }}  alert-dismissible fade show bg-dark text-light text-center fs-4" role="alert" id="alert-{{ forloop.counter }}">
-    <strong class="bg-dark text-light">STHHHHHHHHHHHHHHHHH{{ message.tags|title }}:</strong> {{ message }}
-</div>
-<!-- {% endfor %} -->
-
-<script>
-   
-
-
-
-
-</script>
-{% load static%}
-  
-
-  
-
- </section>
-
-
-     
-
-
-
-
-  
     
-  <!-- signup -->
-  {%load static%}
-  <div class="container " >
-    <div class="modal fade " style="
-
-    height: 100vh;
-    background:url({% static "images/chicken.jpg"%});
-    background-size:cover;
-   " id="signup" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog ">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel1">Get connected with us</h1>
-
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-
-            <form action="/signup" method="POST"  >{% csrf_token %}
-              
-              <div class="mb-3" >
-                <label class="form-label" >Username</label>
-                <input type="text" class="form-control name" id="name" name="username"  required minlength="3">
-              </div>
-
-
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label" >Email address</label>
-                <input type="email" class="form-control email" name="email" required>
-              </div>
-
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label"  >Password</label>
-                <input type="password"  class="form-control password" name="password" required min="8" max="12" required>
-              </div>
-              <div class="d-flex justify-content-center">
-                <input class="btn btn-dark mx-2" type="reset" value="Reset">
-                <button type="submit" class="btn btn-primary">Signup</button>
-              </div>
-            </form>
-
-
-
-
-
-          </div>
-          <div class="modal-footer d-flex justify-content-center">
-            <p>Already have an Account. <span class="text-dark"><a data-bs-toggle="modal"
-                  data-bs-target="#loginModal">login</a></span></p>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="modal fade" style="
-
-    background:url({% static "images/chicken.jpg"%});
-    background-size:cover;
-   " id="loginModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel1">Login in to your Account</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="/signin" method="POST">
-              {% csrf_token %}
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label" >Username</label>
-                <input type="text" class="form-control email" name="username" required>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label" >Password</label>
-                <input type="password" class="form-control password" name="password" required>
-              </div>
-              <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-              </div>
-              
-
-              <div class="d-flex justify-content-center"><button type="submit" class="btn btn-primary" id="liveAlertBtn" >Login</button>
-              </div>
-            </form>
-
-
-          </div>
-          <div class="modal-footer d-flex justify-content-center">
-            <p>Don't have account. <span class="text-dark"><a  data-bs-toggle="modal" data-bs-target="#signup">Sign
-                  up</a></span></p>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-  crossorigin="anonymous"></script>
-   
-<!-- </body>
-</html> -->
-
-
-
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -185,7 +46,7 @@
 
         .hero-section {
             background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(39, 174, 96, 0.9)),
-                        url('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80');
+                        url('{% static "images/chicken.jpg" %}');
             background-size: cover;
             background-position: center;
             min-height: 100vh;
@@ -255,6 +116,15 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         }
 
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
         footer {
             background: var(--primary-color);
             color: white;
@@ -263,6 +133,7 @@
     </style>
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -280,8 +151,7 @@
                         <a class="nav-link me-3" href="#stats">Stats</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#loginModal">Login</a>
+                        <a class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
                         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup">Get Started</a>
                     </li>
                 </ul>
@@ -289,6 +159,7 @@
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center">
@@ -302,6 +173,7 @@
         </div>
     </section>
 
+    <!-- Features Section -->
     <section id="features" class="py-5">
         <div class="container py-5">
             <h2 class="section-heading text-center">Powerful Features</h2>
@@ -331,6 +203,7 @@
         </div>
     </section>
 
+    <!-- Stats Section -->
     <section id="stats" class="stats-section">
         <div class="container">
             <div class="row text-center g-4">
@@ -350,6 +223,7 @@
         </div>
     </section>
 
+    <!-- Testimonials Section -->
     <section id="testimonials" class="py-5">
         <div class="container py-5">
             <h2 class="section-heading text-center">What Our Clients Say</h2>
@@ -396,7 +270,8 @@
         </div>
     </section>
 
-    <section id="signup" class="cta-section">
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
         <div class="container text-center">
             <h2 class="section-heading mb-4">Ready to Get Started?</h2>
             <p class="lead mb-5">Join thousands of successful farmers who trust PMS</p>
@@ -411,6 +286,78 @@
         </div>
     </section>
 
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signup" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center" id="signupModalLabel">Get Connected with Us</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" required minlength="3">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" required minlength="8" maxlength="12">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <input class="btn btn-dark mx-2" type="reset" value="Reset">
+                            <button type="submit" class="btn btn-primary">Signup</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <p>Already have an Account. <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" class="text-primary">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center">Login to Your Account</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signin" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <label class="form-check-label" for="rememberCheck">Remember me</label>
+                            <input type="checkbox" class="form-check-input" id="rememberCheck">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <p>Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#signup" class="text-primary">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row g-4">
@@ -423,7 +370,7 @@
                     <ul class="list-unstyled">
                         <li><a href="#features" class="text-white text-decoration-none">Features</a></li>
                         <li><a href="#testimonials" class="text-white text-decoration-none">Testimonials</a></li>
-                        <li><a data-bs-toggle="modal" data-bs-target="#signup" class="text-white text-decoration-none">Get Started</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#signup" class="text-white text-decoration-none">Get Started</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
@@ -441,6 +388,9 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
 </body>
 </html>

@@ -2,11 +2,11 @@
 {%block tittle%}PMS Home{%endblock%}
 {%block loginout%}LogOut{%endblock%}
 {%block shownavlink%}{% endblock%}
-{% block homelink %}/userhome/mainpage/{{parm.user_id}}/profile/{{parm.poultryName}}{% endblock %}
-{% block ShowPoultrieslink %}/userhome/mainpage/{{parm.user_id}}/{% endblock %}
-{% block Showbillslink %}bills/{{parm.poultryName}}{% endblock %}
-{% block Showvaccineslink %}vaccine/{{parm.poultryName}}{% endblock %}
-{% block Showdeadlink %}deads/{{parm.poultryName}}{% endblock %}
+{% block homelink %}/userhome/mainpage/{{context.poultry.user_id}}/profile/{{context.poultry.poultryName}}{% endblock %}
+{% block ShowPoultrieslink %}/userhome/mainpage/{{context.poultry.user_id}}/{% endblock %}
+{% block Showbillslink %}bills/{{context.poultry.poultryName}}{% endblock %}
+{% block Showvaccineslink %}vaccine/{{context.poultry.poultryName}}{% endblock %}
+{% block Showdeadlink %}deads/{{context.poultry.poultryName}}{% endblock %}
 
 
 
@@ -18,7 +18,7 @@
 <div class="d-flex align-items-end row">
   <div class="col-sm-7 ">
     <div class="card-body">
-      <h5 class="card-title text-primary text-center fs-1 ">Hi,{{parm.user}}</h5>
+      <h5 class="card-title text-primary text-center fs-1 ">Hi,{{context.poultry.user}}</h5>
     </div>
   </div>
 <div class=" d-flex flex-column align-items-center justify-content-center col-sm-5 text-center h5 mb-0 text-gray-800 text-sm-left">
@@ -72,7 +72,7 @@
           <div class="card-body d-flex flex-column gap-2">
               <h3 class="card-title text-white">दिन   (Day)</h3>
               <div class="d-flex  ">
-                  <h1 class="text-white fs-1  fw-bolder px-5 "><strong>{{parm.totalDays}}</strong></h1>
+                  <h1 class="text-white fs-1  fw-bolder px-5 "><strong>{{context.poultry.totalDays}}</strong></h1>
                   <span class="float-right display-6 opacity-5 "><i class="fa fa-calendar"></i></span>
               </div>
 
@@ -96,7 +96,7 @@
           <div class="card-body">
               <h3 class="card-title text-white">हाल कुखुरा  ( Chickens)</h3>
               <div class="d-inline-block">
-                  <h2 class="text-white">{{parm.totalChickenNow}}</h2>
+                  <h2 class="text-white">{{context.poultry.totalChickenNow}}</h2>
 
               </div>
               <span class="float-right display-5 opacity-5">                     <i class="fa-solid fa-dove"></i>
@@ -109,7 +109,7 @@
           <div class="card-body d-flex gap-4 ">
               <div>
                 <h2 class="card-title text-white"> मरेका कुखुरा   (Dead)</h2>
-                <h2 class="text-white">{{parm.totalDead}}</h2>
+                <h2 class="text-white">{{context.poultry.totalDead}}</h2>
               </div>
               <div>
                 <span class="float-left display-5 opacity-5 px-1"><i class="fa-solid fa-skull "></i></span>
@@ -132,7 +132,7 @@
                   <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                         हालेको कुखुरा   (Total Chicken)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.totalChicken}}</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.poultry.totalChicken}}</div>
                   </div>
                   <div class="col-auto">
                       <i class="fa-solid fa-dove fa-2x "></i>
@@ -150,7 +150,7 @@
                   <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                         कुखुरा हालेको  दिन (   Date started farm)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{parm.startDate}}</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.poultry.startDate}}</div>
                   </div>
                   <div class="col-auto">
 
@@ -316,7 +316,7 @@
                 <img class="img-fluid mb-4" src='{%static "images/bill.png"%}' width="100" alt="...">
                 <h3 class="h5 mb-4 font-base">बिलहरू(Bills)</h3>
 
-                <p class="text-center"><a href="bills/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center " >विवरण हेर्नुहोस्</a></p>
+                <p class="text-center"><a href="bills/{{context.poultry.poultryName}}" type="button" class=" btn btn-primary  text-center " >विवरण हेर्नुहोस्</a></p>
 
               </div>
             </div>
@@ -332,7 +332,7 @@
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/chicken.png"%}' width="200" alt="...">
                 <h3 class="h5 mb-4 font-base"> मरेका कुखुराह(Dead Chickens) </h3>
 
-                 <p class="text-center"><a href="deads/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
+                 <p class="text-center"><a href="deads/{{context.poultry.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
 
               </div>
             </div>
@@ -340,7 +340,7 @@
               <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/vaccine.png"%}' width="200" alt="...">
                 <h3 class="h5 mb-4 font-base">खोपहरू(Vaccine)</h3>
 
-                 <p class="text-center"><a href="vaccine/{{parm.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
+                 <p class="text-center"><a href="vaccine/{{context.poultry.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
 
               </div>
             </div>
@@ -367,7 +367,7 @@
       </div>
       <div class="modal-body">
         {% load static%}
-      <form method="post" name="form" action="submit_bill/{{parm.poultryName}}" enctype="multipart/form-data">
+      <form method="post" name="form" action="submit_bill/{{context.poultry.poultryName}}" enctype="multipart/form-data">
       {% csrf_token %}
         <div class="d-flex justify-content-center">
           <img  id="preview" src='{% static "images/bill.png"%}' class="bd-placeholder-img "
@@ -451,7 +451,7 @@
       </div>
       <div class="modal-body">
         {% load static%}
-      <form method="post" name="form" action="submit_bill/{{parm.poultryName}}" enctype="multipart/form-data">
+      <form method="post" name="form" action="submit_bill/{{context.poultry.poultryName}}" enctype="multipart/form-data">
       {% csrf_token %}
 
 

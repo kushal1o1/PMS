@@ -10,6 +10,7 @@ from django.utils.timezone import now, timedelta
 from django.http import JsonResponse
 from django.db import transaction
 from decouple import config
+from .service import getWeatherInfo,getContextOfPoultry,handleBillForm,handleDeadForm,CheckUser
 
     
 app_name='userhome' 
@@ -17,8 +18,7 @@ app_name='userhome'
 
 @login_required
 def userHome(request,user_id): 
-    if request.user.id != user_id:
-        messages.error(request, "You are not authorized to view this page.")
+    if not CheckUser(request, user_id):
         return redirect('/')
     user_info = Poultry.objects.filter(user_id=user_id).order_by('startDate')
     return render(request, 'mainpage.html',{'parms':user_info})
@@ -27,8 +27,7 @@ def userHome(request,user_id):
 
 @login_required
 def submit_detail(request,user_id):
-    if request.user.id != user_id:
-        messages.error(request, "You are not authorized to view this page.")
+    if not CheckUser(request, user_id):
         return redirect('/')
     if request.method == 'POST':
         if 'detailform' in request.POST:
@@ -53,94 +52,19 @@ def submit_detail(request,user_id):
 
 @login_required
 def profile(request, user_id, poultryName):
-    if request.user.id != user_id:
-        messages.error(request, "You are not authorized to view this page.")
+    if not CheckUser(request, user_id):
         return redirect('/')
-    try:
    
-        poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
-        bills = BillPost.objects.filter(poultryName=poultryName).order_by('-posted_date')
-        total_bills = bills.count()
+    temp_data = getWeatherInfo(request)
 
-        total_obj, created = Total.objects.get_or_create(poultryName=poultry)
-        total_obj.calculate_totals(poultry.user)
+    context = getContextOfPoultry(request, user_id, poultryName)
 
-
-        total_dana = total_obj.totalDana
-        total_medicine = total_obj.totalMedicine
-        total_vaccine = total_obj.totalVaccine
-        total_amount = total_obj.totalAmount
-        total_bhus = total_obj.totalBhus
-
- 
-        adjusted_time = now() + timedelta(hours=5, minutes=45)
-
-
-
-   
-        url = f'http://api.openweathermap.org/data/2.5/weather?q=pokhara&appid={config("OPENWEATHER_API_KEY")}&units=metric'
-        try:
-            response = requests.get(url)
-            response.raise_for_status()  # Raise an HTTPError for bad responses
-            data = response.json()
-        except requests.RequestException as e:
-            return JsonResponse({'error': 'Weather API request failed', 'details': str(e)}, status=500)
-        except ValueError as e:
-            return JsonResponse({'error': 'Failed to parse JSON response from Weather API', 'details': str(e)}, status=500)
-
-        # Extract weather data
-        try:
-            temperature = data['main']['temp']
-            rain = data.get('rain', {}).get('1h', 0)
-            wind_speed = data['wind']['speed']
-        except KeyError as e:
-            return JsonResponse({'error': 'Expected weather data not found in API response', 'details': str(e)}, status=500)
-        
-        # Weather conditions
-        is_raining = rain > 0
-        is_sunny = not is_raining and temperature > 25
-        is_windy = wind_speed > 5
-        is_hot = temperature > 30
-        is_cold = temperature < 10
-        is_moderate = not (is_raining or is_sunny or is_windy or is_hot or is_cold)
-
-        temp_data = {
-            'temperature': temperature,
-            'rain': rain,
-            'wind_speed': wind_speed,
-            'is_raining': is_raining,
-            'is_sunny': is_sunny,
-            'is_windy': is_windy,
-            'is_hot': is_hot,
-            'is_cold': is_cold,
-            'is_moderate': is_moderate
-        }
-
-        context = {
-            'poultry': poultry,
-            'bills': bills,
-            'dana': total_dana,
-            'medicine': total_medicine,
-            'vaccine': total_vaccine,
-            'total_amount': total_amount,
-            'total_bhus': total_bhus,
-            'todayDate': adjusted_time,
-            'total_bills': total_bills
-        }
-
-        return render(request, 'profile.html', {
-            'parm': poultry,
-            'bill': bills,
+    return render(request, 'profile.html', {
             'context': context,
             'temp': temp_data
         })
 
-    except Poultry.DoesNotExist:
-        return JsonResponse({'error': 'Poultry not found'}, status=404)
-    except Total.DoesNotExist:
-        return JsonResponse({'error': 'Total object not found'}, status=404)
-    except Exception as e:
-        return JsonResponse({'error': 'An unexpected error occurred', 'details': str(e)}, status=500)
+    
 
 
 
@@ -151,8 +75,7 @@ def profile(request, user_id, poultryName):
 
 @login_required
 def submit_bill(request, user_id, poultryName):
-    if request.user.id != user_id:
-        messages.error(request, "You are not authorized to view this page.")
+    if not CheckUser(request, user_id):
         return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
 
@@ -167,56 +90,17 @@ def submit_bill(request, user_id, poultryName):
                     total = request.POST.get('total', 0)
                     totalBhus = request.POST.get('totalBhus', 0)
                     desc =request.POST.get('desc')
-
-                    # Validate non-negative values
-                    try:
-                        TotalChickenFeed = int(TotalChickenFeed) if TotalChickenFeed else 0
-                        totalMedicine = int(totalMedicine) if totalMedicine else 0
-                        total = int(total) if total else 0
-                        totalBhus = int(totalBhus) if totalBhus else 0
-
-                        if TotalChickenFeed < 0 or totalMedicine < 0 or total < 0 or totalBhus < 0:
-                            messages.error(request, "Values cannot be negative.")
-                            return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
-
-                    except ValueError:
-                        messages.error(request, "Please enter valid integer values.")
+                    if not handleBillForm(request,TotalChickenFeed, totalMedicine, total, totalBhus, vaccine, desc, image_file, poultry,user_id, poultryName):
                         return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
+                    
 
-                    totalvaccine = 1 if vaccine else 0
-
-                    new_bill = BillPost(
-                        poultryName=poultry,
-                        imgfile=image_file,
-                        totalChickenFeed=TotalChickenFeed,
-                        totalMedicine=totalMedicine,
-                        totalBhus=totalBhus,
-                        totalAmount=total,
-                        totalVaccine=totalvaccine,
-                        description=desc
-                    )
-                    new_bill.save()
-                    messages.success(request, "Bill Submitted Successfully")
 
                 if 'Deadform' in request.POST:
                     deadbirds = int(request.POST.get("TotalChickenDead", 0))
                     deaddesc = request.POST.get('deaddesc')
-
-                    # Validate non-negative values
-                    if deadbirds < 0:
-                        messages.error(request, "Total Dead cannot be negative.")
-                        return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)
-
-                    poultry.totalDead += deadbirds
-                    poultry.save()
-
-                    new_dead_hen_post = DeadInfo(
-                        poultryName=poultry,
-                        totalDead=deadbirds,
-                        description=deaddesc
-                    )
-                    new_dead_hen_post.save()
-                    messages.success(request, "Dead info of Chicken submitted successfully")
+                    if not  handleDeadForm(request, deadbirds, deaddesc, poultry, user_id, poultryName):
+                        return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)   
+                    
 
         except Exception as e:
             messages.error(request, f"An error occurred: {e}")
@@ -228,8 +112,7 @@ def submit_bill(request, user_id, poultryName):
 
 @login_required
 def showBills(request, user_id, poultryName):
-    if request.user.id != user_id:
-        messages.error(request, "You are not authorized to view this page.")
+    if not CheckUser(request, user_id):
         return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     bills = BillPost.objects.filter(poultryName=poultry).order_by('posted_date')
@@ -244,8 +127,7 @@ def showBills(request, user_id, poultryName):
 
 @login_required
 def showVaccine(request, user_id, poultryName):
-    if request.user.id != user_id:
-        messages.error(request, "You are not authorized to view this page.")
+    if not CheckUser(request, user_id):
         return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     bills = BillPost.objects.filter(poultryName=poultry).order_by('posted_date')
@@ -255,8 +137,7 @@ def showVaccine(request, user_id, poultryName):
 
 @login_required
 def showDeads(request, user_id, poultryName):
-    if request.user.id != user_id:
-        messages.error(request, "You are not authorized to view this page.")
+    if not CheckUser(request, user_id):
         return redirect('/')
     poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
     deads = DeadInfo.objects.filter(poultryName=poultry).order_by('-deadDate')
