@@ -13,471 +13,454 @@
 
 {% block mainContent%}
 {%load static%}
-
+<style>
+  :root {
+      --primary-color: #2c3e50;
+      --accent-color: #27ae60;
+  }
+  body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .navbar {
+      padding: 1rem 0;
+      background: rgba(255, 255, 255, 0.95) !important;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  }
+  .navbar-brand {
+      color: var(--primary-color) !important;
+      font-weight: 700;
+      font-size: 1.8rem;
+  }
+  .nav-link {
+      color: var(--primary-color) !important;
+      font-weight: 500;
+  }
+  .border-left-red {
+      border-left: 0.25rem solid #dc3545;
+  }
+  .border-left-success {
+      border-left: 0.25rem solid #28a745;
+  }
+  .border-left-info {
+      border-left: 0.25rem solid #17a2b8;
+  }
+</style>
+</head>
+<body>
 <div class="container">
-<div class="d-flex align-items-end row">
-  <div class="col-sm-7 ">
-    <div class="card-body">
-      <h5 class="card-title text-primary text-center fs-1 ">Hi,{{context.poultry.user}}</h5>
-    </div>
+  <div class="d-flex align-items-end row">
+      <div class="col-sm-7">
+          <div class="card-body">
+              <h5 class="card-title text-primary text-center fs-1">Hi, {{context.poultry.user}}</h5>
+          </div>
+      </div>
+      <div class="d-flex flex-column align-items-center justify-content-center col-sm-5 text-center h5 mb-0 text-gray-800 text-sm-left">
+          <div>{{context.todayDate}}</div>
+          <div>
+              Temperature: {{temp.temperature}} &deg;C,
+              {% if temp.is_raining %}
+                  Raining <i class="fa-solid fa-cloud-showers-heavy"></i>
+              {% endif %}
+              {% if temp.is_sunny %}
+                  Sunny <i class="fa-regular fa-sun"></i>
+              {% endif %}
+              {% if temp.is_windy %}
+                  Windy <i class="fa-solid fa-wind"></i>
+              {% endif %}
+              {% if temp.is_hot %}
+                  Hot <i class="fa-solid fa-fire"></i>
+              {% endif %}
+              {% if temp.is_cold %}
+                  Cold <i class="fa-solid fa-snowflake"></i>
+              {% endif %}
+              {% if temp.is_moderate %}
+                  Moderate <i class="fa-solid fa-temperature-half"></i>
+              {% endif %}
+          </div>
+      </div>
   </div>
-<div class=" d-flex flex-column align-items-center justify-content-center col-sm-5 text-center h5 mb-0 text-gray-800 text-sm-left">
-
-
-  <div> {{context.todayDate}}</div>
-<div>Temperature: {{temp.temperature}} &deg;C,
-    {% if temp.is_raining %}
-    Raining
-    <i class="fa-solid fa-cloud-showers-heavy"></i>
-  {% endif %}
-  {% if temp.is_sunny %}
-      Sunny
-      <i class="fa-regular fa-sun"></i>
-
-  {% endif %}
-  {% if temp.is_windy %}
-      Windy
-      <i class="fa-solid fa-wind"></i>
-  {% endif %}
-  {% if temp.is_hot %}
-      Hot
-      <i class="fa-solid fa-fire"></i>
-  {% endif %}
-  {% if temp.is_cold %}
-      Cold
-      <i class="fa-solid fa-snowflake"></i>
-  {% endif %}
-  {% if temp.is_moderate %}
-      Moderate
-      <i class="fa-solid fa-temperature-half"></i>
-  {% endif %}
 </div>
-</div>
-</div>
-</div>
-<br>
 
 <div class="container d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">Dashboard </h1>
-
+  <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
 </div>
-
-
-
 
 <div class="container">
-<div class="row">
-  <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
-      <div class="card bg-primary bg-gradient ">
-          <div class="card-body d-flex flex-column gap-2">
-              <h3 class="card-title text-white">दिन   (Day)</h3>
-              <div class="d-flex  ">
-                  <h1 class="text-white fs-1  fw-bolder px-5 "><strong>{{context.poultry.totalDays}}</strong></h1>
-                  <span class="float-right display-6 opacity-5 "><i class="fa fa-calendar"></i></span>
+  <div class="row">
+      <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
+          <div class="card bg-primary bg-gradient">
+              <div class="card-body d-flex flex-column gap-2">
+                  <h3 class="card-title text-white">दिन (Day)</h3>
+                  <div class="d-flex">
+                      <h1 class="text-white fs-1 fw-bolder px-5"><strong>{{context.poultry.totalDays}}</strong></h1>
+                      <span class="float-right display-6 opacity-5"><i class="fa fa-calendar"></i></span>
+                  </div>
               </div>
-
+          </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
+          <div class="card bg-danger bg-gradient">
+              <div class="card-body">
+                  <h3 class="card-title text-white">खर्च रकम (Net Expenses)</h3>
+                  <div class="d-inline-block">
+                      <h2 class="text-white">RS. {{context.total_amount}}</h2>
+                  </div>
+                  <span class="float-right display-5 opacity-5"><i class="fa-solid fa-hand-holding-dollar"></i></span>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 py-2">
+          <div class="card bg-info bg-gradient">
+              <div class="card-body">
+                  <h3 class="card-title text-white">हाल कुखुरा (Chickens)</h3>
+                  <div class="d-inline-block">
+                      <h2 class="text-white">{{context.poultry.totalChickenNow}}</h2>
+                  </div>
+                  <span class="float-right display-5 opacity-5"><i class="fa-solid fa-dove"></i></span>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 py-2">
+          <div class="card bg-danger bg-gradient">
+              <div class="card-body d-flex gap-4">
+                  <div>
+                      <h2 class="card-title text-white">मरेका कुखुरा (Dead)</h2>
+                      <h2 class="text-white">{{context.poultry.totalDead}}</h2>
+                  </div>
+                  <div>
+                      <span class="float-left display-5 opacity-5 px-1"><i class="fa-solid fa-skull"></i></span>
+                  </div>
+              </div>
           </div>
       </div>
   </div>
-  <div class="col-lg-3 col-sm-6 py-sm-1 py-2">
-      <div class="card bg-danger bg-gradient">
-          <div class="card-body">
-              <h3 class="card-title text-white">खर्च रकम  ( Net Expenses)</h3>
-              <div class="d-inline-block">
-                  <h2 class="text-white">RS. {{context.total_amount}}</h2>
-
-              </div>
-              <span class="float-right display-5 opacity-5"><i class="fa-solid fa-hand-holding-dollar"></i></span>
-          </div>
-      </div>
-  </div>
-  <div class="col-lg-3 col-sm-6 py-2">
-      <div class="card bg-info bg-gradient">
-          <div class="card-body">
-              <h3 class="card-title text-white">हाल कुखुरा  ( Chickens)</h3>
-              <div class="d-inline-block">
-                  <h2 class="text-white">{{context.poultry.totalChickenNow}}</h2>
-
-              </div>
-              <span class="float-right display-5 opacity-5">                     <i class="fa-solid fa-dove"></i>
-              </span>
-          </div>
-      </div>
-  </div>
-  <div class="col-lg-3 col-sm-6 py-2">
-      <div class="card bg-danger bg-gradient">
-          <div class="card-body d-flex gap-4 ">
-              <div>
-                <h2 class="card-title text-white"> मरेका कुखुरा   (Dead)</h2>
-                <h2 class="text-white">{{context.poultry.totalDead}}</h2>
-              </div>
-              <div>
-                <span class="float-left display-5 opacity-5 px-1"><i class="fa-solid fa-skull "></i></span>
-
-              </div>
-
-          </div>
-      </div>
-  </div>
-</div>
 </div>
 
 <hr class="text-dark">
+
 <div class="container">
-<div class="row">
-  <div class="col-xl-3 col-md-6 mb-4 ">
-      <div class="card border-left-red shadow h-100 py-2">
-          <div class="card-body bg-light">
-              <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        हालेको कुखुरा   (Total Chicken)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.poultry.totalChicken}}</div>
-                  </div>
-                  <div class="col-auto">
-                      <i class="fa-solid fa-dove fa-2x "></i>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-
-
-  <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-success shadow h-100 py-2">
-          <div class="card-body bg-light">
-              <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                        कुखुरा हालेको  दिन (   Date started farm)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.poultry.startDate}}</div>
-                  </div>
-                  <div class="col-auto">
-
-                      <i class="fa-solid fa-hourglass-start fa-2x"></i>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-info shadow h-100 py-2">
-          <div class="card-body bg-light">
-              <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">कुल बिलहरू  (Total Bills)
-                      </div>
-                      <div class="row no-gutters align-items-center">
-                          <div class="col-auto">
-                              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{context.total_bills}}</div>
+  <div class="row">
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-red shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                              हालेको कुखुरा (Total Chicken)
                           </div>
-                          <div class="col">
-                              <div class="progress progress-sm mr-2">
-                                  <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.poultry.totalChicken}}</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fa-solid fa-dove fa-2x"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              कुखुरा हालेको दिन (Date started farm)
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.poultry.startDate}}</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fa-solid fa-hourglass-start fa-2x"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">कुल बिलहरू (Total Bills)</div>
+                          <div class="row no-gutters align-items-center">
+                              <div class="col-auto">
+                                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{context.total_bills}}</div>
+                              </div>
+                              <div class="col">
+                                  <div class="progress progress-sm mr-2">
+                                      <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
                               </div>
                           </div>
                       </div>
-                  </div>
-                  <div class="col-auto">
-
-                      <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                      <div class="col-auto">
+                          <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                      </div>
                   </div>
               </div>
           </div>
       </div>
-  </div>
 
-  <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-warning shadow h-100 py-2">
-          <div class="card-body bg-light">
-            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addimg"><i class="fa-solid fa-circle-plus"></i>बिलहरू थप्नुहोस्  ( Bills)</button>
-            <button class="btn btn-outline-dark  " data-bs-toggle="modal" data-bs-target="#addDead"><i class="fa-solid fa-circle-plus"></i> मरेका कुखुराहरू थप्नुहोस्  (Dead Chicken)</button>
-
-
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addimg">
+                      <i class="fa-solid fa-circle-plus"></i> बिलहरू थप्नुहोस् (Bills)
+                  </button>
+                  <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addDead">
+                      <i class="fa-solid fa-circle-plus"></i> मरेका कुखुराहरू थप्नुहोस् (Dead Chicken)
+                  </button>
               </div>
           </div>
       </div>
   </div>
 </div>
-</div>
+
 <div class="container">
   <div class="row">
-    <div class="col-xl-3 col-md-6 mb-4 ">
-        <div class="card border-left-red shadow h-100 py-2">
-            <div class="card-body bg-light">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                          कुल खोपहरू(Total vaccine)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.vaccine}}</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fa-solid fa-vial-circle-check fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-red shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                              कुल खोपहरू (Total vaccine)
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.vaccine}}</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fa-solid fa-vial-circle-check fa-2x"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body bg-light">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                          कुल  दाना(Total Dana) </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.dana}}</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fa-solid fa-bowl-food fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                              कुल दाना (Total Dana)
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.dana}}</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fa-solid fa-bowl-food fa-2x"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body bg-light">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">कुल औषधिहरू(Total Medicine)
-                        </div>
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{context.medicine}}</div>
-                            </div>
-                            <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fa-solid fa-pills fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">कुल औषधिहरू (Total Medicine)</div>
+                          <div class="row no-gutters align-items-center">
+                              <div class="col-auto">
+                                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{context.medicine}}</div>
+                              </div>
+                              <div class="col">
+                                  <div class="progress progress-sm mr-2">
+                                      <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fa-solid fa-pills fa-2x"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body bg-light">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                            कुल भुस (Total Bhus)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.total_bhus}}</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fa-solid fa-wheat-awn fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body bg-light">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                              कुल भुस (Total Bhus)
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{context.total_bhus}}</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fa-solid fa-wheat-awn fa-2x"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
-  </div>
+</div>
 
+<hr class="text-dark">
 
-
-
-
-
-
-
-
-
-
-  <hr class="text-dark">
-
-
-
-
-
-
-
-
-
-      <section>
-{% load static %}
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-auto mb-5 mb-md-7">
+<section>
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-auto mb-5 mb-md-7">
               <h1 class="fw-semi-bold text-primary">Tools <span class="text-1100">For You</span></h1>
-            </div>
           </div>
-          <div class="row">
-            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
-              <div class="px-0 px-lg-3">
-                <img class="img-fluid mb-4" src='{%static "images/bill.png"%}' width="100" alt="...">
-                <h3 class="h5 mb-4 font-base">बिलहरू(Bills)</h3>
-
-                <p class="text-center"><a href="bills/{{context.poultry.poultryName}}" type="button" class=" btn btn-primary  text-center " >विवरण हेर्नुहोस्</a></p>
-
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
-              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/medicine.png"%}'  alt="...">
-                <h3 class="h5 mb-4 font-base">औषधिहरू(Medicine)</h3>
-
-                 <p class="text-center"><a href="#" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
-
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
-              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/chicken.png"%}' width="200" alt="...">
-                <h3 class="h5 mb-4 font-base"> मरेका कुखुराह(Dead Chickens) </h3>
-
-                 <p class="text-center"><a href="deads/{{context.poultry.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
-
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
-              <div class="px-0 px-lg-3"><img class="img-fluid mb-4" src='{%static "images/vaccine.png"%}' width="200" alt="...">
-                <h3 class="h5 mb-4 font-base">खोपहरू(Vaccine)</h3>
-
-                 <p class="text-center"><a href="vaccine/{{context.poultry.poultryName}}" type="button" class=" btn btn-primary  text-center" >विवरण हेर्नुहोस्</a></p>
-
-              </div>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+          <div class="px-0 px-lg-3">
+              <img class="img-fluid mb-4" src='{%static "images/bill.png"%}' width="100" alt="...">
+              <h3 class="h5 mb-4 font-base">बिलहरू (Bills)</h3>
+              <p class="text-center">
+                  <a href="bills/{{context.poultry.poultryName}}" type="button" class="btn btn-primary text-center">विवरण हेर्नुहोस्</a>
+              </p>
           </div>
-        </div>
-        <!-- end of .container-->
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+          <div class="px-0 px-lg-3">
+              <img class="img-fluid mb-4" src='{%static "images/medicine.png"%}' alt="...">
+              <h3 class="h5 mb-4 font-base">औषधिहरू (Medicine)</h3>
+              <p class="text-center">
+                  <a href="#" type="button" class="btn btn-primary text-center">विवरण हेर्नुहोस्</a>
+              </p>
+          </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+          <div class="px-0 px-lg-3">
+              <img class="img-fluid mb-4" src='{%static "images/chicken.png"%}' width="200" alt="...">
+              <h3 class="h5 mb-4 font-base">मरेका कुखुराह (Dead Chickens)</h3>
+              <p class="text-center">
+                  <a href="deads/{{context.poultry.poultryName}}" type="button" class="btn btn-primary text-center">विवरण हेर्नुहोस्</a>
+              </p>
+          </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-4 mb-lg-0 text-center">
+          <div class="px-0 px-lg-3">
+              <img class="img-fluid mb-4" src='{%static "images/vaccine.png"%}' width="200" alt="...">
+              <h3 class="h5 mb-4 font-base">खोपहरू (Vaccine)</h3>
+              <p class="text-center">
+                  <a href="vaccine/{{context.poultry.poultryName}}" type="button" class="btn btn-primary text-center">विवरण हेर्नुहोस्</a>
+              </p>
+          </div>
+      </div>
+  </div>
+</div>
+</section>
 
-      </section>
-      <hr>
+<hr>
 
-
-
-{% comment %} model {% endcomment %}
-
-<div class="container ">
-  <!-- Modal -->
-
+<div class="container">
+<!-- Modal for Adding Bills -->
 <div class="modal fade text-dark" id="addimg" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">आफ्नो बिल अपलोड गर्नुहोस्</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        {% load static%}
-      <form method="post" name="form" action="submit_bill/{{context.poultry.poultryName}}" enctype="multipart/form-data">
-      {% csrf_token %}
-        <div class="d-flex justify-content-center">
-          <img  id="preview" src='{% static "images/bill.png"%}' class="bd-placeholder-img "
-          width="100%" height="400px"  >
-        </div>
-
-      <div class="mb-3">
-        <label for="exampleFormControlimg" class="form-label">Image:</label>
-        <input type="file"  name="imageofbill" required accept="image/*"  onchange="previewImage(event)">
-      </div>
-      <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-
-        <input type="checkbox" class="btn-check" name="vaccine" id="btncheck3" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btncheck3">खोप</label>
-      </div>
-
-      <div class="mb-3">
-        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">कुल कुखुराको दाना</label>
-        <input type="number" name="TotalChickenFeed" class="form-control" id="exampleInputtotalChickenFeed" aria-describedby="Help" >
-             </div>
-             <div class="mb-3">
-              <label for="exampleInputtotalMedicine" class="form-label" autocomplete="off">कुल औषधि</label>
-              <input type="number"  class="form-control" id="exampleInputtotalMedicine" aria-describedby="Help" name="totalMedicine"  >
-                   </div>
-                   <div class="mb-3">
-                    <label for="exampleInputtotalBhus" class="form-label" autocomplete="off">कुल भुस </label>
-                    <input type="number"  class="form-control" id="exampleInputtotalBhus" aria-describedby="Help" name="totalBhus"  >
-                         </div>
-      <div class="mb-3">
-        <label for="exampleInputtotal" class="form-label" autocomplete="off">कुल रकम </label>
-        <input type="number" class="form-control" id="exampleInputtotal" aria-describedby="Help" name="total" placeholder="RS." required>
-             </div> 
-        <div class="mb-3">
-              <label for="exampleInputdesc" class="form-label" autocomplete="off">विवरण </label>
-              <input type="text" class="form-control" id="exampleInputdesc" aria-describedby="Help" name="desc" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">आफ्नो बिल अपलोड गर्नुहोस्</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+          <div class="modal-body">
+              {% load static %}
+              <form method="post" name="form" action="submit_bill/{{context.poultry.poultryName}}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="d-flex justify-content-center">
+                      <img id="preview" src='{% static "images/bill.png"%}' class="bd-placeholder-img" width="100%" height="400px">
+                  </div>
 
+                  <div class="mb-3">
+                      <label for="exampleFormControlimg" class="form-label">Image:</label>
+                      <input type="file" name="imageofbill" required accept="image/*" onchange="previewImage(event)">
+                  </div>
+
+                  <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                      <input type="checkbox" class="btn-check" name="vaccine" id="btncheck3" autocomplete="off">
+                      <label class="btn btn-outline-primary" for="btncheck3">खोप</label>
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="exampleInputtotalChickenFeed" class="form-label">कुल कुखुराको दाना</label>
+                      <input type="number" name="TotalChickenFeed" class="form-control" id="exampleInputtotalChickenFeed" aria-describedby="Help">
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="exampleInputtotalMedicine" class="form-label">कुल औषधि</label>
+                      <input type="number" class="form-control" id="exampleInputtotalMedicine" aria-describedby="Help" name="totalMedicine">
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="exampleInputtotalBhus" class="form-label">कुल भुस</label>
+                      <input type="number" class="form-control" id="exampleInputtotalBhus" aria-describedby="Help" name="totalBhus">
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="exampleInputtotal" class="form-label">कुल रकम</label>
+                      <input type="number" class="form-control" id="exampleInputtotal" aria-describedby="Help" name="total" placeholder="RS." required>
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="exampleInputdesc" class="form-label">विवरण</label>
+                      <input type="text" class="form-control" id="exampleInputdesc" aria-describedby="Help" name="desc">
+                  </div>
+
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">रद्द गर्नुहोस्</button>
+                      <button type="submit" class="btn btn-primary" name="billform">अपलोड गर्नुहोस्</button>
+                  </div>
+              </form>
+          </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >रद्द गर्नुहोस्</button>
-        <button type="submit" class="btn btn-primary" name="billform" >अपलोड गर्नुहोस्</button>
-      </form>
-      </div>
-    </div>
   </div>
-  <script>
-
-
-    function previewImage(event) {
-
-        const input = event.target;
-        const preview = document.getElementById('preview');
-
-        const file = input.files[0];
-
-        if (file) {
-
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-            };
-           reader.readAsDataURL(file);
-        } else {
-            preview.src = '';
-        }
-    }
-    </script>
-
-
-
-
 </div>
 
+<!-- Modal for Adding Dead Chickens -->
 <div class="modal fade text-dark" id="addDead" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">मरेको कुखुरा जानकारी</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        {% load static%}
-      <form method="post" name="form" action="submit_bill/{{context.poultry.poultryName}}" enctype="multipart/form-data">
-      {% csrf_token %}
-
-
-
-
-      <div class="mb-3">
-        <label for="exampleInputtotalChickenFeed" class="form-label" autocomplete="off">मरेको कुखुरहरु </label>
-        <input type="number" name="TotalChickenDead" class="form-control" id="exampleInputtotalChickenDead" aria-describedby="Help" required>
-             </div>
-          <div class="mb-3">
-              <label for="exampleInputdeaddesc" class="form-label" autocomplete="off">विवरण </label>
-              <input type="text" class="form-control" id="exampleInputdeaddesc" aria-describedby="Help" name="deaddesc" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">मरेको कुखुरा जानकारी</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              {% load static %}
+              <form method="post" name="form" action="submit_bill/{{context.poultry.poultryName}}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                      <label for="exampleInputtotalChickenFeed" class="form-label">मरेको कुखुरहरु</label>
+                      <input type="number" name="TotalChickenDead" class="form-control" id="exampleInputtotalChickenDead" aria-describedby="Help" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="exampleInputdeaddesc" class="form-label">विवरण</label>
+                      <input type="text" class="form-control" id="exampleInputdeaddesc" aria-describedby="Help" name="deaddesc">
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">रद्द गर्नुहोस्</button>
+                      <button type="submit" class="btn btn-primary" name="Deadform">अपलोड गर्नुहोस्</button>
+                  </div>
+              </form>
           </div>
       </div>
-
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >रद्द गर्नुहोस्</button>
-        <button type="submit" class="btn btn-primary" name="Deadform" >अपलोड गर्नुहोस्</button>
-      </form>
-      </div>
-    </div>
   </div>
-
-
 </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function previewImage(event) {
+const input = event.target;
+const preview = document.getElementById('preview');
+const file = input.files[0];
+if (file) {
+  const reader = new FileReader();
+  reader.onload = function (e) {
+      preview.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+} else {
+  preview.src = '';
+}
+}
+</script>
 
 
 

@@ -13,28 +13,45 @@
 
 {% for bill in bills %}
 {% if bill.totalVaccine == 1 %}
-<section class="container category section  pt-3 pb-0">
-	<div class="container">
-		<div class="row">
-			<div >
-				<div class="cat-item mb-4 mb-lg-0">
-					<div class="item-info d-flex   justify-content-between">
-						<div>
-						<p class="mb-0"><i class="fa-solid fa-vial-circle-check fa-2x"></i>{{dead.poultryName}}</p>
-						<h4 class="mb-4 d-inline-block">खोप आएको  बिल</h4><strong class="h2 fw-bolder fs-1 text-dark">{{ forloop.counter}} </strong>
-						<h1>दिएको मिति : <strong class=" fw-bolder fs-3 text-dark ">{{bill.posted_date}}</strong></h1>
-						</div>
-                        <h1 >AT:<strong class="fw-bolder  text-primary" style="font-size:10vh">{{bill.totalDays}}</strong>दिन</h1>
+<div class="container my-5">
+    <section class="category section pt-4 pb-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card  shadow-lg border-0 p-4">
+                        <div class="row align-items-center">
+                            <!-- Left Side: Poultry Name & Vaccination Bill -->
+                            <div class="col-md-8">
+                                <h4 class="fw-bold baseColorText">
+                                    <i class="fa-solid fa-vial-circle-check me-2"></i> {{ dead.poultryName }}
+                                </h4>
+                                <h5 class="text-dark fw-bold">
+                                    <i class="fa-solid fa-file-invoice me-2"></i> खोप आएको बिल:
+                                    <span class="fw-bolder fs-2">{{ forloop.counter }}</span>
+                                </h5>
 
+                                <h6 class="text-dark mt-3">
+                                    <i class="fa-solid fa-calendar-day me-2"></i> दिएको मिति :
+                                    <strong>{{ bill.posted_date }}</strong>
+                                </h6>
+                            </div>
 
-					</div>
-				</div>
-			</div>
-
+                            <!-- Right Side: Days Since Vaccination -->
+                            <div class="col-md-4 text-center boxColor">
+                                <div class=" text-white p-4 rounded-3">
+                                    <h5 class="fw-bold">AT</h5>
+                                    <h1 class="fw-bolder display-4">{{ bill.totalDays }}</h1>
+                                    <span class="fs-5">दिन</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="text-dark mt-4">
+                </div>
+            </div>
         </div>
-	</div>
-	<hr>
-</section>
+    </section>
+</div>
 
 {%endif%}
 

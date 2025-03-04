@@ -14,52 +14,106 @@
 
 
 
-
-
-
-
-
 {% for bill in bills %}
-<section class="py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ bill.imgfile.url}}" alt="..." loading="lazy"></div>
-            <div class="col-md-6">
-                <div class="small mb-1">{{bill.posted_date}}</div>
-                <h1 class="display-5 fw-bolder">बिल नम्बर {{forloop.counter}} </h1>
-                <h1 >AT :<strong class="fw-bolder  text-primary" style="font-size:10vh">{{bill.totalDays}}</strong>दिन</h1>
-                <div class="fs-5 mb-5">
-
-                    <span class="fw-bolder ">रकम :रु <strong class="h2">{{bill.totalAmount}}</strong></span>
+<div class="container  my-5">
+    <div class="card shadow-lg border-0 rounded-lg">
+        <div class="row g-0">
+            <div class="col-md-5 position-relative">
+                <img src="{{ bill.imgfile.url }}" class="img-fluid rounded-start object-fit-cover h-100 w-100" alt="Bill Image">
+                <div class="position-absolute top-0 start-0 p-3 bg-dark text-white bg-opacity-50 rounded-bottom-end">
+                    <h6 class="mb-0">बिल नम्बर {{forloop.counter}}</h6>
                 </div>
-                <div class="d-flex gap-1">
+            </div>
+            <div class="col-md-7 bg-light">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <small class="text-muted">{{ bill.posted_date|date:"F d, Y" }}</small>
+                        <span class="badge backgroundColor fs-6">दिन: {{bill.totalDays}}</span>
+                    </div>
 
+                    <h2 class="card-title baseColorText mb-4">बिल विवरण</h2>
 
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="bg-light p-3 rounded">
+                                <h5 class="text-muted mb-2">कुल रकम</h5>
+                                <p class="h3 mb-0 text-dark">रु {{bill.totalAmount}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="bg-light p-3 rounded">
+                                <h5 class="text-muted mb-2">बिल श्रेणी</h5>
+                                <div class="d-flex gap-2">
+                                    {% if bill.totalVaccine %}<span class="badge bg-info">खोप</span>{% endif %}
+                                    {% if bill.totalBhus %}<span class="badge bg-warning">भुस</span>{% endif %}
+                                    {% if bill.TotalChickenFeed %}<span class="badge bg-success">दाना</span>{% endif %}
+                                    {% if bill.totalMedicine %}<span class="badge bg-danger">औषधी</span>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
                         {% if bill.totalVaccine %}
-                        <button class="btn btn-dark flex-shrink-0" type="button"> खोप : <span class="h4">{{bill.totalVaccine}}</span></button>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 border rounded ">
+                                <i class="fas fa-syringe  mb-2"></i>
+                                <h6 class="mb-0">खोप</h6>
+                                <p class="h5 ">{{bill.totalVaccine}}</p>
+                            </div>
+                        </div>
                         {% endif %}
+
                         {% if bill.totalBhus %}
-                        <button class="btn btn-dark flex-shrink-0" type="button"> भुस  : <span class="h4">{{bill.totalBhus}}</span></button>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 border rounded ">
+                                <i class="fas fa-wheat-awn text-warning mb-2"></i>
+                                <h6 class="mb-0">भुस</h6>
+                                <p class="h5 baseColorText">{{bill.totalBhus}}</p>
+                            </div>
+                        </div>
                         {% endif %}
+
                         {% if bill.TotalChickenFeed %}
-                        <button class="btn btn-dark flex-shrink-0" type="button"> दाना: <span class="h4">{{bill.TotalChickenFeed}}</span></button>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 border rounded">
+                                <i class="fas fa-bowl-food text-success mb-2"></i>
+                                <h6 class="mb-0">दाना</h6>
+                                <p class="h5 baseColorText">{{bill.TotalChickenFeed}}</p>
+                            </div>
+                        </div>
                         {% endif %}
+
                         {% if bill.totalMedicine %}
-                        <button class="btn btn-dark flex-shrink-0" type="button"> औषधी : <span class="h4">{{bill.totalMedicine}}</span></button>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 border rounded">
+                                <i class="fas fa-pills text-danger mb-2"></i>
+                                <h6 class="mb-0">औषधी</h6>
+                                <p class="h5 baseColorText">{{bill.totalMedicine}}</p>
+                            </div>
+                        </div>
                         {% endif %}
-                       
-                   
+                    </div>
+
+                    {% if bill.description %}
+                    <div class="mt-4">
+                        <h5 class="text-muted mb-2">विवरण</h5>
+                        <div class="alert alert-light" role="alert">
+                            {{bill.description}}
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
-                <br>
-                {% if bill.description %}
-                        
-                <button class="btn btn-dark flex-shrink-0" type="button"> विवरण : <span class="h4">{{bill.description}}</span></button>
-              
-                {% endif %}
             </div>
         </div>
     </div>
-</section>
-<hr>
-{% endfor%}
+</div>
+<hr class="my-4">
+{% endfor %}
+
+<style>
+.object-fit-cover {
+    object-fit: cover;
+}
+</style>
 {% endblock%}

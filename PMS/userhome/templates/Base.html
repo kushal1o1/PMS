@@ -12,10 +12,150 @@
 
     
     <script src="https://kit.fontawesome.com/e1b2eca688.js" crossorigin="anonymous"></script>
+    <style>
+      :root {
+          --primary-color: #2c3e50;
+          --accent-color: #27ae60;
+      }
+      
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .navbar {
+          padding: 1rem 0;
+          background: rgba(255, 255, 255, 0.95) !important;
+          box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      }
+
+      .navbar-brand {
+          color: var(--primary-color) !important;
+          font-weight: 700;
+          font-size: 1.8rem;
+      }
+
+      .nav-link {
+          color: var(--primary-color) !important;
+          font-weight: 500;
+      }
+
+      .hero-section {
+          background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(39, 174, 96, 0.9)),
+                      url('{% static "images/chicken.jpg" %}');
+          background-size: cover;
+          background-position: center;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          color: white;
+      }
+
+      .feature-card {
+          padding: 2rem;
+          border-radius: 15px;
+          background: white;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease;
+          height: 100%;
+      }
+
+      .feature-card:hover {
+          transform: translateY(-10px);
+      }
+
+      .feature-icon {
+          font-size: 3rem;
+          color: var(--accent-color);
+          margin-bottom: 1.5rem;
+      }
+
+      .stats-section {
+          background: var(--primary-color);
+          color: white;
+          padding: 4rem 0;
+      }
+
+      .stat-number {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: var(--accent-color);
+      }
+
+      .cta-section {
+          background: linear-gradient(135deg, #f6f9fc, #eef2f7);
+          padding: 6rem 0;
+      }
+
+      .btn-primary {
+          background: var(--accent-color);
+          border: none;
+          padding: 0.8rem 2rem;
+          font-weight: 600;
+      }
+
+      .btn-primary:hover {
+          background: #219a52;
+      }
+
+      .section-heading {
+          font-size: 2.5rem;
+          font-weight: 700;
+          margin-bottom: 3rem;
+          color: var(--primary-color);
+      }
+
+      .testimonial-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 15px;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      }
+
+      .modal-header {
+          background-color: var(--primary-color);
+          color: white;
+      }
+
+      .modal-header .btn-close {
+          filter: invert(1) grayscale(100%) brightness(200%);
+      }
+
+      footer {
+          background: var(--primary-color);
+          color: white;
+          padding: 4rem 0 2rem;
+      }
+
+      .backgroundColor{
+        background: var(--primary-color);
+        color: white;
+      }
+      .baseColorText{
+        color: var(--primary-color);
+      }
+      .boxColor{
+        background: var(--accent-color);
+        color:white
+      }
+       /* Floating Back Button */
+       .back-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 40px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+   
+  </style>
 <style>
  
   .card{
-    background-color: black;
     font-style: oblique;
   }
   
@@ -60,68 +200,171 @@
 
 
 
-  {% for message in messages %}
-  <div class="alert alert-{{ message.tags }} alert-dismissible fade show bg-dark text-light text-center fs-5" role="alert" id="alert-{{ forloop.counter }}">
-      <strong>{{ message.tags|title }}:</strong> {{ message }}
-  </div>
-  {% endfor %}
   
   <script>
       
-      document.querySelectorAll('.alert-dismissible').forEach(function(alert) {
-          setTimeout(function() {
-              alert.classList.remove('show');
-              alert.classList.add('fade');
-              setTimeout(function() {
-                  alert.remove();
-              }, 500); 
-          }, 5000); 
-      });
+    function showNotification(msg, tag) {
+      // Create notification container if it doesn't exist
+      if (!document.getElementById('notification-container')) {
+          const container = document.createElement('div');
+          container.id = 'notification-container';
+          container.style.cssText = `
+              position: fixed;
+              bottom: 60px;
+              right: 20px;
+              z-index: 1000;
+              display: flex;
+              flex-direction: column;
+              max-width: 350px;
+              width: 100%;
+          `;
+          document.body.appendChild(container);
+      }
+  
+      // Create notification element
+      const notification = document.createElement('div');
+      
+      // Define styles and colors for different message tags
+      const tagStyles = {
+          'success': {
+              background: 'linear-gradient(135deg, #6ae3a5, #2ecc71)',
+              icon: '✅',
+              color: '#ffffff'
+          },
+          'error': {
+              background: 'linear-gradient(135deg, #ff6b6b, #ee5253)',
+              icon: '❌',
+              color: '#ffffff'
+          },
+          'warning': {
+              background: 'linear-gradient(135deg, #feca57, #ff9f43)',
+              icon: '⚠️',
+              color: '#ffffff'
+          },
+          'info': {
+              background: 'linear-gradient(135deg, #54a0ff, #5f27cd)',
+              icon: 'ℹ️',
+              color: '#ffffff'
+          },
+          'default': {
+              background: 'linear-gradient(135deg, #a4b0be, #747d8c)',
+              icon: '📝',
+              color: '#ffffff'
+          }
+      };
+  
+      // Get style based on tag, fallback to default
+      const style = tagStyles[tag.toLowerCase()] || tagStyles['default'];
+  
+      // Set notification styles
+      notification.style.cssText = `
+          background: ${style.background};
+          color: ${style.color};
+          padding: 15px 20px;
+          border-radius: 8px;
+          margin-bottom: 10px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          opacity: 0;
+          transform: translateX(100%);
+          transition: all 0.5s ease;
+          position: relative;
+          overflow: hidden;
+      `;
+  
+      // Add icon and message
+      notification.innerHTML = `
+          <span style="font-size: 1.2em;">${style.icon}</span>
+          <div style="flex-grow: 1;">
+              <strong style="display: block; margin-bottom: 5px; text-transform: capitalize;">${tag}</strong>
+              ${msg}
+          </div>
+          <button style="
+              background: none; 
+              border: none; 
+              color: ${style.color}; 
+              font-size: 1.2em; 
+              cursor: pointer; 
+              opacity: 0.7;
+              position: absolute;
+              right: 10px;
+              top: 10px;
+          " onclick="this.parentElement.remove()">×</button>
+      `;
+  
+      // Add to container
+      const container = document.getElementById('notification-container');
+      container.appendChild(notification);
+  
+      // Trigger reflow to enable transition
+      notification.offsetHeight;
+  
+      // Show notification
+      notification.style.opacity = '1';
+      notification.style.transform = 'translateX(0)';
+  
+      // Auto remove after 5 seconds
+      setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transform = 'translateX(100%)';
+          
+          // Remove from DOM after transition
+          setTimeout(() => {
+              notification.remove();
+          }, 500);
+      }, 5000);
+  }
  
 
 
 </script>
-
+{% if messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            {% for message in messages %}
+                showNotification("{{ message }}", "{{ message.tags }}");
+            {% endfor %}
+        });
+    </script>
+{% endif %}
+<button class="back-btn" onclick="window.history.back();">
+    <i class="fas fa-arrow-left"></i> <!-- Back Icon -->
+</button>
   <!-- navbar -->
-  <nav class="navbar navbar-expand-lg sticky-top" style="background-color: aliceblue; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-    <div class="container-fluid ">
-      <a class="navbar-brand text-dark fw-bold" href="#"><strong class="h3 ">P</strong><small>MS</small></a>
-        <a class="btn btn-outline-dark rounded-pill px-4" href="{% block ShowPoultrieslink %}{% endblock %}" >Poultries</a>
-
-            
-      
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse " id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 {%block shownavlink%}{% endblock%}">
-
-          <li class="nav-item">
-            <a class="nav-link active custom-link" href="{% block homelink %}{% endblock %}" >Home</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link custom-link" href="{% block Showbillslink %}{% endblock %}">Bills</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link custom-link" href="{% block Showvaccineslink %}{% endblock %}">Vaccine</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link custom-link " href="{% block Showdeadlink %}{% endblock %}">DeadChicken</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ms-auto">
-
-          
-          <li >
-            <a href="/" class="btn btn-outline-dark rounded-pill px-4 " style="transition: all 0.3s ease-in-out;">LogOut</a>
-          </li>
-        </ul>
-      </div>
+<nav class="navbar navbar-expand-lg fixed-top" style="padding: 1rem 0; background: rgba(255, 255, 255, 0.95) !important; box-shadow: 0 2px 15px rgba(0,0,0,0.1);">
+    <div class="container">
+        <a class="navbar-brand" href="#" style="color: #2c3e50 !important; font-weight: 700; font-size: 1.8rem;">
+            <i class="fa-solid fa-egg me-2"></i>PMS
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto {%block shownavlink%}{% endblock%}">
+                <li class="nav-item">
+                    <a class="nav-link me-3" href="{% block ShowPoultrieslink %}{% endblock %}" style="color: #2c3e50 !important; font-weight: 500;">Poultries</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link me-3" href="{% block homelink %}{% endblock %}" style="color: #2c3e50 !important; font-weight: 500;">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link me-3" href="{% block Showbillslink %}{% endblock %}" style="color: #2c3e50 !important; font-weight: 500;">Bills</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link me-3" href="{% block Showvaccineslink %}{% endblock %}" style="color: #2c3e50 !important; font-weight: 500;">Vaccine</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link me-3" href="{% block Showdeadlink %}{% endblock %}" style="color: #2c3e50 !important; font-weight: 500;">DeadChicken</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/" class="btn btn-primary" style="background: #27ae60; border: none; padding: 0.8rem 2rem; font-weight: 600;">LogOut</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </nav>
-  
+</nav>
   
   <hr class="text-light">
 
@@ -166,29 +409,41 @@
 
 
   <!-- footer -->
-
-  <footer class="bd-footer py-4 py-md-5 mt-5" style="background-color: aliceblue;">
-    <div class="container py-4 py-md-5 px-4 px-md-3">
-      <div class="row">
-        <div class="col-lg-3 mb-3">
-          
-                  <h2 class="d-inline-block me-5" style="font-style: oblique;"> <span class="fs-1 fw-bolder">P</span>MS<br></h2>
-                
-      
-          <ul class="list-unstyled small text-muted">
-            <li class="mb-2">Designed and built with all the love in the world by the <a href="https://www.instagram.com/kushal1o1/">kushal1o1</a> </li>
-
-          </ul>
+  <footer>
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h5 class="h4 mb-3"><i class="fa-solid fa-egg me-2"></i>PMS</h5>
+                <p>Modern solutions for modern farming</p>
+            </div>
+            <div class="col-md-4">
+                <h5 class="mb-3">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#features" class="text-white text-decoration-none">Features</a></li>
+                    <li><a href="#testimonials" class="text-white text-decoration-none">Testimonials</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#signup" class="text-white text-decoration-none">Get Started</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="mb-3">Contact</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fa-solid fa-envelope me-2"></i>support@pms.com</li>
+                    <li><i class="fa-solid fa-phone me-2"></i>+977 98614*****</li>
+                </ul>
+            </div>
         </div>
-      </div>
+        <hr class="my-4">
+        <div class="text-center">
+            <p class="mb-0">© 2024 PMS. All rights reserved.</p>
+        </div>
     </div>
-  </footer>
+</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
 
-
+   
 </body>
 
 </html>

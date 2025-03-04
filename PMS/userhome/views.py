@@ -18,6 +18,7 @@ app_name='userhome'
 
 @login_required
 def userHome(request,user_id): 
+    messages.success(request, "Welcome to Poultry Management System")
     if not CheckUser(request, user_id):
         return redirect('/')
     user_info = Poultry.objects.filter(user_id=user_id).order_by('startDate')

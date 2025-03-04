@@ -11,35 +11,50 @@
 {%load static%}
 
 {% load static%}
-<div class="container-fluid">
-{% for dead in deads %}
-<section class="category section  pt-3 pb-0">
-	<div class="container">
-		<div class="row">
-			<div >
-				<div class="cat-item mb-4 mb-lg-0">
-					<div class="item-info d-flex   justify-content-between">
-						<div>
-						<p class="mb-0"><i class="fa-solid fa-user fa-2x"></i>      <strong class='text-primary'>{{dead.poultryName}} </strong></p>
-						<h4 class="mb-4 d-inline-block">मरेको कुखुरहरु :</h4><strong class="h2 fw-bolder fs-1 text-danger">{{dead.totalDead}}</strong>
-						{% if dead.description %}
-						<h4 class='card-description text-primary'>{{dead.description}}</h4>
-						{% endif %}
-						<h1>On <strong class=" fw-bolder fs-3 text-dark ">{{dead.deadDate}}</strong></h1>
-						</div>
-      					<h1 >AT :<strong class="fw-bolder  text-primary" style="font-size:10vh">{{dead.totalDays}}</strong> दिन </h1>
+<div class="container my-5">
+    {% for dead in deads %}
+    <section class="category section pt-4 pb-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg border-0 p-4 bg-light">
+                        <div class="row align-items-center">
+                            <!-- Left Side: Poultry Name & Death Details -->
+                            <div class="col-md-8">
+                                <h4 class="fw-bold baseColorText">
+                                    <i class="fa-solid fa-user-circle me-2"></i> {{ dead.poultryName }}
+                                </h4>
+                                <h5 class="text-danger fw-bold">
+                                    <i class="fa-solid fa-skull-crossbones me-2"></i> 
+                                    मरेको कुखुराहरु: <span class="fw-bolder fs-2">{{ dead.totalDead }}</span>
+                                </h5>
 
+                                {% if dead.description %}
+                                <p class="text-muted fst-italic mt-2">{{ dead.description }}</p>
+                                {% endif %}
 
-					</div>
-				</div>
-			</div>
+                                <h6 class="text-dark mt-3">
+                                    <i class="fa-solid fa-calendar-day me-2"></i>
+                                    <strong>{{ dead.deadDate }}</strong>
+                                </h6>
+                            </div>
 
+                            <!-- Right Side: Days -->
+                            <div class="col-md-4 text-center">
+                                <div class="boxColor text-white p-4 rounded-3">
+                                    <h5 class="fw-bold">Total Days</h5>
+                                    <h1 class="fw-bolder display-4">{{ dead.totalDays }}</h1>
+                                    <span class="fs-5">दिन</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="text-dark mt-4">
+                </div>
+            </div>
         </div>
-	</div>
-</section>
-
-<hr class="text-dark">
-{% endfor%}
+    </section>
+    {% endfor %}
 </div>
 
 {% endblock%}
