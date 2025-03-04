@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Your PMS Account</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .email-container {
+            width: 100%;
+            padding: 30px 0;
+            background-color: #f7f7f7;
+            text-align: center;
+        }
+        .email-content {
+            max-width: 600px;
+            background-color: #ffffff;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+        .activation-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .activation-link:hover {
+            background-color: #218838;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-content">
+            <img src="https://poultry.pythonanywhere.com/static/images/chickenlogo.jpg" class="logo" alt="PMS Logo">
+            <h2>Welcome to PMS!</h2>
+            <p>Hi <strong>{{ name }}</strong>,</p>
+            <p>We're thrilled to have you with us. To complete your registration, please confirm your email address by clicking the button below.</p>
+            <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}" class="activation-link">Activate Account</a>
+            <p>If the button above does not work, you can use the link below:</p>
+            <p><a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">http://{{ domain }}{% url 'activate' uidb64=uid token=token %}</a></p>
+            <p>Thank you for joining PMS. If you have any questions, feel free to <a href="mailto:support@pms.com">contact our support team</a>.</p>
+        </div>
+        <div class="footer">
+            <p>Best regards,<br><strong>The PMS Team</strong></p>
+        </div>
+    </div>
+</body>
+</html>
