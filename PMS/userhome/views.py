@@ -21,7 +21,7 @@ def userHome(request,user_id):
     messages.success(request, "Welcome to Poultry Management System")
     if not CheckUser(request, user_id):
         return redirect('/')
-    user_info = Poultry.objects.filter(user_id=user_id).order_by('startDate')
+    user_info = Poultry.objects.filter(user_id=user_id).order_by('-startDate')
     return render(request, 'mainpage.html',{'parms':user_info})
 
 
@@ -35,7 +35,17 @@ def submit_detail(request,user_id):
             farmname = request.POST.get('farmname')
             Total=request.POST.get('Total')
             startdate=request.POST.get('Startdate')
-            poultryobj=Poultry.objects.create(
+            if Poultry.objects.filter(user_id=user_id,poultryName=farmname).exists():
+                messages.error(request, "Poultry Name Already Exists")
+                messages.info(request, "Please Choose another Poultry Name")
+                return redirect('userhome:mainpage', user_id=user_id)
+            if Total is None or farmname is None:
+                messages.error(request, "Please Fill all the Fields")
+                return redirect('userhome:mainpage', user_id=user_id)
+            if int(Total) < 0:
+                messages.error(request, "Total Chicken must be greater than 0")
+                return redirect('userhome:mainpage', user_id=user_id)
+            Poultry.objects.create(
             user=get_object_or_404(User, id=user_id),
             poultryName=farmname,
             totalChicken=Total,

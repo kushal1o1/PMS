@@ -149,3 +149,25 @@ def CheckUser(request, user_id):
         return False
     return True
 
+
+def createReport(user_id):
+    poultry = Poultry.objects.filter(user_id=user_id)
+    poultry_list = []
+    for p in poultry:
+        total_obj, created = Total.objects.get_or_create(poultryName=p)
+        total_obj.calculate_totals(p.user)
+        total_dana = total_obj.totalDana
+        total_medicine = total_obj.totalMedicine
+        total_vaccine = total_obj.totalVaccine
+        total_amount = total_obj.totalAmount
+        total_bhus = total_obj.totalBhus
+        poultry_list.append({
+            'poultry': p,
+            'total_dana': total_dana,
+            'total_medicine': total_medicine,
+            'total_vaccine': total_vaccine,
+            'total_amount': total_amount,
+            'total_bhus': total_bhus
+        })
+
+    pass
