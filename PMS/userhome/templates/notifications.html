@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+    <script>
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log("New Notification: ", data.message);
+
+            // Create new notification
+            var notificationContainer = document.getElementById("notifications");
+            var newNotification = document.createElement("div");
+            newNotification.classList.add("notification");
+
+            newNotification.innerHTML = `
+                <p>${data.message}</p>
+                <button onclick="markAsRead(this)">Mark as Read</button>
+            `;
+
+            notificationContainer.appendChild(newNotification);
+        };
+
+        function markAsRead(button) {
+            button.parentElement.style.opacity = "0.5";  // Make read notifications faded
+            button.remove();  // Remove button after marking as read
+        }
+    </script>
+</head>
+<body>
+    <h1>Your Notifications</h1>
+    <div id="notifications">
+        <!-- Notifications will appear here -->
+    </div>
+</body>
+</html>

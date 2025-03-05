@@ -80,9 +80,19 @@ class DeadInfo(models.Model):
         return f"DEAD_INFO OF {self.poultryName}"
 
 
-class Notification(models.Model):
+class Mail(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        return f"Mail: {self.message}"
+    
+class Notification(models.Model):
+    users = models.ManyToManyField(User,related_name='notifications')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
         return f"Notification: {self.message}"
+    

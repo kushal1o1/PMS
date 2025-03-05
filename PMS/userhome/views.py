@@ -11,8 +11,10 @@ from django.http import JsonResponse
 from django.db import transaction
 from decouple import config
 from .service import getWeatherInfo,getContextOfPoultry,handleBillForm,handleDeadForm,CheckUser
-
-    
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
+from .models import Notification
 app_name='userhome' 
 
 
@@ -158,3 +160,18 @@ def showDeads(request, user_id, poultryName):
 
 def notFound(request,exception):
     return render(request,'pageNotFound.html',status=404)
+
+def notification_page(request, user_id):
+    user = User.objects.get(id=user_id)
+    return render(request, 'notifications.html', {'user': user})
+
+@csrf_exempt
+def mark_as_read(request, notification_id):
+    # Get the notification by its ID
+    notification = get_object_or_404(Notification, id=notification_id)
+
+    # Mark the notification as read
+    notification.is_read = True
+    notification.save()
+
+    return JsonResponse({'status': 'success'})

@@ -1,11 +1,15 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from .models import  Notification
+from .models import  Mail, Notification
 from django.core.mail import send_mail
 from django.conf import settings
-@receiver(post_save, sender=Notification)
-def send_notification(sender, instance, created, **kwargs):
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.db.models.signals import m2m_changed
+import json
+@receiver(post_save, sender=Mail)
+def send_mail(sender, instance, created, **kwargs):
     if created:
         users= User.objects.all()
         for user in users:
@@ -17,4 +21,24 @@ def send_notification(sender, instance, created, **kwargs):
                 fail_silently=True
             )
                 
-        
+@receiver(m2m_changed, sender=Notification.users.through)
+def send_notification(sender, instance, action, **kwargs):
+    """
+    Trigger WebSocket notification when users are added to a Notification.
+    """
+    if action == "post_add":  # Ensure we trigger only after users are added
+        channel_layer = get_channel_layer()
+
+        print("Users:", instance.users.all())  # Debugging
+
+        for user in instance.users.all():
+            print(f"Sending notification to {user.username}")  # Debugging
+
+            # Send WebSocket message to each user's group
+            async_to_sync(channel_layer.group_send)(
+                f"notification_{user.id}",  # Group for each user
+                {
+                    'type': 'send_notification',
+                    'message': instance.message,
+                }
+            )

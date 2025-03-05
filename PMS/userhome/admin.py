@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Poultry, BillPost, Total, DeadInfo, Notification
+from .models import Poultry, BillPost, Total, DeadInfo, Mail, Notification
 from django.utils.html import format_html
 # Define the PoultryAdmin class
 class PoultryAdmin(admin.ModelAdmin):
@@ -47,7 +47,10 @@ class BillPostAdmin(admin.ModelAdmin):
         return "No image"
     imgfile_preview.short_description = 'Image Preview'
 
-   
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('message', 'created_at', 'is_read')
+    filter_horizontal = ('users',)  # Enable multi-user selection
 
 
 
@@ -58,4 +61,5 @@ admin.site.register(DeadInfo, DeadInfoAdmin)
 admin.site.site_header = 'Poultry Management System'
 admin.site.site_title = 'PMS'
 admin.site.index_title = 'Welcome to PMS'
-admin.site.register(Notification)
+admin.site.register(Mail)
+

@@ -14,7 +14,10 @@ from pathlib import Path
 from info import *
 import os
 from decouple import config
+from dotenv import load_dotenv
 
+load_dotenv()  # This loads variables from .env
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PMS.settings')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
@@ -80,7 +83,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PMS.wsgi.application'
+# for channels 
+ASGI_APPLICATION = 'PMS.asgi.application'
 
+# Channels
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
