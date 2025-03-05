@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Poultry, BillPost, Total, DeadInfo
+from .models import Poultry, BillPost, Total, DeadInfo, Notification
 from django.utils.html import format_html
 # Define the PoultryAdmin class
 class PoultryAdmin(admin.ModelAdmin):
@@ -55,3 +55,7 @@ admin.site.register(Poultry, PoultryAdmin)
 admin.site.register(BillPost, BillPostAdmin)
 admin.site.register(Total, TotalAdmin)
 admin.site.register(DeadInfo, DeadInfoAdmin)
+admin.site.site_header = 'Poultry Management System'
+admin.site.site_title = 'PMS'
+admin.site.index_title = 'Welcome to PMS'
+admin.site.register(Notification)
