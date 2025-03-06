@@ -648,6 +648,8 @@
                 <button class="mark-read-btn" onclick="markAsRead(this, '${data.id}')">Mark as Read</button>`;
 
             notificationContainer.prepend(newNotification);
+            playNotificationSound();
+
             
             // Hide empty state if it was showing
             document.getElementById("empty-state").style.display = "none";
@@ -785,6 +787,13 @@
                 updateCount();
             }
         });
+        function playNotificationSound() {
+            let audio = new Audio('http://127.0.0.1:8000/media/images/notification.mp3'); // Replace with your sound file
+            audio.play();
+        }
+        
+        // Call the function to play the sound
+        playNotificationSound();
     </script>
 
 </body>
