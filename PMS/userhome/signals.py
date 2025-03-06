@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from .models import  Mail, Notification
+from .models import  Mail, Notification, NotificationUser
 from django.core.mail import send_mail
 from django.conf import settings
 from asgiref.sync import async_to_sync
@@ -33,12 +33,13 @@ def send_notification(sender, instance, action, **kwargs):
 
         for user in instance.users.all():
             print(f"Sending notification to {user.username}")  # Debugging
-
+            NotificationUser.objects.create(user=user, notification=instance)
             # Send WebSocket message to each user's group
             async_to_sync(channel_layer.group_send)(
                 f"notification_{user.id}",  # Group for each user
                 {
                     'type': 'send_notification',
                     'message': instance.message,
+                     "id": instance.id
                 }
             )

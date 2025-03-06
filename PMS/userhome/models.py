@@ -91,8 +91,14 @@ class Notification(models.Model):
     users = models.ManyToManyField(User,related_name='notifications')
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Notification: {self.message}"
     
+class NotificationUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.notification.message} - {'Read' if self.is_read else 'Unread'}"

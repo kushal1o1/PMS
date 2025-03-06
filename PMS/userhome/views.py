@@ -14,7 +14,7 @@ from .service import getWeatherInfo,getContextOfPoultry,handleBillForm,handleDea
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
-from .models import Notification
+from .models import Notification, NotificationUser
 app_name='userhome' 
 
 
@@ -71,10 +71,9 @@ def profile(request, user_id, poultryName):
     temp_data = getWeatherInfo(request)
 
     context = getContextOfPoultry(request, user_id, poultryName)
-
     return render(request, 'profile.html', {
             'context': context,
-            'temp': temp_data
+            'temp': temp_data,
         })
 
     
@@ -161,17 +160,48 @@ def showDeads(request, user_id, poultryName):
 def notFound(request,exception):
     return render(request,'pageNotFound.html',status=404)
 
-def notification_page(request, user_id):
-    user = User.objects.get(id=user_id)
-    return render(request, 'notifications.html', {'user': user})
+
 
 @csrf_exempt
-def mark_as_read(request, notification_id):
-    # Get the notification by its ID
-    notification = get_object_or_404(Notification, id=notification_id)
+def mark_notification_as_read(request,notification_id):
+    print("Marking notification as read")
+    """Mark a notification as read for the current user."""
+    if request.method == "POST":
+        print("Marking notification as read,ENteringPOst")
+        user = request.user
+        
+        if not CheckUser(request, user.user_id):
+            return redirect('/')
+        print("User:", user)
+        try:
+            notification_user = NotificationUser.objects.get(user=user, notification_id=notification_id)
+            notification_user.is_read = True
+            notification_user.save()
+            print("Notification marked as read")
+            return JsonResponse({"status": "success"})
+        except NotificationUser.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Notification not found"}, status=404)
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
-    # Mark the notification as read
-    notification.is_read = True
-    notification.save()
+def get_unread_notifications(request):
+    print("Getting unread notifications")
+    user = request.user
+        
+    
+    unread_notifications = NotificationUser.objects.filter(user=user, is_read=False)
+    data = [{"id": n.notification.id, "message": n.notification.message} for n in unread_notifications]
+    print("Unread notifications:", data)
+    return JsonResponse({"notifications": data})
 
-    return JsonResponse({'status': 'success'})
+def mark_all_notifications_as_read(request):
+    print("Marking all notifications as read")
+    user = request.user
+        
+    if not CheckUser(request, user.user_id):
+            return redirect('/')
+    notifications = NotificationUser.objects.filter(user=user, is_read=False)
+    for notification_user in notifications:
+            notification_user.is_read = True
+            notification_user.save()
+    return JsonResponse({"status": "success"})
+   

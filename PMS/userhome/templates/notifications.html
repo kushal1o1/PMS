@@ -1,38 +1,791 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        /* Notification Bell */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            z-index: 100000000;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-bell {
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            color: #555;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 20px;
+            line-height: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .notification-bell:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Notification Count */
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff3e30;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            line-height: 18px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Notification Panel */
+        #notification-panel {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 320px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            display: none;
+            padding: 15px;
+            animation: slideIn 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            z-index: 100000000;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #notification-panel h2 {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Empty state */
+        .empty-notifications {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 20px 0;
+        }
+
+        /* Individual Notifications */
+        .notification {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f8f8;
+            transition: all 0.2s ease;
+            border: 1px solid #e8e8e8;
+        }
+
+        .notification:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .notification p {
+            margin: 0;
+            flex-grow: 1;
+            padding-right: 10px;
+            color: #333;
+        }
+
+        .read {
+            opacity: 0.6;
+            background-color: #f0f0f0;
+        }
+
+        .mark-read-btn {
+            background: #ff3e30;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .mark-read-btn:hover {
+            background: #e62e20;
+            transform: scale(1.05);
+        }
+
+        /* Clear All Button */
+        .clear-all-btn {
+            background: #f0f0f0;
+            color: #555;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .clear-all-btn:hover {
+            background: #e5e5e5;
+        }
+
+        /* Close button */
+        .close-panel {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+            transition: color 0.2s ease;
+        }
+
+        .close-panel:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification-container" onclick="toggleNotifications()">
+        <div class="notification-bell" id="notification-icon">🔔</div>
+        <span class="notification-count" id="notification-count">0</span>
+    </div>
+
+    <div id="notification-panel">
+        <h2>Notifications</h2>
+        <span class="close-panel" onclick="closeNotifications()">✕</span>
+        <div id="notifications"></div>
+        <div class="empty-notifications" id="empty-state" style="display: none;">No new notifications</div>
+        <button class="clear-all-btn" onclick="clearAllNotifications()">Clear All</button>
+    </div>
+
+    <script>
+        let socket;
+        let unreadCount = 0;
+        let notificationsList = [];
+        
+        // Connect to WebSocket
+        function connectWebSocket() {
+            socket = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
+            
+            socket.onopen = function() {
+                console.log("WebSocket connection established");
+            };
+            
+            socket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                addNotification(data);
+            };
+            
+            socket.onclose = function() {
+                console.log("WebSocket connection closed. Reconnecting...");
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            socket.onerror = function() {
+                console.error("WebSocket error");
+            };
+        }
+        
+        connectWebSocket();
+
+        function addNotification(data) {
+            // Add to our tracking list
+            notificationsList.push(data);
+            
+            // Create new notification
+            var notificationContainer = document.getElementById("notifications");
+            var newNotification = document.createElement("div");
+            newNotification.classList.add("notification");
+            newNotification.dataset.id = data.id;
+
+            newNotification.innerHTML = `
+                <p>${data.message}</p>
+                <button class="mark-read-btn" onclick="markAsRead(this, '${data.id}')">Mark as Read</button>
+            `;
+
+            notificationContainer.prepend(newNotification);
+            
+            // Hide empty state if it was showing
+            document.getElementById("empty-state").style.display = "none";
+
+            unreadCount++;
+            updateCount();
+        }
+
+        function markAsRead(button, notificationId) {
+            button.parentElement.classList.add("read");
+            button.remove();
+
+            // Update our tracking list
+            notificationsList = notificationsList.map(item => {
+                if (item.id === notificationId) {
+                    item.read = true;
+                }
+                return item;
+            });
+
+            unreadCount--;
+            updateCount();
+
+            // Send request to mark as read in the backend
+            fetch(`/mark_notification_as_read/${notificationId}/`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            });
+        }
+
+        function updateCount() {
+            let countElement = document.getElementById("notification-count");
+            countElement.innerText = unreadCount;
+            countElement.style.display = unreadCount > 0 ? "flex" : "none";
+        }
+
+        function toggleNotifications() {
+            let panel = document.getElementById("notification-panel");
+            let iconElement = document.getElementById("notification-icon");
+            
+            if (panel.style.display === "none" || panel.style.display === "") {
+                panel.style.display = "block";
+                iconElement.innerHTML = "✕"; // Change to close icon
+                checkEmptyState();
+            } else {
+                closeNotifications();
+            }
+        }
+        
+        function closeNotifications() {
+            let panel = document.getElementById("notification-panel");
+            let iconElement = document.getElementById("notification-icon");
+            
+            panel.style.display = "none";
+            iconElement.innerHTML = "🔔"; // Change back to bell icon
+        }
+
+        function clearAllNotifications() {
+            const notificationContainer = document.getElementById("notifications");
+            notificationContainer.innerHTML = "";
+            
+            // Update tracking and counts
+            const unreadNotifications = notificationsList.filter(item => !item.read);
+            const unreadIds = unreadNotifications.map(item => item.id);
+            
+            notificationsList = [];
+            unreadCount = 0;
+            updateCount();
+            checkEmptyState();
+            
+            // Send request to clear all in backend
+            if (unreadIds.length > 0) {
+                fetch('/mark_all_notifications_as_read/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ notification_ids: unreadIds })
+                });
+            }
+        }
+        function fetchUnreadNotifications() {
+            fetch('/unread-notifications/')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(notification => addNotification(notification));
+                });
+        }
+        fetchUnreadNotifications();
+        function checkEmptyState() {
+            const notificationContainer = document.getElementById("notifications");
+            const emptyState = document.getElementById("empty-state");
+            
+            if (notificationContainer.children.length === 0) {
+                emptyState.style.display = "block";
+            } else {
+                emptyState.style.display = "none";
+            }
+        }
+        
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            checkEmptyState();
+        });
+    </script>
+
+</body>
+</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Notifications</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        /* Notification Bell */
+        .notification-container {
+            position: fixed;
+            bottom: 80px;
+            right: 40px;
+            cursor: pointer;
+            z-index: 100000000;
+            transition: all 0.3s ease;
+        }
+
+        .notification-bell {
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            color: #555;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 20px;
+            line-height: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .notification-bell:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Notification Count */
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff3e30;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            line-height: 18px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Notification Panel */
+        #notification-panel {
+            position: fixed;
+            bottom: 60px;
+            right: 90px;
+            width: 320px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            display: none;
+            padding: 15px;
+            animation: slideIn 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            z-index: 100000000;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #notification-panel h2 {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Empty state */
+        .empty-notifications {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 20px 0;
+        }
+
+        /* Individual Notifications */
+        .notification {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f8f8;
+            transition: all 0.2s ease;
+            border: 1px solid #e8e8e8;
+        }
+
+        .notification:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .notification p {
+            margin: 0;
+            flex-grow: 1;
+            padding-right: 10px;
+            color: #333;
+        }
+
+        .read {
+            opacity: 0.6;
+            background-color: #f0f0f0;
+        }
+
+        .mark-read-btn {
+            background: #ff3e30;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .mark-read-btn:hover {
+            background: #e62e20;
+            transform: scale(1.05);
+        }
+
+        /* Clear All Button */
+        .clear-all-btn {
+            background: #f0f0f0;
+            color: #555;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .clear-all-btn:hover {
+            background: #e5e5e5;
+        }
+
+        /* Close button */
+        .close-panel {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+            transition: color 0.2s ease;
+        }
+
+        .close-panel:hover {
+            color: #333;
+        }
+        .blurbackground{
+            filter: blur(8px);
+        }
+        @media (max-width: 768px) {
+                /* Notification Panel */
+                #notification-panel {
+                    position: fixed;
+                    bottom: 150px;
+                    right: 20px;
+                    width: 320px;
+                    background: #ffffff;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                    display: none;
+                    padding: 15px;
+                    animation: slideIn 0.3s ease;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    border: 1px solid #e0e0e0;
+                    z-index: 100000000;
+                }
+            }
+
+    </style>
+</head>
+<body>
+
+    <div class="notification-container" onclick="toggleNotifications()">
+        <div class="notification-bell" id="notification-icon">🔔</div>
+        <span class="notification-count" id="notification-count">0</span>
+    </div>
+
+    <div id="notification-panel">
+        <h2>Notifications</h2>
+        <span class="close-panel" onclick="closeNotifications()">✕</span>
+        <div id="notifications"></div>
+        <div class="empty-notifications" id="empty-state" style="display: none;">No new notifications</div>
+        <button class="clear-all-btn" onclick="clearAllNotifications()">Clear All</button>
+    </div>
+
     <script>
-        var socket = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
+        let socket;
+        let unreadCount = 0;
+        let notificationsList = [];
 
-        socket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            console.log("New Notification: ", data.message);
+        // Connect to WebSocket
+        function connectWebSocket() {
+            socket = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
+            
+            socket.onopen = function() {
+                console.log("WebSocket connection established");
+            };
+            
+            socket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                addNotification(data);
+            };
+            
+            socket.onclose = function() {
+                console.log("WebSocket connection closed. Reconnecting...");
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            socket.onerror = function() {
+                console.error("WebSocket error");
+            };
+        }
+        
+        connectWebSocket();
 
+        function addNotification(data) {
+            // Add to our tracking list
+            notificationsList.push(data);
+            
             // Create new notification
             var notificationContainer = document.getElementById("notifications");
             var newNotification = document.createElement("div");
             newNotification.classList.add("notification");
+            newNotification.dataset.id = data.id;
 
-            newNotification.innerHTML = `
-                <p>${data.message}</p>
-                <button onclick="markAsRead(this)">Mark as Read</button>
-            `;
+            newNotification.innerHTML = 
+                `<p>${data.message}</p>
+                <button class="mark-read-btn" onclick="markAsRead(this, '${data.id}')">Mark as Read</button>`;
 
-            notificationContainer.appendChild(newNotification);
-        };
+            notificationContainer.prepend(newNotification);
+            
+            // Hide empty state if it was showing
+            document.getElementById("empty-state").style.display = "none";
 
-        function markAsRead(button) {
-            button.parentElement.style.opacity = "0.5";  // Make read notifications faded
-            button.remove();  // Remove button after marking as read
+            unreadCount++;
+            updateCount();
         }
+
+        function markAsRead(button, notificationId) {
+            button.parentElement.classList.add("read");
+            button.remove();
+
+            // Update our tracking list
+            notificationsList = notificationsList.map(item => {
+                if (item.id === notificationId) {
+                    item.read = true;
+                }
+                return item;
+            });
+
+            unreadCount--;
+            updateCount();
+
+            // Send request to mark as read in the backend
+            fetch(`http://127.0.0.1:8000/userhome/mark_notification_as_read/${notificationId}/`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            });
+        }
+
+        function updateCount() {
+            let countElement = document.getElementById("notification-count");
+            countElement.innerText = unreadCount;
+            countElement.style.display = unreadCount > 0 ? "flex" : "none";
+        }
+
+        function toggleNotifications() {
+            let panel = document.getElementById("notification-panel");
+            let iconElement = document.getElementById("notification-icon");
+            
+            if (panel.style.display === "none" || panel.style.display === "") {
+                panel.style.display = "block";
+                iconElement.innerHTML = "✕"; // Change to close icon
+                checkEmptyState();
+            } else {
+                closeNotifications();
+            }
+        }
+        
+        function closeNotifications() {
+            let panel = document.getElementById("notification-panel");
+            let iconElement = document.getElementById("notification-icon");
+            
+            panel.style.display = "none";
+            iconElement.innerHTML = "🔔"; // Change back to bell icon
+        }
+
+        function clearAllNotifications() {
+            const notificationContainer = document.getElementById("notifications");
+            notificationContainer.innerHTML = "";
+            
+            // Update tracking and counts
+            const unreadNotifications = notificationsList.filter(item => !item.read);
+            const unreadIds = unreadNotifications.map(item => item.id);
+            
+            notificationsList = [];
+            unreadCount = 0;
+            updateCount();
+            checkEmptyState();
+            
+            // Send request to clear all in backend
+            if (unreadIds.length > 0) {
+                fetch('`http://127.0.0.1:8000/userhome/mark_all_notifications_as_read/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ notification_ids: unreadIds })
+                });
+            }
+        }
+
+        function fetchUnreadNotifications() {
+            fetch('http://127.0.0.1:8000/userhome/unread-notifications/')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);  // Check the structure of the response
+                    // Assuming 'notifications' is an array inside the response object
+                    if (Array.isArray(data.notifications)) {
+                        data.notifications.forEach(notification => addNotification(notification));
+                    } else {
+                        console.error('Expected notifications to be an array.');
+                    }
+                })
+                .catch(error => console.error('Error fetching notifications:', error));
+        }
+        
+        fetchUnreadNotifications();
+        
+
+        function checkEmptyState() {
+            const notificationContainer = document.getElementById("notifications");
+            const emptyState = document.getElementById("empty-state");
+            
+            if (notificationContainer.children.length === 0) {
+                emptyState.style.display = "block";
+            } else {
+                emptyState.style.display = "none";
+            }
+        }
+        
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            if (unreadCount > 0) {
+                updateCount();
+            }
+        });
     </script>
-</head>
-<body>
-    <h1>Your Notifications</h1>
-    <div id="notifications">
-        <!-- Notifications will appear here -->
-    </div>
+
 </body>
 </html>

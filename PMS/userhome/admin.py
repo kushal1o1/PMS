@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Poultry, BillPost, Total, DeadInfo, Mail, Notification
+from .models import Poultry, BillPost, Total, DeadInfo, Mail, Notification, NotificationUser
 from django.utils.html import format_html
 # Define the PoultryAdmin class
 class PoultryAdmin(admin.ModelAdmin):
@@ -49,10 +49,10 @@ class BillPostAdmin(admin.ModelAdmin):
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('message', 'created_at', 'is_read')
+    list_display = ('message', 'created_at')
     filter_horizontal = ('users',)  # Enable multi-user selection
 
-
+admin.site.register(NotificationUser)
 
 admin.site.register(Poultry, PoultryAdmin)
 admin.site.register(BillPost, BillPostAdmin)

@@ -16,8 +16,9 @@ urlpatterns = [
     path('mainpage/<int:user_id>/profile/bills/<str:poultryName>',views.showBills, name='showBills'),
     path('mainpage/<int:user_id>/profile/vaccine/<str:poultryName>',views.showVaccine, name='showVaccine'),
     path('mainpage/<int:user_id>/profile/deads/<str:poultryName>',views.showDeads, name='showDeads'),
-    path("mainpage/<int:user_id>/profile/notifications/", views.notification_page, name='notification_page'),
-    path('notifications/mark_as_read/<int:notification_id>/', views.mark_as_read, name='mark_as_read'),
+    path('mark_notification_as_read/<int:notification_id>/', views.mark_notification_as_read, name='mark_notification_as_read'),
+    path('unread-notifications/', views.get_unread_notifications, name='get_unread_notifications'),
+    path('mark_all_notifications_as_read/', views.mark_all_notifications_as_read, name='mark_all_notifications_as_read'),
 
     
     

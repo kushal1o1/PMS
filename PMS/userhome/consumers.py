@@ -50,5 +50,6 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
         # Send notification to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': message,
+             "id": event["id"]
         }))
