@@ -49,7 +49,12 @@ def getWeatherInfo(request):
         }
         return temp_data
         
-
+def UpdateTotal(user_id,poultryName):
+    poultry = get_object_or_404(Poultry, user_id=user_id, poultryName=poultryName)
+    total_obj, created = Total.objects.get_or_create(poultryName=poultry)
+    total_obj.calculate_totals(poultry.user)
+    total_obj.save()
+    
 def getContextOfPoultry(request, user_id, poultryName):
     try:
    
@@ -59,7 +64,7 @@ def getContextOfPoultry(request, user_id, poultryName):
 
         total_obj, created = Total.objects.get_or_create(poultryName=poultry)
         total_obj.calculate_totals(poultry.user)
-
+        total_obj.save()
 
         total_dana = total_obj.totalDana
         total_medicine = total_obj.totalMedicine
@@ -154,6 +159,21 @@ def createReport(user_id):
     poultry = Poultry.objects.filter(user_id=user_id)
     poultry_list = []
     for p in poultry:
+        deadinfo=DeadInfo.objects.filter(poultryName__user_id=user_id)
+        for d in deadinfo:
+            total_dead = d.totalDead
+            dead_date = d.deadDate
+            dead_desc = d.description
+            dead_days = d.totalDays
+            poultry_list.append({
+                'poultry': p,
+                'total_dead': total_dead,
+                'dead_date': dead_date,
+                'dead_desc': dead_desc,
+                'dead_days': dead_days
+            })
+        
+        
         total_obj, created = Total.objects.get_or_create(poultryName=p)
         total_obj.calculate_totals(p.user)
         total_dana = total_obj.totalDana
@@ -169,5 +189,5 @@ def createReport(user_id):
             'total_amount': total_amount,
             'total_bhus': total_bhus
         })
-
-    pass
+        
+        print(poultry_list)

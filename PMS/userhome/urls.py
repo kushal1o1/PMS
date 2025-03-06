@@ -19,6 +19,7 @@ urlpatterns = [
     path('mark_notification_as_read/<int:notification_id>/', views.mark_notification_as_read, name='mark_notification_as_read'),
     path('unread-notifications/', views.get_unread_notifications, name='get_unread_notifications'),
     path('mark_all_notifications_as_read/', views.mark_all_notifications_as_read, name='mark_all_notifications_as_read'),
+    path('generate-pdf/', views.generate_pdf, name='generate_pdf'),
 
     
     

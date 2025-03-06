@@ -6,24 +6,38 @@ from django.contrib.auth.models import User
 from datetime import datetime
 import requests
 from django.contrib import messages
-from django.utils.timezone import now, timedelta
-from django.http import JsonResponse
+from django.utils.timezone import now
+from django.http import HttpResponse, JsonResponse
 from django.db import transaction
 from decouple import config
-from .service import getWeatherInfo,getContextOfPoultry,handleBillForm,handleDeadForm,CheckUser
+from .service import getWeatherInfo,getContextOfPoultry,handleBillForm,handleDeadForm,CheckUser,createReport,UpdateTotal
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
-from .models import Notification, NotificationUser
+from .models import  NotificationUser
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from .models import Poultry, Total, DeadInfo
+from django.contrib.auth.decorators import login_required
+from collections import defaultdict
+import datetime
 app_name='userhome' 
 
 
 @login_required
 def userHome(request,user_id): 
+    
     messages.success(request, "Welcome to Poultry Management System")
     if not CheckUser(request, user_id):
         return redirect('/')
     user_info = Poultry.objects.filter(user_id=user_id).order_by('-startDate')
+    for poultry in user_info:
+        poultryName = poultry.poultryName
+        UpdateTotal(user_id,poultryName)
     return render(request, 'mainpage.html',{'parms':user_info})
 
 
@@ -204,4 +218,198 @@ def mark_all_notifications_as_read(request):
             notification_user.is_read = True
             notification_user.save()
     return JsonResponse({"status": "success"})
-   
+
+
+
+@login_required
+def generate_pdf(request):
+    # Create the HttpResponse object with PDF headers
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="poultry_comparison_report.pdf"'
+    
+    # Create the PDF object using reportlab
+    doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+    elements = []
+    
+    # Get styles for text
+    styles = getSampleStyleSheet()
+    title_style = styles['Heading1']
+    subtitle_style = styles['Heading2']
+    normal_style = styles['Normal']
+    dateToday = datetime.date.today()
+    # Add title
+    elements.append(Paragraph("Poultry Comparison Report", title_style))
+    elements.append(Paragraph(f"Generated on: {dateToday.strftime('%B %d, %Y')}", normal_style))
+    elements.append(Paragraph(f"User: {request.user.username}", normal_style))
+    elements.append(Spacer(1, 0.25*inch))
+    
+    # Get all poultry for the current user
+    poultries = Poultry.objects.filter(user=request.user)
+    
+    if not poultries.exists():
+        elements.append(Paragraph("No poultry records found.", normal_style))
+        doc.build(elements)
+        return response
+    
+    # Comparative overview section
+    elements.append(Paragraph("Comparative Overview", subtitle_style))
+    
+    # Basic comparison table
+    comparison_data = [
+        ["Poultry Name", "Total Chickens", "Current Chickens", "Dead Chickens", "Days Running", "Mortality Rate"]
+    ]
+    
+    for poultry in poultries:
+        mortality_rate = (poultry.totalDead / poultry.totalChicken * 100) if poultry.totalChicken > 0 else 0
+        comparison_data.append([
+            poultry.poultryName,
+            str(poultry.totalChicken),
+            str(poultry.totalChickenNow),
+            str(poultry.totalDead),
+            str(poultry.totalDays),
+            f"{mortality_rate:.2f}%"
+        ])
+    
+    comparison_table = Table(comparison_data, colWidths=[1.5*inch]*6)
+    comparison_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
+    ]))
+    elements.append(comparison_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Get expense data for comparison
+    expenses_data = [["Poultry Name", "Feed", "Medicine", "Vaccine", "Bhus", "Total Amount", "Cost per Chicken"]]
+    
+    for poultry in poultries:
+        try:
+            total = Total.objects.get(poultryName=poultry.poultryName)
+            cost_per_chicken = total.totalAmount / poultry.totalChickenNow if poultry.totalChickenNow > 0 else 0
+            expenses_data.append([
+                poultry.poultryName,
+                (total.totalDana),
+                str(total.totalMedicine),
+                str(total.totalVaccine),
+                str(total.totalBhus),
+                str(total.totalAmount),
+                f"{cost_per_chicken:.2f}"
+            ])
+        except Total.DoesNotExist:
+            expenses_data.append([
+                poultry.poultryName,
+                "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"
+            ])
+    
+    elements.append(Paragraph("Expense Comparison", subtitle_style))
+    expenses_table = Table(expenses_data, colWidths=[1.3*inch] * 7)
+    expenses_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
+    ]))
+    elements.append(expenses_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Mortality trend comparison
+    elements.append(Paragraph("Mortality Trend Comparison", subtitle_style))
+    
+    # Create a dictionary to store mortality by date for each poultry
+    mortality_by_poultry = defaultdict(lambda: defaultdict(int))
+    all_dates = set()
+    
+    for poultry in poultries:
+        dead_infos = DeadInfo.objects.filter(poultryName=poultry).order_by('deadDate')
+        for info in dead_infos:
+            mortality_by_poultry[poultry.poultryName][info.deadDate] += info.totalDead
+            all_dates.add(info.deadDate)
+    
+    if all_dates:
+        # Sort dates for consistent ordering
+        sorted_dates = sorted(all_dates)
+        
+        # Create table headers with dates
+        mortality_data = [["Poultry Name"] + [date.strftime('%Y-%m-%d') for date in sorted_dates] + ["Total"]]
+        
+        for poultry_name in mortality_by_poultry:
+            row = [poultry_name]
+            total_dead = 0
+            for date in sorted_dates:
+                dead_count = mortality_by_poultry[poultry_name][date]
+                total_dead += dead_count
+                row.append(str(dead_count))
+            row.append(str(total_dead))
+            mortality_data.append(row)
+        
+        # Calculate column widths based on number of dates
+        date_width = min(0.8, 8.0 / (len(sorted_dates) + 2)) * inch
+        mortality_table = Table(mortality_data, colWidths=[1.5*inch] + [date_width] * (len(sorted_dates)) + [date_width])
+        
+        mortality_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
+        ]))
+        elements.append(mortality_table)
+    else:
+        elements.append(Paragraph("No mortality data available for comparison", normal_style))
+    
+    elements.append(Spacer(1, 0.3*inch))
+    
+    # Summary statistics section
+    elements.append(Paragraph("Summary Statistics", subtitle_style))
+    
+    # Calculate overall statistics
+    total_chickens = sum(p.totalChicken for p in poultries)
+    total_current = sum(p.totalChickenNow for p in poultries)
+    total_dead = sum(p.totalDead for p in poultries)
+    avg_mortality_rate = (total_dead / total_chickens * 100) if total_chickens > 0 else 0
+    
+    # Calculate average expenses
+    try:
+        totals = Total.objects.filter(poultryName__in=poultries)
+        total_expenses = sum(t.totalAmount for t in totals)
+        avg_cost_per_chicken = total_expenses / total_current if total_current > 0 else 0
+    except:
+        total_expenses = 0
+        avg_cost_per_chicken = 0
+    
+    summary_data = [
+        ["Total Chickens", "Current Chickens", "Total Dead", "Overall Mortality Rate", "Total Expenses", "Avg. Cost per Chicken"],
+        [
+            str(total_chickens),
+            str(total_current),
+            str(total_dead),
+            f"{avg_mortality_rate:.2f}%",
+            str(total_expenses),
+            f"{avg_cost_per_chicken:.2f}"
+        ]
+    ]
+    
+    summary_table = Table(summary_data, colWidths=[1.5*inch]*6)
+    summary_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
+    ]))
+    elements.append(summary_table)
+    
+    # Build the PDF
+    doc.build(elements)
+    return response
