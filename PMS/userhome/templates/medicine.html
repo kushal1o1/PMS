@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poultry Medicine Database</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% extends 'Base.html' %}
+{%block tittle%}PMS Home{%endblock%}
+{%block loginout%}LogOut{%endblock%}
+{%block shownavlink%}{% endblock%}
+{% block homelink %}/userhome/mainpage/{{context.poultry.user_id}}/profile/{{context.poultry.poultryName}}{% endblock %}
+{% block ShowPoultrieslink %}/userhome/mainpage/{{context.poultry.user_id}}/{% endblock %}
+{% block Showbillslink %}bills/{{context.poultry.poultryName}}{% endblock %}
+{% block Showvaccineslink %}vaccine/{{context.poultry.poultryName}}{% endblock %}
+{% block Showdeadlink %}deads/{{context.poultry.poultryName}}{% endblock %}
+
+
+
+
+{% block mainContent%}
+{% include "./notifications.html" %}
+
+
     <style>
-        .hero-section {
-            background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
         .card {
             transition: transform 0.3s;
             margin-bottom: 1.5rem;
@@ -29,8 +30,11 @@
         .search-icon {
             position: absolute;
             right: 15px;
-            top: 10px;
+            top: 6px;
             color: #6c757d;
+        }
+        .search-icon:hover {
+            color: #495057;
         }
         .medicine-icon {
             font-size: 2.5rem;
@@ -47,27 +51,35 @@
             border-left: 5px solid #207cca;
         }
     </style>
-</head>
-<body>
+
     <!-- Header -->
     <header class="hero-section">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1><i class="fas fa-capsules me-2"></i>Poultry Medicine Database</h1>
+            <div class="row align-items-center p-2">
+                <div class="col-md-8 p-2">
+                    <h1><i class="fas fa-capsules me-2 p-2"></i>Poultry Medicine Database</h1>
                     <p class="lead">Find detailed information on medications for your poultry health management</p>
                 </div>
                 <div class="col-md-4">
                     <form id="searchForm" class="search-container">
                         {% csrf_token %}
-                        <input type="text" class="form-control form-control-lg" placeholder="Search medicine..." id="searchInput">
-                        <span class="search-icon"><i class="fas fa-search"></i></span>
+                        <input  type="text" class="form-control form-control-lg" placeholder="Search medicine..." id="searchInput">
+                        <button class="search-icon btn   " onclick=BlockInputBox()><i class="fas fa-search"></i></button>
                     </form>
                 </div>
             </div>
         </div>
     </header>
+ <script>
+    function BlockInputBox(){
+        document.getElementById('searchInput').disabled = true;
+        document.getElementById('searchInput').value = "Searching...";
+        showNotification('Searching for medicine info,Scroll Down', 'info');
+        setTimeout(function(){ document.getElementById('searchInput').disabled = false; }, 5000);
+        document.getElementById('searchInput').value = "";
 
+    }
+ </script>
     <!-- Main Content -->
     <main class="container">
         <!-- Search Results Section -->
@@ -170,42 +182,132 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white mt-5 py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Poultry Medicine Database</h5>
-                    <p>A comprehensive resource for poultry health management.</p>
-                </div>
-                <div class="col-md-3">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Home</a></li>
-                        <li><a href="#" class="text-white">About</a></li>
-                        <li><a href="#" class="text-white">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>Follow Us</h5>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="text-center">
-                <p>&copy; 2025 Poultry Medicine Database. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
+           
+            
+            function showNotification(msg, tag) {
+                // Create notification container if it doesn't exist
+                if (!document.getElementById('notification-container')) {
+                    const container = document.createElement('div');
+                    container.id = 'notification-container';
+                    container.style.cssText = `
+                        position: fixed;
+                        bottom: 60px;
+                        right: 20px;
+                        z-index: 1000;
+                        display: flex;
+                        flex-direction: column;
+                        max-width: 350px;
+                        width: 100%;
+                    `;
+                    document.body.appendChild(container);
+                }
+            
+                // Create notification element
+                const notification = document.createElement('div');
+                
+                // Define styles and colors for different message tags
+                const tagStyles = {
+                    'success': {
+                        background: 'linear-gradient(135deg, #6ae3a5, #2ecc71)',
+                        icon: '✅',
+                        color: '#ffffff'
+                    },
+                    'error': {
+                        background: 'linear-gradient(135deg, #ff6b6b, #ee5253)',
+                        icon: '❌',
+                        color: '#ffffff'
+                    },
+                    'warning': {
+                        background: 'linear-gradient(135deg, #feca57, #ff9f43)',
+                        icon: '⚠️',
+                        color: '#ffffff'
+                    },
+                    'info': {
+                        background: 'linear-gradient(135deg, #54a0ff, #5f27cd)',
+                        icon: 'ℹ️',
+                        color: '#ffffff'
+                    },
+                    'default': {
+                        background: 'linear-gradient(135deg, #a4b0be, #747d8c)',
+                        icon: '📝',
+                        color: '#ffffff'
+                    }
+                };
+            
+                // Get style based on tag, fallback to default
+                const style = tagStyles[tag.toLowerCase()] || tagStyles['default'];
+            
+                // Set notification styles
+                notification.style.cssText = `
+                    background: ${style.background};
+                    color: ${style.color};
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    margin-bottom: 10px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    opacity: 0;
+                    transform: translateX(100%);
+                    transition: all 0.5s ease;
+                    position: relative;
+                    overflow: hidden;
+                `;
+            
+                // Add icon and message
+                notification.innerHTML = `
+                    <span style="font-size: 1.2em;">${style.icon}</span>
+                    <div style="flex-grow: 1;">
+                        <strong style="display: block; margin-bottom: 5px; text-transform: capitalize;">${tag}</strong>
+                        ${msg}
+                    </div>
+                    <button style="
+                        background: none; 
+                        border: none; 
+                        color: ${style.color}; 
+                        font-size: 1.2em; 
+                        cursor: pointer; 
+                        opacity: 0.7;
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
+                    " onclick="this.parentElement.remove()">×</button>
+                `;
+            
+                // Add to container
+                const container = document.getElementById('notification-container');
+                container.appendChild(notification);
+            
+                // Trigger reflow to enable transition
+                notification.offsetHeight;
+            
+                // Show notification
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateX(100%)';
+                    
+                    // Remove from DOM after transition
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                }, 5000);
+            }
+           
+          
+
             const searchForm = document.getElementById('searchForm');
             const searchInput = document.getElementById('searchInput');
             const medicineInfo = document.getElementById('medicineInfo');
@@ -255,11 +357,13 @@
                 })
                 .then(response => {
                     if (!response.ok) {
+                        showNotification('Error fetching medicine info', 'error');
                         throw new Error('Network response was not ok');
                     }
                     return response.json();
                 })
                 .then(data => {
+                    showNotification('Medicine info fetched successfully', 'success');
                     // Update UI with results
                     medicineDetails.innerHTML = `
                         <div class="row">
@@ -273,6 +377,7 @@
                     medicineInfo.scrollIntoView({behavior: 'smooth'});
                 })
                 .catch(error => {
+                    showNotification('Error fetching medicine info', 'error');
                     console.error('Error fetching medicine info:', error);
                     medicineDetails.innerHTML = `
                         <div class="alert alert-danger" role="alert">
@@ -286,3 +391,6 @@
     </script>
 </body>
 </html>
+
+
+{%endblock%}

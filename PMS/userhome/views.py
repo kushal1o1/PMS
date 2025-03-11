@@ -539,11 +539,12 @@ client = OpenAI(api_key=config('OPENAI_API_KEY'))
 def medicine_view(request):  
     # getMedicineInfo("Amoxicillin")  
     """View to render the medicine information page"""
+    messages.success(request, "Welcome to the Medicine Information Page")
+    messages.info(request, "Enter the name of the medicine to get detailed information")
     return render(request, 'medicine.html')
 
 
 def search_medicine(request):
-    print("Iam at search_medicine")
     """
     API endpoint to handle medicine search requests
     """
@@ -551,10 +552,8 @@ def search_medicine(request):
         medicine_name = request.POST.get('medicine', '')
         if not medicine_name:
             return JsonResponse({'error': 'No medicine name provided'}, status=400)
-        
         # Call your custom function to get medicine information
         medicine_info = getMedicineInfo(medicine_name)
-        
         return JsonResponse({
             'medicine_name': medicine_name,
             'medicine_info': medicine_info
