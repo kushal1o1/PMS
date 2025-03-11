@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404
 from .models import Poultry ,BillPost,Total,DeadInfo
 from django.utils.timezone import now, timedelta
 from django.contrib import messages
-from django.shortcuts import redirect
+import openai
+
 
 def getWeatherInfo(request):
         url = f'http://api.openweathermap.org/data/2.5/weather?q=pokhara&appid={config("OPENWEATHER_API_KEY")}&units=metric'
@@ -191,3 +192,6 @@ def createReport(user_id):
         })
         
         print(poultry_list)
+        
+
+

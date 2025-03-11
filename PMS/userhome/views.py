@@ -413,3 +413,151 @@ def generate_pdf(request):
     # Build the PDF
     doc.build(elements)
     return response
+
+
+import json
+from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from openai import OpenAI
+from decouple import config
+def getMedicineInfo(medicine_name):
+    print("Iam at getMedicineInfo")
+    print("Medicine Name:", medicine_name)
+    client = OpenAI(api_key=config
+    ('OPENAI_API_KEY'))
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+messages=[
+    {
+        "role": "system",
+        "content": "You are a professional veterinary pharmacologist specializing in poultry medicine with extensive experience in the field. Provide standardized, structured information following a consistent format for all medicine queries."
+    },
+    {
+        "role": "user",
+        "content": f"""
+        Provide a comprehensive profile for the poultry medication: {medicine_name}
+
+        Format your response in HTML with Bootstrap classes, Font Awesome icons, and an actual image not dummy url. Use the following structured format:
+
+        <div class="container mt-4">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center"><i class="fas fa-capsules"></i> {medicine_name} - Poultry Medication Profile</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                           <img src="[url ]" class="img-fluid rounded" alt="Poultry Medicine Image">
+
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="text-primary"><i class="fas fa-info-circle"></i> General Information</h3>
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Type/Class:</strong> [Type of Medication]</li>
+                                <li class="list-group-item"><strong>Active Ingredients:</strong> [Active Ingredients]</li>
+                                <li class="list-group-item"><strong>Pharmacological Classification:</strong> [Classification]</li>
+                                <li class="list-group-item"><strong>Target Pathogens/Diseases:</strong> [Pathogens/Diseases]</li>
+                            </ul>
+
+                            <h3 class="text-success mt-4"><i class="fas fa-stethoscope"></i> Therapeutic Uses</h3>
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Primary Indications:</strong> [Primary Indications]</li>
+                                <li class="list-group-item"><strong>Secondary Uses:</strong> [Secondary Uses]</li>
+                                <li class="list-group-item"><strong>Disease States Treated:</strong> [Disease States]</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 class="text-warning mt-4"><i class="fas fa-prescription-bottle-alt"></i> Dosage & Administration</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Recommended Dosage:</strong> [Dosage]</li>
+                        <li class="list-group-item"><strong>Route of Administration:</strong> [Route]</li>
+                        <li class="list-group-item"><strong>Treatment Duration:</strong> [Duration]</li>
+                        <li class="list-group-item"><strong>Preparation Instructions:</strong> [Instructions]</li>
+                    </ul>
+
+                    <h3 class="text-danger mt-4"><i class="fas fa-exclamation-triangle"></i> Precautions & Contraindications</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Safety Warnings:</strong> [Warnings]</li>
+                        <li class="list-group-item"><strong>Known Contraindications:</strong> [Contraindications]</li>
+                        <li class="list-group-item"><strong>Drug Interactions:</strong> [Interactions]</li>
+                    </ul>
+
+                    <h3 class="text-info mt-4"><i class="fas fa-clock"></i> Withdrawal Period</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Meat Withdrawal Time:</strong> [Meat Withdrawal]</li>
+                        <li class="list-group-item"><strong>Egg Withdrawal Time:</strong> [Egg Withdrawal]</li>
+                    </ul>
+
+                    <h3 class="text-primary mt-4"><i class="fas fa-warehouse"></i> Storage & Handling</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Storage Conditions:</strong> [Storage Conditions]</li>
+                        <li class="list-group-item"><strong>Shelf Life:</strong> [Shelf Life]</li>
+                        <li class="list-group-item"><strong>Special Handling Requirements:</strong> [Handling Requirements]</li>
+                    </ul>
+
+                    <h3 class="text-success mt-4"><i class="fas fa-language"></i> नेपाली अनुवाद (Nepali Translation)</h3>
+                    <p class="alert alert-success">
+                        <strong>मुख्य प्रयोग:</strong> [Uses in Nepali] <br>
+                        <strong>खुराक:</strong> [Dosage in Nepali] <br>
+                        <strong>सावधानी:</strong> [Precautions in Nepali]
+                    </p>
+                </div>
+            </div>
+        </div>
+        """
+    }
+],
+max_tokens=1000
+    )
+    medicine_info = response.choices[0].message.content.strip()
+    # print("Medicine Info:", medicine_info)
+    return medicine_info
+
+# Initialize the OpenAI client
+client = OpenAI(api_key=config('OPENAI_API_KEY'))
+# @csrf_exempt
+# def get_medicine_info(request):
+#     """API endpoint to get medicine information"""
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             medicine_name = data.get('medicine_name')
+
+#             if not medicine_name:
+#                 return JsonResponse({'error': 'Medicine name is required'}, status=400)
+            
+#             medicine_info = getMedicineInfo(medicine_name)
+#             return JsonResponse({'medicine_info': medicine_info, 'success': True})
+
+#         except Exception as e:
+#             return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+    
+#     return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+
+def medicine_view(request):  
+    # getMedicineInfo("Amoxicillin")  
+    """View to render the medicine information page"""
+    return render(request, 'medicine.html')
+
+
+def search_medicine(request):
+    print("Iam at search_medicine")
+    """
+    API endpoint to handle medicine search requests
+    """
+    if request.method == 'POST':
+        medicine_name = request.POST.get('medicine', '')
+        if not medicine_name:
+            return JsonResponse({'error': 'No medicine name provided'}, status=400)
+        
+        # Call your custom function to get medicine information
+        medicine_info = getMedicineInfo(medicine_name)
+        
+        return JsonResponse({
+            'medicine_name': medicine_name,
+            'medicine_info': medicine_info
+        })
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
