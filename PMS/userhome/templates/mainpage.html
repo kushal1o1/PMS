@@ -12,81 +12,298 @@
 
 
 
-
-					
-
-
 <style>
-  :root {
+    :root {
       --primary-color: #2c3e50;
       --accent-color: #27ae60;
-  }
-
-  body {
+      --danger-color: #e74c3c;
+      --card-border-radius: 12px;
+      --transition-speed: 0.3s;
+    }
+  
+    body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f6f9fc, #eef2f7);
-  }
-</style>
-
-<div class="container py-5">
-  <div class="row">
+    }
+  
+    .section-heading {
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+  
+    .text-accent {
+      color: var(--accent-color);
+    }
+  
+    .feature-card {
+      border-radius: var(--card-border-radius);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      overflow: hidden;
+      height: 100%;
+      border: none;
+    }
+  
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+  
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px;
+      border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+    }
+  
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+  
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all var(--transition-speed);
+    }
+  
+    .btn-primary:hover {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+    
+    .active-farm {
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    .closed-farm {
+      border-left: 4px solid var(--danger-color);
+      opacity: 0.9;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    .add-button {
+      transition: all var(--transition-speed);
+    }
+    
+    .add-button:hover {
+      transform: scale(1.05);
+    }
+    
+    .farm-stat {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    
+    .farm-stat-label {
+      width: 50%;
+      color: #666;
+      display: flex;
+      align-items: center;
+    }
+    
+    .farm-stat-value {
+      width: 50%;
+      font-weight: 600;
+      text-align: right;
+    }
+    
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    
+    .stat-box {
+      background-color: rgba(44, 62, 80, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .stat-box .label {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .stat-box .value {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .stat-box.highlight {
+      background-color: rgba(39, 174, 96, 0.1);
+    }
+    
+    .stat-box.warning {
+      background-color: rgba(231, 76, 60, 0.1);
+    }
+  </style>
+  
+  <div class="container py-5">
+    <div class="row">
       <div class="col-12">
-          <h1 class="section-heading text-center mb-5">
-              Add Your Poultry 
-              <i class="fa-solid fa-dove text-accent" style="color: var(--accent-color);"></i>
-          </h1>
-          
-          <div class="text-center mb-5">
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPoultry">
-                  ADD <i class="fa-solid fa-circle-plus ms-2"></i>
-              </button>
-          </div>
-
-          <h1 class="section-heading text-center mb-5">
-              तपाईंको सबै फार्महरू !!
-          </h1>
-
-          <div class="row g-4 ">
-              {% for parm in parms %}
-              <div class="col-md-4 ">
-                  <div class="feature-card text-center baseColorText ">
-                      <div class="card-header mb-3 bg-light">
-                          
-                          <h4 class="my-0 font-weight-normal ">{{parm.poultryName}}</h4>
-                      </div>
-                      <div class="card-body ">
-                          <h1 class="mb-4">
-                              <span class="stat-number baseColorText">{{parm.totalDays}}</span> 
-                              <small class="text-muted">दिन</small>
-                          </h1>
-                          <ul class="list-unstyled mb-4">
-                              <li class="mb-2">{{parm.startDate}}</li>
-                              <li class="mb-2">
-                                  हालेको कुखुरहरु: 
-                                  <strong>{{parm.totalChicken}}</strong>
-                              </li>
-                              <li class="mb-2">
-                                  हाल कुखुरहरु: 
-                                  <i class="fa-solid fa-dove text-success me-2"></i>
-                                  <strong>{{parm.totalChickenNow}}</strong>
-                              </li>
-                              <li>
-                                  मरेको कुखुरहरु: 
-                                  <i class="fa-solid fa-skull text-danger me-2"></i>
-                                  <strong class="text-danger">{{parm.totalDead}}</strong>
-                              </li>
-                          </ul>
-                          <a href="profile/{{parm.poultryName}}" class="btn btn-primary mt-3">
-                              See Details
-                          </a>
-                      </div>
+        <h1 class="section-heading text-center mb-4">
+          <span class="me-2">Add Your Poultry</span>
+          <i class="fas fa-feather text-accent"></i>
+        </h1>
+        
+        <div class="text-center mb-5">
+          <button class="btn btn-primary add-button shadow" data-bs-toggle="modal" data-bs-target="#addPoultry">
+            <i class="fas fa-plus-circle me-2"></i> ADD NEW FARM
+          </button>
+        </div>
+  
+        <h2 class="section-heading text-center mb-4">
+          तपाईंको सबै फार्महरू
+        </h2>
+  
+        <div class="row g-4">
+          {% for parm in parms %}
+            {% if parm.Closedstatus == False %}
+              <div class="col-md-4 mb-4">
+                <div class="card feature-card active-farm">
+                  <div class="card-header">
+                    <h4 class="my-0 font-weight-bold">{{parm.poultryName}}</h4>
                   </div>
+                  <div class="card-body">
+                    <div class="text-center mb-4">
+                      <span class="stat-number">{{parm.totalDays}}</span> 
+                      <small class="text-muted">दिन</small>
+                    </div>
+                    
+                    <div class="stat-grid mb-4">
+                      <div class="stat-box">
+                        <div class="label"><i class="fas fa-calendar-alt me-1 text-accent"></i> Start Date</div>
+                        <div class="value">{{parm.startDate}}</div>
+                      </div>
+                      <div class="stat-box">
+                        <div class="label"><i class="fas fa-arrow-circle-down me-1 text-accent"></i> हालेको कुखुरहरु</div>
+                        <div class="value">{{parm.totalChicken}}</div>
+                      </div>
+                      <div class="stat-box highlight">
+                        <div class="label"><i class="fas fa-dove me-1 text-success"></i> हाल कुखुरहरु</div>
+                        <div class="value">{{parm.totalChickenNow}}</div>
+                      </div>
+                      <div class="stat-box warning">
+                        <div class="label"><i class="fas fa-skull me-1 text-danger"></i> मरेको कुखुरहरु</div>
+                        <div class="value">{{parm.totalDead}}</div>
+                      </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                      <a href="profile/{{parm.poultryName}}" class="btn btn-primary">
+                        <i class="fas fa-chart-line me-2"></i> View Details
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {% endfor %}
-          </div>
+            {% endif %}
+            {% if parm.Closedstatus == True %}
+              <div class="col-md-4 mb-4">
+                <div class="card feature-card closed-farm">
+                  <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h4 class="my-0 font-weight-bold">{{parm.poultryName}}</h4>
+                      <span class="badge bg-danger">Closed</span>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="text-center mb-3">
+                      <span class="stat-number">{{parm.totalDays}}</span> 
+                      <small class="text-muted">दिन</small>
+                    </div>
+                    
+                    <div class="stat-grid mb-4">
+                      <div class="stat-box">
+                        <div class="label"><i class="fas fa-calendar-alt me-1 text-accent"></i> Start Date</div>
+                        <div class="value">{{parm.startDate}}</div>
+                      </div>
+                      <div class="stat-box">
+                        <div class="label"><i class="fas fa-calendar-check me-1 text-accent"></i> Closed Date</div>
+                        <div class="value">{{parm.closedDate}}</div>
+                      </div>
+                      <div class="stat-box">
+                        <div class="label"><i class="fas fa-arrow-circle-down me-1"></i> हालेको कुखुरहरु</div>
+                        <div class="value">{{parm.totalChicken}}</div>
+                      </div>
+                      <div class="stat-box">
+                        <div class="label"><i class="fas fa-dove me-1"></i> कुखुरहरु</div>
+                        <div class="value">{{parm.totalChickenNow}}</div>
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                      <div class="col-6">
+                        <div class="farm-stat">
+                          <div class="farm-stat-label"><i class="fas fa-skull me-2 text-danger"></i> मरेको</div>
+                          <div class="farm-stat-value">{{parm.totalDead}}</div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="farm-stat">
+                          <div class="farm-stat-label"><i class="fas fa-dollar-sign me-2 text-success"></i> Benefits</div>
+                          <div class="farm-stat-value">{{parm.TotalAmount}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                      <div class="col-6">
+                        <div class="farm-stat">
+                          <div class="farm-stat-label"><i class="fas fa-weight me-2"></i> Weight</div>
+                          <div class="farm-stat-value">{{parm.TotalWeight}}</div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="farm-stat">
+                          <div class="farm-stat-label"><i class="fas fa-tags me-2"></i> Rate/Kg</div>
+                          <div class="farm-stat-value">{{parm.RatePerKg}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                      <div class="col-6">
+                        <div class="farm-stat">
+                          <div class="farm-stat-label"><i class="fas fa-truck me-2"></i> Transport</div>
+                          <div class="farm-stat-value">{{parm.TransportCost}}</div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="farm-stat">
+                          <div class="farm-stat-label"><i class="fas fa-info-circle me-2"></i> Status</div>
+                          <div class="farm-stat-value">{{parm.Status}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                      <a href="profile/{{parm.poultryName}}" class="btn btn-primary">
+                        <i class="fas fa-chart-line me-2"></i> View Details
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
+    </div>
   </div>
-</div>
+					
+
 
 <!-- Add Poultry Modal -->
 <div class="modal fade" id="addPoultry" tabindex="-1" aria-labelledby="addPoultryLabel" aria-hidden="true">

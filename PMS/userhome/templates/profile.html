@@ -446,8 +446,49 @@
       </div>
   </div>
 </div>
+
+<!-- Modal for Adding Dead Chickens -->
+<div class="modal fade text-dark" id="closeFarm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Close Farm</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% load static %}
+                <form method="post" name="form" action="submit_bill/{{context.poultry.poultryName}}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputTransportCost" class="form-label">TransportCost</label>
+                        <input type="number" name="TransportCost" class="form-control" id="exampleInputTransportCost" aria-describedby="Help" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="RatePerKg" class="form-label">RatePerKg</label>
+                        <input type="number" name="RatePerKg" class="form-control" id="RatePerKg" aria-describedby="Help" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="TotalWeight" class="form-label">TotalWeight</label>
+                        <input type="number" name="TotalWeight" class="form-control" id="TotalWeight" aria-describedby="Help" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">विवरण</label>
+                        <input type="text" class="form-control" id="description" aria-describedby="Help" name="description">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">रद्द गर्नुहोस्</button>
+                        <button type="submit" class="btn btn-primary" name="Closeform">अपलोड गर्नुहोस्</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 <a href="{% url 'userhome:generate_pdf' %}" class="btn btn-primary">Download Farm Report (PDF)</a>
+<button class="btn btn-outline-dark mt-1" data-bs-toggle="modal" data-bs-target="#closeFarm">
+    <i class="fa-solid fa-circle-plus"></i> Close Farm
+</button>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>

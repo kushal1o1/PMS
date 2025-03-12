@@ -53,7 +53,6 @@ class NotificationAdmin(admin.ModelAdmin):
     filter_horizontal = ('users',)  # Enable multi-user selection
 
 admin.site.register(NotificationUser)
-
 admin.site.register(Poultry, PoultryAdmin)
 admin.site.register(BillPost, BillPostAdmin)
 admin.site.register(Total, TotalAdmin)

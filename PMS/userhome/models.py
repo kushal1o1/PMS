@@ -8,9 +8,26 @@ class Poultry(models.Model):
     totalChicken = models.IntegerField()
     totalDead = models.IntegerField(default=0)
     startDate = models.DateField(auto_now_add=True)
+    Closedstatus = models.BooleanField(default=False)
+    closedDate = models.DateField(blank=True, null=True)
+    TransportCost = models.IntegerField(default=0, blank=True, null=True)
+    RatePerKg = models.IntegerField(default=0, blank=True, null=True)
+    TotalWeight = models.IntegerField(default=0, blank=True, null=True)
+    TotalAmount = models.IntegerField(default=0, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    STATUS_CHOICES = [
+        ('Profit', 'Profit'),
+        ('Loss', 'Loss'),
+        ('None', 'None'),
+    ]
+    Status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='None')
+    
+    
 
     @property
     def totalDays(self):
+        if self.Closedstatus:
+            return ((self.closedDate - self.startDate)).days+1
         return ((date.today() - self.startDate)).days+1
 
     @property
@@ -102,3 +119,15 @@ class NotificationUser(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.notification.message} - {'Read' if self.is_read else 'Unread'}"
+    
+
+    poultryName = models.ForeignKey(Poultry, on_delete=models.CASCADE)
+    closedDate = models.DateField(auto_now_add=True)
+    TransportCost = models.IntegerField()
+    RatePerKg = models.IntegerField()
+    TotalWeight = models.IntegerField()
+    TotalAmount = models.IntegerField()
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Closed Farm: {self.poultryName.poultryName} - {self.closedDate}"

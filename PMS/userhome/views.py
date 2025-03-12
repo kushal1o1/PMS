@@ -126,7 +126,30 @@ def submit_bill(request, user_id, poultryName):
                     deaddesc = request.POST.get('deaddesc')
                     if not  handleDeadForm(request, deadbirds, deaddesc, poultry, user_id, poultryName):
                         return redirect('userhome:profile', user_id=user_id, poultryName=poultryName)   
-                    
+
+                if 'Closeform' in request.POST:
+                    TransportCost = int(request.POST.get('TransportCost', 0))
+                    RatePerKg = float(request.POST.get('RatePerKg', 0))
+                    TotalWeight = float(request.POST.get('TotalWeight', 0))
+                    TotalAmount = RatePerKg*TotalWeight
+                    description = request.POST.get('description')
+                   
+                    poultry.Closedstatus = 'True' 
+                    poultry.closedDate = now()
+                    total_obj, created = Total.objects.get_or_create(poultryName=poultry)   
+                    total_obj.calculate_totals(poultry.user)
+                    total_obj.save()
+                    total_amount = total_obj.totalAmount     
+                    Coststatus = 'Profit' if TotalAmount >= total_amount else 'Loss'
+                    poultry.Status=Coststatus
+                    poultry.TransportCost = TransportCost
+                    poultry.RatePerKg = RatePerKg
+                    poultry.TotalWeight = TotalWeight
+                    poultry.TotalAmount = TotalAmount
+                    poultry.description = description
+                    poultry.save()
+                    messages.success(request, "Farm Closed Successfully")
+                    return redirect('userhome:profile', user_id=user_id,poultryName=poultryName)
 
         except Exception as e:
             messages.error(request, f"An error occurred: {e}")
