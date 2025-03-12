@@ -517,24 +517,7 @@ max_tokens=1000
 
 # Initialize the OpenAI client
 client = OpenAI(api_key=config('OPENAI_API_KEY'))
-# @csrf_exempt
-# def get_medicine_info(request):
-#     """API endpoint to get medicine information"""
-#     if request.method == 'POST':
-#         try:
-#             data = json.loads(request.body)
-#             medicine_name = data.get('medicine_name')
 
-#             if not medicine_name:
-#                 return JsonResponse({'error': 'Medicine name is required'}, status=400)
-            
-#             medicine_info = getMedicineInfo(medicine_name)
-#             return JsonResponse({'medicine_info': medicine_info, 'success': True})
-
-#         except Exception as e:
-#             return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
-    
-#     return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
 
 def medicine_view(request):  
     # getMedicineInfo("Amoxicillin")  
