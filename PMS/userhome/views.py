@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+
+from django.conf import settings
 from .models import Poultry ,BillPost,Total,DeadInfo
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -17,14 +19,16 @@ from django.shortcuts import get_object_or_404
 from .models import  NotificationUser
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter, landscape
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
+from reportlab.lib.enums import TA_CENTER
 from .models import Poultry, Total, DeadInfo
 from django.contrib.auth.decorators import login_required
 from collections import defaultdict
 import datetime
+import os
 app_name='userhome' 
 
 
@@ -257,14 +261,42 @@ def generate_pdf(request):
     # Get styles for text
     styles = getSampleStyleSheet()
     title_style = styles['Heading1']
-    subtitle_style = styles['Heading2']
-    normal_style = styles['Normal']
+    title_style.alignment = TA_CENTER  # Center the text
+    subtitle_style = ParagraphStyle(
+    'SubtitleStyle',
+    parent=styles['Heading2'],
+    alignment=TA_CENTER  # Center the text
+    )
+
+# Centered Normal Text Style
+    normal_style = ParagraphStyle(
+    'NormalStyle',
+    parent=styles['Normal'],
+    alignment=TA_CENTER  # Center the text
+)
     dateToday = datetime.date.today()
+    # Company Logo 
+    logo_path = os.path.join(settings.BASE_DIR, "userhome/static/images/chickenlogo.jpg")
+    elements.append(Image(logo_path, width=100, height=50))
+    elements.append(Spacer(1, 0.25*inch))
+
+    # Add Company Name
+    elements.append(Paragraph("Poultry Solutions ltd.", subtitle_style))
+
+    # Add Contact Information
+    elements.append(Paragraph("Email: support@poultry.com", normal_style))
+    elements.append(Paragraph("Phone: +1 234 567 890", normal_style))
+    elements.append(Spacer(1, 0.25*inch))
+
     # Add title
-    elements.append(Paragraph("Poultry Comparison Report", title_style))
+    elements.append(Paragraph("Poultry Comparison Report", title_style))    
+    # Add metadata
     elements.append(Paragraph(f"Generated on: {dateToday.strftime('%B %d, %Y')}", normal_style))
+    
+    # Add user information
     elements.append(Paragraph(f"User: {request.user.username}", normal_style))
     elements.append(Spacer(1, 0.25*inch))
+    
     
     # Get all poultry for the current user
     poultries = Poultry.objects.filter(user=request.user)
@@ -279,18 +311,56 @@ def generate_pdf(request):
     
     # Basic comparison table
     comparison_data = [
-        ["Poultry Name", "Total Chickens", "Current Chickens", "Dead Chickens", "Days Running", "Mortality Rate"]
+        ["Poultry Name", "Total Chickens",  "Dead Chickens",  "Mortality Rate","Status","Total Weight","Earned Amount"]
     ]
-    
     for poultry in poultries:
+        total = Total.objects.get(poultryName=poultry.poultryName)
+        
         mortality_rate = (poultry.totalDead / poultry.totalChicken * 100) if poultry.totalChicken > 0 else 0
         comparison_data.append([
             poultry.poultryName,
             str(poultry.totalChicken),
-            str(poultry.totalChickenNow),
             str(poultry.totalDead),
-            str(poultry.totalDays),
-            f"{mortality_rate:.2f}%"
+            f"{mortality_rate:.2f}%",
+            poultry.Status,
+            str(poultry.TotalWeight),
+            str(abs((total.totalAmount+ poultry.TransportCost) - total.totalAmount))
+            
+        ])
+    
+    comparison_table = Table(comparison_data, colWidths=[1.5*inch]*6)
+    comparison_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
+    ]))
+    elements.append(comparison_table)
+    elements.append(Spacer(1, 0.3*inch))
+    
+    elements.append(Paragraph("Selling Overview", subtitle_style))
+    
+    # Basic Selling comparison table
+    comparison_data = [
+        ["Poultry Name", "Total Chickens","Status","RatePerKg","Total Weight","TotalAmount","Earned Amount"]
+    ]
+    
+    
+    for poultry in poultries:
+        total = Total.objects.get(poultryName=poultry.poultryName)
+        
+        mortality_rate = (poultry.totalDead / poultry.totalChicken * 100) if poultry.totalChicken > 0 else 0
+        comparison_data.append([
+            poultry.poultryName,
+            str(poultry.totalChickenNow),
+            poultry.Status,
+            str(poultry.RatePerKg),
+            str(poultry.TotalWeight),
+            str(total.totalAmount+ poultry.TransportCost),
+            str(abs((total.totalAmount+ poultry.TransportCost) - total.totalAmount))
         ])
     
     comparison_table = Table(comparison_data, colWidths=[1.5*inch]*6)
@@ -307,7 +377,7 @@ def generate_pdf(request):
     elements.append(Spacer(1, 0.3*inch))
     
     # Get expense data for comparison
-    expenses_data = [["Poultry Name", "Feed", "Medicine", "Vaccine", "Bhus", "Total Amount", "Cost per Chicken"]]
+    expenses_data = [["Poultry Name", "Feed", "Medicine", "Vaccine", "Bhus", "Transport Cost","Total Amount", "Cost per Chicken"]]
     
     for poultry in poultries:
         try:
@@ -319,7 +389,8 @@ def generate_pdf(request):
                 str(total.totalMedicine),
                 str(total.totalVaccine),
                 str(total.totalBhus),
-                str(total.totalAmount),
+                str(poultry.TransportCost),
+                str(total.totalAmount+ poultry.TransportCost),
                 f"{cost_per_chicken:.2f}"
             ])
         except Total.DoesNotExist:
@@ -432,7 +503,10 @@ def generate_pdf(request):
         ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
     ]))
     elements.append(summary_table)
-    
+    elements.append(Paragraph("Executive Summary", subtitle_style))
+    elements.append(Paragraph("This report provides a comparative analysis of various poultry Details.", normal_style))
+    elements.append(Spacer(1, 0.25*inch))
+
     # Build the PDF
     doc.build(elements)
     return response
