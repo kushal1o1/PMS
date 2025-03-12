@@ -20,7 +20,7 @@ urlpatterns = [
     path('unread-notifications/', views.get_unread_notifications, name='get_unread_notifications'),
     path('mark_all_notifications_as_read/', views.mark_all_notifications_as_read, name='mark_all_notifications_as_read'),
     path('generate-pdf/', views.generate_pdf, name='generate_pdf'),
-    path('medicine_info', views.medicine_view, name='medicine_view'),
+    path('mainpage/<int:user_id>/profile/medicine_info/<str:poultryName>', views.medicine_view, name='medicine_view'),
     path('get_medicine_info', views.search_medicine, name='get_medicine_info'),
 
     

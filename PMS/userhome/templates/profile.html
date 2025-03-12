@@ -1,12 +1,12 @@
 {% extends 'Base.html' %}
-{%block tittle%}PMS Home{%endblock%}
-{%block loginout%}LogOut{%endblock%}
-{%block shownavlink%}{% endblock%}
-{% block homelink %}/userhome/mainpage/{{context.poultry.user_id}}/profile/{{context.poultry.poultryName}}{% endblock %}
-{% block ShowPoultrieslink %}/userhome/mainpage/{{context.poultry.user_id}}/{% endblock %}
-{% block Showbillslink %}bills/{{context.poultry.poultryName}}{% endblock %}
-{% block Showvaccineslink %}vaccine/{{context.poultry.poultryName}}{% endblock %}
-{% block Showdeadlink %}deads/{{context.poultry.poultryName}}{% endblock %}
+ {%block tittle%}PMS Home{%endblock%}
+ {%block loginout%}LogOut{%endblock%}
+ {%block shownavlink%}{% endblock%}
+ {% block homelink %}/userhome/mainpage/{{context.poultry.user_id}}/profile/{{context.poultry.poultryName}}{% endblock %}
+ {% block ShowPoultrieslink %}/userhome/mainpage/{{context.poultry.user_id}}/{% endblock %}
+ {% block Showbillslink %}bills/{{context.poultry.poultryName}}{% endblock %}
+ {% block Showvaccineslink %}vaccine/{{context.poultry.poultryName}}{% endblock %}
+ {% block Showdeadlink %}deads/{{context.poultry.poultryName}}{% endblock %}
 
 
 
@@ -327,7 +327,7 @@
               <img class="img-fluid mb-4" src='{%static "images/medicine.png"%}' alt="...">
               <h3 class="h5 mb-4 font-base">औषधिहरू (Medicine)</h3>
               <p class="text-center">
-                  <a href="medicine_info" type="button" class="btn btn-primary text-center">विवरण हेर्नुहोस्</a>
+                  <a href="medicine_info/{{context.poultry.poultryName}}" type="button" class="btn btn-primary text-center">विवरण हेर्नुहोस्</a>
               </p>
           </div>
       </div>

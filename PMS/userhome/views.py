@@ -519,12 +519,15 @@ max_tokens=1000
 client = OpenAI(api_key=config('OPENAI_API_KEY'))
 
 
-def medicine_view(request):  
+def medicine_view(request,user_id,poultryName):  
     # getMedicineInfo("Amoxicillin")  
     """View to render the medicine information page"""
     messages.success(request, "Welcome to the Medicine Information Page")
     messages.info(request, "Enter the name of the medicine to get detailed information")
-    return render(request, 'medicine.html')
+    return render(request, 'medicine.html', {
+        'user_id':user_id,
+        'poultryName':poultryName
+    })
 
 
 def search_medicine(request):
