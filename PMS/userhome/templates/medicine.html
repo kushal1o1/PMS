@@ -347,7 +347,7 @@
                 formData.append('medicine', medicine);
                 
                 // Make AJAX POST request
-                fetch('get_medicine_info', {
+                fetch('/userhome/get_medicine_info', {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': csrftoken,

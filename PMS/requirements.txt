@@ -1,3 +1,9 @@
-Django==5.0.7
-Requests==2.31.0
-six==1.16.0
+asgiref==3.7.2
+channels==4.1.0
+Django==5.0.3
+openai==1.66.3
+python-decouple==3.8
+python-dotenv==1.0.1
+reportlab==4.3.1
+Requests==2.32.3
+six==1.17.0

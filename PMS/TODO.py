@@ -6,7 +6,7 @@ done=True
 done=True
 
 # TODO: Create a Close Poultry Farming System and ask for the user to enter the number of birds and the system will calculate the cost of the birds and the profit of the birds
-
+done=True
 
 #TODO: Create a notification system for the user to remind some notifications email sending when instance is created using signals DONE
 done=True
