@@ -180,14 +180,17 @@ pip install -r  requirements.txt
 ## Technologies Used
 
 <p align="center">
-<img src="https://img.shields.io/badge/python-%23007ACC.svg?style=for-the-badge&logo=python&logoColor=white"  alt="python">
-<img src="https://img.shields.io/badge/django-%23007ACC.svg?style=for-the-badge&logo=django&logoColor=white"  alt="django">
-<img src="https://img.shields.io/badge/SQLite-%23007ACC.svg?style=for-the-badge&logo=SQLite&logoColor=white"  alt="SQLite">
+<img src="https://skillicons.dev/icons?i=python">
+<img src="https://skillicons.dev/icons?i=django"> 
+<img src="https://skillicons.dev/icons?i=sqlite"> 
+<img src="https://skillicons.dev/icons?i=bootstrap"> 
+<img src="https://skillicons.dev/icons?i=javascript"> <br>
 <img src="https://img.shields.io/badge/django-channels-%23007ACC.svg?style=for-the-badge&logo=django-channels&logoColor=white"  alt="django-channels">
 <img src="https://img.shields.io/badge/django-signals-%23007ACC.svg?style=for-the-badge&logo=django-signals&logoColor=white"  alt="django-signals">
 <img src="https://img.shields.io/badge/bootstarp-%23007ACC.svg?style=for-the-badge&logo=bootstrap&logoColor=white"  alt="bootstarp">
-<img src="https://img.shields.io/badge/javascript-%23007ACC.svg?style=for-the-badge&logo=javascript&logoColor=white"  alt="javascript">
 <img src="https://img.shields.io/badge/uvicorn-%23007ACC.svg?style=for-the-badge&logo=uvicorn&logoColor=white"  alt="uvicorn">
+
+  
 
 </p>
 
