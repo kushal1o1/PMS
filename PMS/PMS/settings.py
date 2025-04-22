@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from info import *
 import os
 from decouple import config
 from dotenv import load_dotenv
