@@ -83,6 +83,12 @@ pip install -r requirements.txt
 ```bash
 uvicorn PMS.asgi:application --port 8000 --workers 4 --log-level debug  --reload
 ```
+
+## Using Docker
+```bash
+docker-compose up
+```
+
 ## Configuration
 
 ### Configuration File
@@ -180,7 +186,7 @@ pip install -r  requirements.txt
 ## Technologies Used
 
 <p align="center">
-<img src="https://skillicons.dev/icons?i=python">
+<img src="https://skillicons.dev/icons?i=python,docker">
 <img src="https://skillicons.dev/icons?i=django"> 
 <img src="https://skillicons.dev/icons?i=sqlite"> 
 <img src="https://skillicons.dev/icons?i=bootstrap"> 
