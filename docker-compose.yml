@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/PMS
+    command:  uvicorn PMS.asgi:application --port 8000 --workers 4 --log-level debug  --reload
